@@ -1,9 +1,4 @@
-// autoprefixer - https://github.com/postcss/autoprefixer
-// css-mqpacker - https://github.com/hail2u/node-css-mqpacker
-// cssnano      - https://github.com/hail2u/node-css-mqpacker
-
-// npm install postcss-loader autoprefixer css-mqpacker cssnano --save-dev
-
+/* eslint-disable global-require */
 module.exports = {
   plugins: [
     require('autoprefixer'),
@@ -12,10 +7,10 @@ module.exports = {
       preset: [
         'default', {
           discardComments: {
-            removeAll: true
-          }
-        }
-      ]
-    })
-  ]
+            removeAll: true,
+          },
+        },
+      ],
+    }),
+  ],
 }
