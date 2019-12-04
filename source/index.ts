@@ -1,3 +1,4 @@
+
 // (function( $ ){
 //
 //     $.fn.maxHeight = function() {
@@ -13,7 +14,6 @@
 // })( jQuery );
 //
 // var tallest = $('div').maxHeight();
-"use strict";
-require('./main.scss');
-console.log('-esf-wad-');
-//# sourceMappingURL=index.js.map
+
+import './main.scss';
+console.log('-esf-wad-')
