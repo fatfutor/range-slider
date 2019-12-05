@@ -9,11 +9,14 @@ body {
 a { text-decoration: none; }
 
 #block {
+  position: absolute;
   color: red;
   background: #000;
 }
 
-a,strong,div{
-  display: block;
-  margin:2px;
+.pin {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: red;
 }
