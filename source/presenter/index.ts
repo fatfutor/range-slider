@@ -1,53 +1,61 @@
-export const dragAndDrop = (container: any) => {
-  const pin: any = container.find('.pin');
 
+export default class Presenter {
+  pin: HTMLElement;
 
-  pin.on('mousedown', function (evt) {
-    evt.preventDefault();
+  constructor(pin: HTMLElement) {
+    this.pin = pin;
+    this.allCode();
+  };
 
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
+  allCode = () => {
+    const that = this;
+    this.pin.addEventListener('mousedown', (evt) => {
+      evt.preventDefault();
 
-    var dragged = false;
-
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-      dragged = true;
-
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+      let startCoords = {
+        x: evt.clientX,
+        y: evt.clientY
       };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
+      let dragged = false;
 
-      pin.css('top', (pin.offset().top - shift.y) + 'px');
-      pin.css('left', (pin.offset().left - shift.x) + 'px');
+      const onMouseMove = (moveEvt) => {
+        moveEvt.preventDefault();
+        dragged = true;
 
-    };
-
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-
-      if (dragged) {
-        var onClickPreventDefault = function (evt) {
-          evt.preventDefault();
-          pin.off('click', onClickPreventDefault)
+        const shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY
         };
-        pin.on('click', onClickPreventDefault);
-      }
 
-    };
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
+        that.pin.style.top = (that.pin.offsetTop - shift.y) + 'px';
+        that.pin.style.left = (that.pin.offsetLeft - shift.x) + 'px';
+
+      };
+
+      const onMouseUp = (upEvt) => {
+        upEvt.preventDefault();
+
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+
+        if (dragged) {
+          const onClickPreventDefault = (evt) => {
+            evt.preventDefault();
+            that.pin.removeEventListener('click', onClickPreventDefault)
+          };
+          that.pin.addEventListener('click', onClickPreventDefault);
+        }
+
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+  }
 };

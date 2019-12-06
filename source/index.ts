@@ -1,5 +1,6 @@
 import './main.scss';
-import { dragAndDrop } from './presenter';
+import Presenter from './Presenter';
+import View from './View';
 
 declare global {
   interface JQuery {
@@ -11,7 +12,8 @@ declare global {
   $.fn.myPlugin = function() {
 
     const block: any = $(this);
-    dragAndDrop(block);
+    const view = new View(block);
+    new Presenter(view.getPin());
 
   };
 })(jQuery);
