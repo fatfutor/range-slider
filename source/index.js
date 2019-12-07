@@ -1,12 +1,14 @@
 "use strict";
 require('./main.scss');
-var Presenter_1 = require('./Presenter');
+var Model_1 = require('./Model');
 var View_1 = require('./View');
+var Presenter_1 = require('./Presenter');
 (function ($) {
     $.fn.myPlugin = function () {
         var block = $(this);
         var view = new View_1["default"](block);
-        new Presenter_1["default"](view.getPin());
+        var model = new Model_1["default"]();
+        new Presenter_1["default"](view, model);
     };
 })(jQuery);
 $(function () {

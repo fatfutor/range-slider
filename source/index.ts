@@ -1,6 +1,7 @@
 import './main.scss';
-import Presenter from './Presenter';
+import Model from './Model';
 import View from './View';
+import Presenter from './Presenter';
 
 declare global {
   interface JQuery {
@@ -13,7 +14,8 @@ declare global {
 
     const block: any = $(this);
     const view = new View(block);
-    new Presenter(view.getPin());
+    const model = new Model();
+    new Presenter(view, model);
 
   };
 })(jQuery);

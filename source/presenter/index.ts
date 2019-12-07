@@ -1,18 +1,16 @@
 
 export default class Presenter {
+  view: any; // new class
   pin: HTMLElement;
 
-  constructor(pin: HTMLElement) {
-    this.pin = pin;
-    this.allCode();
-  };
+  constructor(view: any, model: any) {
+    this.view = view;
+    this.pin = view.getPin();
 
-  allCode = () => {
-    const that = this;
     this.pin.addEventListener('mousedown', (evt) => {
       evt.preventDefault();
 
-      let startCoords = {
+      let startCoordinates = {
         x: evt.clientX,
         y: evt.clientY
       };
@@ -23,19 +21,17 @@ export default class Presenter {
         moveEvt.preventDefault();
         dragged = true;
 
-        const shift = {
-          x: startCoords.x - moveEvt.clientX,
-          y: startCoords.y - moveEvt.clientY
-        };
+        const line: HTMLElement = view.getLine();
 
-        startCoords = {
+        const x: number = model.setShiftHorizontal(startCoordinates.x,  moveEvt.clientX, this.pin, line);
+        const y: number = model.setShiftVertical(startCoordinates.x,  moveEvt.clientX, this.pin, line);
+
+        startCoordinates = {
           x: moveEvt.clientX,
           y: moveEvt.clientY
         };
 
-        that.pin.style.top = (that.pin.offsetTop - shift.y) + 'px';
-        that.pin.style.left = (that.pin.offsetLeft - shift.x) + 'px';
-
+        this.view.changePinPosition(y, x)
       };
 
       const onMouseUp = (upEvt) => {
@@ -47,15 +43,14 @@ export default class Presenter {
         if (dragged) {
           const onClickPreventDefault = (evt) => {
             evt.preventDefault();
-            that.pin.removeEventListener('click', onClickPreventDefault)
+            this.pin.removeEventListener('click', onClickPreventDefault)
           };
-          that.pin.addEventListener('click', onClickPreventDefault);
+          this.pin.addEventListener('click', onClickPreventDefault);
         }
-
       };
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
-  }
+  };
 };

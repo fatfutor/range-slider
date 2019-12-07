@@ -2,6 +2,9 @@
 body {
   margin: 0;
   padding: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 }
 
 *, *:before, *:after { box-sizing: border-box; }
@@ -9,16 +12,26 @@ body {
 a { text-decoration: none; }
 
 #block {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
+  margin: auto;
 }
 
-.pin {
+.slider {
+  position: relative;
+}
+
+.slider__line {
+  width: 300px;
+  height: 5px;
+  background: #f0d3b3;
+}
+
+.slider__pin {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  background: green;
+  width: 20px;
+  height: 20px;
+  background: #8917a2;
   border-radius: 50%;
   margin: auto;
+  top: -8px;
+  left: 0;
 }
