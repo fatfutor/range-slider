@@ -1,9 +1,10 @@
 "use strict";
 var Presenter = (function () {
-    function Presenter(view, model) {
+    function Presenter(view, model, options) {
         var _this = this;
         this.view = view;
         this.pin = view.getPin();
+        view.createPinNumeric(this.pin);
         this.pin.addEventListener('mousedown', function (evt) {
             evt.preventDefault();
             var startCoordinates = {
@@ -15,13 +16,14 @@ var Presenter = (function () {
                 moveEvt.preventDefault();
                 dragged = true;
                 var line = view.getLine();
-                var x = model.setShiftHorizontal(startCoordinates.x, moveEvt.clientX, _this.pin, line);
-                var y = model.setShiftVertical(startCoordinates.x, moveEvt.clientX, _this.pin, line);
+                var x = view.setShiftHorizontal(startCoordinates.x, moveEvt.clientX, _this.pin, line);
+                var y = view.setShiftVertical(startCoordinates.y, moveEvt.clientY, _this.pin, line);
+                _this.view.changePinPosition(y, x);
+                _this.view.changePinNumeric(_this.pin);
                 startCoordinates = {
                     x: moveEvt.clientX,
                     y: moveEvt.clientY
                 };
-                _this.view.changePinPosition(y, x);
             };
             var onMouseUp = function (upEvt) {
                 upEvt.preventDefault();

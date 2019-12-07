@@ -10,16 +10,24 @@ declare global {
 }
 
 (function($){
-  $.fn.myPlugin = function() {
+  $.fn.myPlugin = function(options) {
 
     const block: any = $(this);
     const view = new View(block);
     const model = new Model();
-    new Presenter(view, model);
+    new Presenter(view, model, options);
 
   };
 })(jQuery);
 
 $(function() {
-  $('#block').myPlugin();
+  $('#block').myPlugin({
+    min: 0,
+    max: 1000,
+    current: 0,
+    interval: 0,
+    orientation: 'horizontal',
+    pinNumeric: true,
+    double: false,
+  });
 });

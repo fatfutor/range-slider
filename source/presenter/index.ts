@@ -3,9 +3,11 @@ export default class Presenter {
   view: any; // new class
   pin: HTMLElement;
 
-  constructor(view: any, model: any) {
+  constructor(view: any, model: any, options: any) {
     this.view = view;
     this.pin = view.getPin();
+
+    view.createPinNumeric(this.pin);
 
     this.pin.addEventListener('mousedown', (evt) => {
       evt.preventDefault();
@@ -23,15 +25,17 @@ export default class Presenter {
 
         const line: HTMLElement = view.getLine();
 
-        const x: number = model.setShiftHorizontal(startCoordinates.x,  moveEvt.clientX, this.pin, line);
-        const y: number = model.setShiftVertical(startCoordinates.x,  moveEvt.clientX, this.pin, line);
+        const x: number = view.setShiftHorizontal(startCoordinates.x,  moveEvt.clientX, this.pin, line);
+        const y: number = view.setShiftVertical(startCoordinates.y,  moveEvt.clientY, this.pin, line);
+
+        this.view.changePinPosition(y, x);
+        this.view.changePinNumeric(this.pin);
 
         startCoordinates = {
           x: moveEvt.clientX,
           y: moveEvt.clientY
         };
 
-        this.view.changePinPosition(y, x)
       };
 
       const onMouseUp = (upEvt) => {

@@ -35,3 +35,14 @@ a { text-decoration: none; }
   top: -8px;
   left: 0;
 }
+
+.slider__pin-numeric {
+  position: absolute;
+  left: 0;
+  top: -25px;
+  min-width: 20px;
+  height: 20px;
+  background: #8917a2;
+  margin: 0;
+  color: #ffffff;
+}
