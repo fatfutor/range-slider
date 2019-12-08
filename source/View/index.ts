@@ -26,7 +26,7 @@ export default class View {
 
   createPinNumeric = (pin: HTMLElement): void => {
     this.pinNumeric = document.createElement('p');
-    this.pinNumeric.classList.add('slider__pin-numeric');
+    this.pinNumeric.classList.add('slider__pin-up');
     pin.appendChild(this.pinNumeric);
   };
 

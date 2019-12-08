@@ -14,7 +14,7 @@ var View = (function () {
         };
         this.createPinNumeric = function (pin) {
             _this.pinNumeric = document.createElement('p');
-            _this.pinNumeric.classList.add('slider__pin-numeric');
+            _this.pinNumeric.classList.add('slider__pin-up');
             pin.appendChild(_this.pinNumeric);
         };
         this.getPin = function () {

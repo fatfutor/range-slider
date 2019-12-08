@@ -4,6 +4,7 @@ import View from './View';
 import Presenter from './Presenter';
 
 declare global {
+
   interface JQuery {
     myPlugin: any;
   }

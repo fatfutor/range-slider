@@ -36,7 +36,7 @@ a { text-decoration: none; }
   left: 0;
 }
 
-.slider__pin-numeric {
+.slider__pin-up {
   position: absolute;
   left: 0;
   top: -25px;
@@ -45,4 +45,8 @@ a { text-decoration: none; }
   background: #8917a2;
   margin: 0;
   color: #ffffff;
+}
+
+.slider__input {
+  margin: 15px;
 }
