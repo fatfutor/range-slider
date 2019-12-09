@@ -4,6 +4,7 @@ export default class View {
   line: HTMLElement;
   pinUp: HTMLElement;
   input: HTMLElement | any;
+  rangeKo: number;
 
   constructor() {};
 
@@ -13,15 +14,20 @@ export default class View {
     container.append(this.line);
 
     this.input = document.createElement('input');
-    this.input.setAttribute('value', options.value);
+    this.input.value = options.value;
     this.input.classList.add('slider__input');
+    this.input.type = 'number';
+    this.input.min = options.min;
+    this.input.max = options.max;
     container.append(this.input);
 
     this.pin = document.createElement('div');
     this.pin.classList.add('slider__pin');
     this.line.appendChild(this.pin);
 
-    this.setPinPosition(+options.value);
+    this.rangeKo = this.getRangeKo(this.line.offsetWidth, options);
+
+    this.setPinPosition(options.value / this.rangeKo);
 
     if (options.pinUp) {
       this.pinUp = document.createElement('div');
@@ -35,8 +41,12 @@ export default class View {
     this.pin.style.left = shift + 'px';
   };
 
-  setPinUp = (value: number, rangeKo: number): void => {
-    this.pinUp.textContent = (Math.round(value * rangeKo)).toString();
+  setPinUp = (value: number, rangeKo: number, options: any): void => {
+    this.pinUp.textContent = (Math.round(value * rangeKo) + options.min).toString();
+  };
+
+  setInputValue = (value: number, rangeKo: number, options: any): void => {
+    this.input.value = (Math.round(value * rangeKo) + options.min).toString();
   };
 
   setShift = (startCoordinate: number, moveCoordinate: number): number => {
@@ -56,10 +66,6 @@ export default class View {
     shift = 1;
 
     return this.pin.offsetLeft - shift;
-  };
-
-  setInputValue = (value: number, rangeKo: number): void => {
-    this.input.value = (Math.round(value * rangeKo)).toString();
   };
 
   getPin = () => {

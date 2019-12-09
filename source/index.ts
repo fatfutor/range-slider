@@ -23,9 +23,9 @@ declare global {
 
 $(function() {
   $('#block').myPlugin({
-    min: 0,
+    min: 100,
     max: 1000,
-    value: 0,
+    value: 400,
     interval: 0,
     orientation: 'horizontal',
     pinUp: true,

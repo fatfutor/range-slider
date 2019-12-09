@@ -10,7 +10,7 @@ var Presenter = (function () {
         this.rangeKo = view.getRangeKo(this.line.offsetWidth, options);
         this.input.addEventListener('input', function (ev) {
             _this.view.setPinPosition(ev.target.value / _this.rangeKo);
-            _this.view.setPinUp(ev.target.value / _this.rangeKo, _this.rangeKo);
+            _this.view.setPinUp(ev.target.value / _this.rangeKo, _this.rangeKo, options);
         });
         this.pin.addEventListener('mousedown', function (evt) {
             evt.preventDefault();
@@ -24,8 +24,8 @@ var Presenter = (function () {
                 dragged = true;
                 var shiftX = view.setShift(startCoordinates.x, moveEvt.clientX);
                 _this.view.setPinPosition(shiftX);
-                _this.view.setPinUp(_this.pin.offsetLeft, _this.rangeKo);
-                _this.view.setInputValue(_this.pin.offsetLeft, _this.rangeKo);
+                _this.view.setPinUp(_this.pin.offsetLeft, _this.rangeKo, options);
+                _this.view.setInputValue(_this.pin.offsetLeft, _this.rangeKo, options);
                 startCoordinates = {
                     x: moveEvt.clientX,
                     y: moveEvt.clientY

@@ -16,7 +16,7 @@ export default class Presenter {
 
     this.input.addEventListener('input', (ev) => {
       this.view.setPinPosition(ev.target.value / this.rangeKo);
-      this.view.setPinUp(ev.target.value / this.rangeKo, this.rangeKo);
+      this.view.setPinUp(ev.target.value / this.rangeKo, this.rangeKo, options);
     });
 
     this.pin.addEventListener('mousedown', (evt) => {
@@ -36,8 +36,8 @@ export default class Presenter {
         const shiftX: number = view.setShift(startCoordinates.x,  moveEvt.clientX);
         this.view.setPinPosition(shiftX);
 
-        this.view.setPinUp(this.pin.offsetLeft, this.rangeKo);
-        this.view.setInputValue(this.pin.offsetLeft, this.rangeKo);
+        this.view.setPinUp(this.pin.offsetLeft, this.rangeKo, options);
+        this.view.setInputValue(this.pin.offsetLeft, this.rangeKo, options);
 
 
         startCoordinates = {

@@ -7,13 +7,17 @@ var View = (function () {
             _this.line.classList.add('slider__line');
             container.append(_this.line);
             _this.input = document.createElement('input');
-            _this.input.setAttribute('value', options.value);
+            _this.input.value = options.value;
             _this.input.classList.add('slider__input');
+            _this.input.type = 'number';
+            _this.input.min = options.min;
+            _this.input.max = options.max;
             container.append(_this.input);
             _this.pin = document.createElement('div');
             _this.pin.classList.add('slider__pin');
             _this.line.appendChild(_this.pin);
-            _this.setPinPosition(+options.value);
+            _this.rangeKo = _this.getRangeKo(_this.line.offsetWidth, options);
+            _this.setPinPosition(options.value / _this.rangeKo);
             if (options.pinUp) {
                 _this.pinUp = document.createElement('div');
                 _this.pinUp.classList.add('slider__pin-up');
@@ -24,8 +28,11 @@ var View = (function () {
         this.setPinPosition = function (shift) {
             _this.pin.style.left = shift + 'px';
         };
-        this.setPinUp = function (value, rangeKo) {
-            _this.pinUp.textContent = (Math.round(value * rangeKo)).toString();
+        this.setPinUp = function (value, rangeKo, options) {
+            _this.pinUp.textContent = (Math.round(value * rangeKo) + options.min).toString();
+        };
+        this.setInputValue = function (value, rangeKo, options) {
+            _this.input.value = (Math.round(value * rangeKo) + options.min).toString();
         };
         this.setShift = function (startCoordinate, moveCoordinate) {
             var shift = 0;
@@ -39,9 +46,6 @@ var View = (function () {
             }
             shift = 1;
             return _this.pin.offsetLeft - shift;
-        };
-        this.setInputValue = function (value, rangeKo) {
-            _this.input.value = (Math.round(value * rangeKo)).toString();
         };
         this.getPin = function () {
             return _this.pin;
