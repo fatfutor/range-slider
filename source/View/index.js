@@ -1,59 +1,60 @@
 "use strict";
 var View = (function () {
-    function View(container) {
+    function View() {
         var _this = this;
-        this.createLine = function () {
+        this.createSlider = function (container, options) {
             _this.line = document.createElement('div');
             _this.line.classList.add('slider__line');
-            _this.container.append(_this.line);
-        };
-        this.createPin = function () {
+            container.append(_this.line);
+            _this.input = document.createElement('input');
+            _this.input.setAttribute('value', options.value);
+            _this.input.classList.add('slider__input');
+            container.append(_this.input);
             _this.pin = document.createElement('div');
             _this.pin.classList.add('slider__pin');
             _this.line.appendChild(_this.pin);
+            _this.setPinPosition(+options.value);
+            if (options.pinUp) {
+                _this.pinUp = document.createElement('div');
+                _this.pinUp.classList.add('slider__pin-up');
+                _this.pinUp.textContent = options.value;
+                _this.pin.appendChild(_this.pinUp);
+            }
         };
-        this.createPinNumeric = function (pin) {
-            _this.pinNumeric = document.createElement('p');
-            _this.pinNumeric.classList.add('slider__pin-up');
-            pin.appendChild(_this.pinNumeric);
+        this.setPinPosition = function (shift) {
+            _this.pin.style.left = shift + 'px';
+        };
+        this.setPinUp = function (value, rangeKo) {
+            _this.pinUp.textContent = (Math.round(value * rangeKo)).toString();
+        };
+        this.setShift = function (startCoordinate, moveCoordinate) {
+            var shift = 0;
+            if (_this.pin.offsetLeft < _this.line.offsetWidth && _this.pin.offsetLeft >= 0) {
+                shift = startCoordinate - moveCoordinate;
+                return _this.pin.offsetLeft - shift;
+            }
+            if (_this.pin.offsetLeft < 0) {
+                shift = -1;
+                return _this.pin.offsetLeft - shift;
+            }
+            shift = 1;
+            return _this.pin.offsetLeft - shift;
+        };
+        this.setInputValue = function (value, rangeKo) {
+            _this.input.value = (Math.round(value * rangeKo)).toString();
         };
         this.getPin = function () {
             return _this.pin;
         };
-        this.getPinNumeric = function () {
-            return _this.pinNumeric;
-        };
         this.getLine = function () {
             return _this.line;
         };
-        this.changePinPosition = function (top, left) {
-            // this.pin.style.top = this.pin.offsetTop - top + 'px';
-            _this.pin.style.left = _this.pin.offsetLeft - left + 'px';
+        this.getInput = function () {
+            return _this.input;
         };
-        this.changePinNumeric = function (pin) {
-            // this.pin.style.top = this.pin.offsetTop - top + 'px';
-            _this.pinNumeric.textContent = pin.offsetLeft.toString();
+        this.getRangeKo = function (width, options) {
+            return (options.max - options.min) / width;
         };
-        this.setShiftHorizontal = function (startCoordinate, moveCoordinate, pin, line) {
-            if (pin.offsetLeft < line.offsetWidth && pin.offsetLeft >= 0) {
-                return startCoordinate - moveCoordinate;
-            }
-            if (pin.offsetLeft < 0)
-                return -1;
-            return 1;
-        };
-        this.setShiftVertical = function (startCoordinate, moveCoordinate, pin, line) {
-            if (pin.offsetTop < line.offsetHeight && pin.offsetTop >= 0) {
-                return startCoordinate - moveCoordinate;
-            }
-            if (pin.offsetTop < 0)
-                return -1;
-            return 1;
-        };
-        this.container = container;
-        this.container.addClass('slider');
-        this.createLine();
-        this.createPin();
     }
     ;
     return View;

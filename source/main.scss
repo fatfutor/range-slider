@@ -21,8 +21,18 @@ a { text-decoration: none; }
 
 .slider__line {
   width: 300px;
-  height: 5px;
-  background: #f0d3b3;
+  height: 15px;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: '';
+    left: 8px;
+    top: 8px;
+    width: 300px;
+    height: 5px;
+    background: #f0d3b3;
+  }
 }
 
 .slider__pin {
@@ -32,8 +42,9 @@ a { text-decoration: none; }
   background: #8917a2;
   border-radius: 50%;
   margin: auto;
-  top: -8px;
+  top: 0;
   left: 0;
+  opacity: 0.2;
 }
 
 .slider__pin-up {

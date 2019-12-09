@@ -1,81 +1,84 @@
 
 export default class View {
-  container: JQuery<HTMLElement>;
-  line: HTMLElement;
   pin: HTMLElement;
-  pinNumeric: HTMLElement;
+  line: HTMLElement;
+  pinUp: HTMLElement;
+  input: HTMLElement | any;
 
-  constructor(container: JQuery<HTMLElement>) {
-    this.container = container;
-    this.container.addClass('slider');
-    this.createLine();
-    this.createPin();
-  };
+  constructor() {};
 
-  createLine = (): void => {
+  createSlider = (container: JQuery<HTMLElement>, options: any) => {
     this.line = document.createElement('div');
     this.line.classList.add('slider__line');
-    this.container.append(this.line);
-  };
+    container.append(this.line);
 
-  createPin = (): void => {
+    this.input = document.createElement('input');
+    this.input.setAttribute('value', options.value);
+    this.input.classList.add('slider__input');
+    container.append(this.input);
+
     this.pin = document.createElement('div');
     this.pin.classList.add('slider__pin');
     this.line.appendChild(this.pin);
+
+    this.setPinPosition(+options.value);
+
+    if (options.pinUp) {
+      this.pinUp = document.createElement('div');
+      this.pinUp.classList.add('slider__pin-up');
+      this.pinUp.textContent = options.value;
+      this.pin.appendChild(this.pinUp);
+    }
   };
 
-  createPinNumeric = (pin: HTMLElement): void => {
-    this.pinNumeric = document.createElement('p');
-    this.pinNumeric.classList.add('slider__pin-up');
-    pin.appendChild(this.pinNumeric);
+  setPinPosition = (shift: number): void => {
+    this.pin.style.left = shift + 'px';
   };
 
-  getPin = (): HTMLElement => {
+  setPinUp = (value: number, rangeKo: number): void => {
+    this.pinUp.textContent = (Math.round(value * rangeKo)).toString();
+  };
+
+  setShift = (startCoordinate: number, moveCoordinate: number): number => {
+
+    let shift = 0;
+
+    if (this.pin.offsetLeft < this.line.offsetWidth && this.pin.offsetLeft >= 0) {
+      shift =  startCoordinate - moveCoordinate;
+      return this.pin.offsetLeft - shift;
+    }
+
+    if (this.pin.offsetLeft < 0) {
+      shift = -1;
+      return this.pin.offsetLeft - shift;
+    }
+
+    shift = 1;
+
+    return this.pin.offsetLeft - shift;
+  };
+
+  setInputValue = (value: number, rangeKo: number): void => {
+    this.input.value = (Math.round(value * rangeKo)).toString();
+  };
+
+  getPin = () => {
     return this.pin;
   };
 
-  getPinNumeric = (): HTMLElement => {
-    return this.pinNumeric;
-  };
-
-  getLine = (): HTMLElement => {
+  getLine = () => {
     return this.line;
   };
 
-  changePinPosition = (top: number, left: number): void => {
-    // this.pin.style.top = this.pin.offsetTop - top + 'px';
-    this.pin.style.left = this.pin.offsetLeft - left + 'px';
+  getInput = () => {
+    return this.input;
   };
 
-  changePinNumeric = (pin: HTMLElement): void => {
-    // this.pin.style.top = this.pin.offsetTop - top + 'px';
-    this.pinNumeric.textContent = pin.offsetLeft.toString();
-  };
-
-  setShiftHorizontal =
-    (startCoordinate: number, moveCoordinate: number, pin: HTMLElement, line: HTMLElement): number => {
-
-    if (pin.offsetLeft < line.offsetWidth && pin.offsetLeft >= 0) {
-      return startCoordinate - moveCoordinate;
-    }
-
-    if (pin.offsetLeft < 0) return -1;
-
-    return 1;
-  };
-
-  setShiftVertical =
-    (startCoordinate: number, moveCoordinate: number, pin: HTMLElement, line: HTMLElement): number => {
-
-    if (pin.offsetTop < line.offsetHeight && pin.offsetTop >= 0) {
-      return startCoordinate - moveCoordinate;
-    }
-
-    if (pin.offsetTop < 0) return -1;
-
-    return 1;
+  getRangeKo = (width: number, options: any) => {
+    return (options.max - options.min)/ width;
   }
 }
+
 // - Помимо базовых конфигов вроде мининимально, максимального и текущего значения
 // - два бегунка?
 // - размер шага,

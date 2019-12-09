@@ -1,13 +1,23 @@
 
 export default class Presenter {
-  view: any; // new class
+  view: any;
   pin: HTMLElement;
+  input: HTMLElement | any;
+  line: HTMLElement;
+  rangeKo: number;
 
-  constructor(view: any, model: any, options: any) {
+  constructor(view: any, model: any, block: any, options: any) {
     this.view = view;
+    this.view.createSlider(block, options);
     this.pin = view.getPin();
+    this.input = view.getInput();
+    this.line = view.getLine();
+    this.rangeKo = view.getRangeKo(this.line.offsetWidth, options);
 
-    view.createPinNumeric(this.pin);
+    this.input.addEventListener('input', (ev) => {
+      this.view.setPinPosition(ev.target.value / this.rangeKo);
+      this.view.setPinUp(ev.target.value / this.rangeKo, this.rangeKo);
+    });
 
     this.pin.addEventListener('mousedown', (evt) => {
       evt.preventDefault();
@@ -23,13 +33,12 @@ export default class Presenter {
         moveEvt.preventDefault();
         dragged = true;
 
-        const line: HTMLElement = view.getLine();
+        const shiftX: number = view.setShift(startCoordinates.x,  moveEvt.clientX);
+        this.view.setPinPosition(shiftX);
 
-        const x: number = view.setShiftHorizontal(startCoordinates.x,  moveEvt.clientX, this.pin, line);
-        const y: number = view.setShiftVertical(startCoordinates.y,  moveEvt.clientY, this.pin, line);
+        this.view.setPinUp(this.pin.offsetLeft, this.rangeKo);
+        this.view.setInputValue(this.pin.offsetLeft, this.rangeKo);
 
-        this.view.changePinPosition(y, x);
-        this.view.changePinNumeric(this.pin);
 
         startCoordinates = {
           x: moveEvt.clientX,

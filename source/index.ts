@@ -14,9 +14,9 @@ declare global {
   $.fn.myPlugin = function(options) {
 
     const block: any = $(this);
-    const view = new View(block);
+    const view = new View();
     const model = new Model();
-    new Presenter(view, model, options);
+    new Presenter(view, model, block, options);
 
   };
 })(jQuery);
@@ -25,10 +25,10 @@ $(function() {
   $('#block').myPlugin({
     min: 0,
     max: 1000,
-    current: 0,
+    value: 0,
     interval: 0,
     orientation: 'horizontal',
-    pinNumeric: true,
+    pinUp: true,
     double: false,
   });
 });

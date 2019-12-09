@@ -6,19 +6,19 @@ var Presenter_1 = require('./Presenter');
 (function ($) {
     $.fn.myPlugin = function (options) {
         var block = $(this);
-        var view = new View_1["default"](block);
+        var view = new View_1["default"]();
         var model = new Model_1["default"]();
-        new Presenter_1["default"](view, model, options);
+        new Presenter_1["default"](view, model, block, options);
     };
 })(jQuery);
 $(function () {
     $('#block').myPlugin({
         min: 0,
         max: 1000,
-        current: 0,
+        value: 0,
         interval: 0,
         orientation: 'horizontal',
-        pinNumeric: true,
+        pinUp: true,
         double: false
     });
 });

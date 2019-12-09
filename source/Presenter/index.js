@@ -1,10 +1,17 @@
 "use strict";
 var Presenter = (function () {
-    function Presenter(view, model, options) {
+    function Presenter(view, model, block, options) {
         var _this = this;
         this.view = view;
+        this.view.createSlider(block, options);
         this.pin = view.getPin();
-        view.createPinNumeric(this.pin);
+        this.input = view.getInput();
+        this.line = view.getLine();
+        this.rangeKo = view.getRangeKo(this.line.offsetWidth, options);
+        this.input.addEventListener('input', function (ev) {
+            _this.view.setPinPosition(ev.target.value / _this.rangeKo);
+            _this.view.setPinUp(ev.target.value / _this.rangeKo, _this.rangeKo);
+        });
         this.pin.addEventListener('mousedown', function (evt) {
             evt.preventDefault();
             var startCoordinates = {
@@ -15,11 +22,10 @@ var Presenter = (function () {
             var onMouseMove = function (moveEvt) {
                 moveEvt.preventDefault();
                 dragged = true;
-                var line = view.getLine();
-                var x = view.setShiftHorizontal(startCoordinates.x, moveEvt.clientX, _this.pin, line);
-                var y = view.setShiftVertical(startCoordinates.y, moveEvt.clientY, _this.pin, line);
-                _this.view.changePinPosition(y, x);
-                _this.view.changePinNumeric(_this.pin);
+                var shiftX = view.setShift(startCoordinates.x, moveEvt.clientX);
+                _this.view.setPinPosition(shiftX);
+                _this.view.setPinUp(_this.pin.offsetLeft, _this.rangeKo);
+                _this.view.setInputValue(_this.pin.offsetLeft, _this.rangeKo);
                 startCoordinates = {
                     x: moveEvt.clientX,
                     y: moveEvt.clientY
