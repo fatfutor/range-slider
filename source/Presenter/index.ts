@@ -16,7 +16,7 @@ export default class Presenter {
 
     this.input.addEventListener('input', (ev) => {
       this.view.setPinPosition((ev.target.value - options.min) / this.rangeKo);
-      this.view.setPinUp(ev.target.value / this.rangeKo, this.rangeKo, {min: 0});
+      this.view.setPinUp((ev.target.value - options.min) / this.rangeKo, this.rangeKo, options);
     });
 
     this.pin.addEventListener('mousedown', (evt) => {

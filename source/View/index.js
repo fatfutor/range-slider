@@ -26,13 +26,28 @@ var View = (function () {
             }
         };
         this.setPinPosition = function (shift) {
-            _this.pin.style.left = shift + 'px';
+            var position = shift;
+            if (position < 0)
+                position = 0;
+            if (position > _this.line.offsetWidth)
+                position = _this.line.offsetWidth;
+            _this.pin.style.left = position + 'px';
         };
         this.setPinUp = function (value, rangeKo, options) {
-            _this.pinUp.textContent = (Math.round(value * rangeKo) + options.min).toString();
+            var pinUpContent = (Math.round(value * rangeKo) + options.min);
+            if (pinUpContent < options.min)
+                pinUpContent = options.min;
+            if (pinUpContent > options.max)
+                pinUpContent = options.max;
+            _this.pinUp.textContent = pinUpContent.toString();
         };
         this.setInputValue = function (value, rangeKo, options) {
-            _this.input.value = (Math.round(value * rangeKo) + options.min).toString();
+            var inputValue = (Math.round(value * rangeKo) + options.min);
+            if (inputValue < options.min)
+                inputValue = options.min;
+            if (inputValue > options.max)
+                inputValue = options.max;
+            _this.input.value = inputValue.toString();
         };
         this.setShift = function (startCoordinate, moveCoordinate) {
             var shift = 0;

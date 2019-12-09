@@ -38,15 +38,24 @@ export default class View {
   };
 
   setPinPosition = (shift: number): void => {
-    this.pin.style.left = shift + 'px';
+    let position = shift;
+    if (position < 0) position = 0;
+    if (position > this.line.offsetWidth) position = this.line.offsetWidth;
+    this.pin.style.left = position + 'px';
   };
 
   setPinUp = (value: number, rangeKo: number, options: any): void => {
-    this.pinUp.textContent = (Math.round(value * rangeKo) + options.min).toString();
+    let pinUpContent = (Math.round(value * rangeKo) + options.min);
+    if (pinUpContent < options.min) pinUpContent =  options.min;
+    if (pinUpContent > options.max) pinUpContent =  options.max;
+    this.pinUp.textContent = pinUpContent.toString();
   };
 
   setInputValue = (value: number, rangeKo: number, options: any): void => {
-    this.input.value = (Math.round(value * rangeKo) + options.min).toString();
+    let inputValue = (Math.round(value * rangeKo) + options.min);
+    if (inputValue < options.min) inputValue =  options.min;
+    if (inputValue > options.max) inputValue =  options.max;
+    this.input.value = inputValue.toString();
   };
 
   setShift = (startCoordinate: number, moveCoordinate: number): number => {
