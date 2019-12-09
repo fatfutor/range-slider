@@ -9,8 +9,8 @@ var Presenter = (function () {
         this.line = view.getLine();
         this.rangeKo = view.getRangeKo(this.line.offsetWidth, options);
         this.input.addEventListener('input', function (ev) {
-            _this.view.setPinPosition(ev.target.value / _this.rangeKo);
-            _this.view.setPinUp(ev.target.value / _this.rangeKo, _this.rangeKo, options);
+            _this.view.setPinPosition((ev.target.value - options.min) / _this.rangeKo);
+            _this.view.setPinUp(ev.target.value / _this.rangeKo, _this.rangeKo, { min: 0 });
         });
         this.pin.addEventListener('mousedown', function (evt) {
             evt.preventDefault();

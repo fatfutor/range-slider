@@ -17,7 +17,7 @@ var View = (function () {
             _this.pin.classList.add('slider__pin');
             _this.line.appendChild(_this.pin);
             _this.rangeKo = _this.getRangeKo(_this.line.offsetWidth, options);
-            _this.setPinPosition(options.value / _this.rangeKo);
+            _this.setPinPosition((options.value - options.min) / _this.rangeKo);
             if (options.pinUp) {
                 _this.pinUp = document.createElement('div');
                 _this.pinUp.classList.add('slider__pin-up');

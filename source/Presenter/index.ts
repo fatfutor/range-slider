@@ -15,8 +15,8 @@ export default class Presenter {
     this.rangeKo = view.getRangeKo(this.line.offsetWidth, options);
 
     this.input.addEventListener('input', (ev) => {
-      this.view.setPinPosition(ev.target.value / this.rangeKo);
-      this.view.setPinUp(ev.target.value / this.rangeKo, this.rangeKo, options);
+      this.view.setPinPosition((ev.target.value - options.min) / this.rangeKo);
+      this.view.setPinUp(ev.target.value / this.rangeKo, this.rangeKo, {min: 0});
     });
 
     this.pin.addEventListener('mousedown', (evt) => {

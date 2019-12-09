@@ -27,7 +27,7 @@ export default class View {
 
     this.rangeKo = this.getRangeKo(this.line.offsetWidth, options);
 
-    this.setPinPosition(options.value / this.rangeKo);
+    this.setPinPosition((options.value - options.min) / this.rangeKo);
 
     if (options.pinUp) {
       this.pinUp = document.createElement('div');
