@@ -1,23 +1,34 @@
 
 export default class Presenter {
-  view: any;
   pin: HTMLElement;
+  pinUp: HTMLElement;
   input: HTMLElement | any;
   line: HTMLElement;
   rangeKo: number;
+  totalWidth: number;
 
   constructor(view: any, model: any, block: any, options: any) {
-    this.view = view;
-    this.view.createSlider(block, options);
+    view.createSlider(block, options);
     this.pin = view.getPin();
+    this.pinUp = view.getPinUp();
     this.input = view.getInput();
     this.line = view.getLine();
-    this.rangeKo = view.getRangeKo(this.line.offsetWidth, options);
+    this.totalWidth = this.line.offsetWidth;
+    this.rangeKo = model.getRangeKo(this.line.offsetWidth, options);
+
+    this.pin.style.left
+      = model.calculatePinPosition((options.value - options.min) / this.rangeKo, this.totalWidth) + 'px';
 
     this.input.addEventListener('input', (ev) => {
-      this.view.setPinPosition((ev.target.value - options.min) / this.rangeKo);
-      this.view.setPinUp((ev.target.value - options.min) / this.rangeKo, this.rangeKo, options);
+      const position = model.calculatePinPosition((ev.target.value - options.min) / this.rangeKo, this.totalWidth);
+      const content = model.calculateContent((ev.target.value - options.min) / this.rangeKo, options, this.totalWidth);
+
+      this.pin.style.left = position + 'px';
+      if (options.pinUp) {
+        this.pinUp.textContent = content;
+      }
     });
+
 
     this.pin.addEventListener('mousedown', (evt) => {
       evt.preventDefault();
@@ -33,17 +44,36 @@ export default class Presenter {
         moveEvt.preventDefault();
         dragged = true;
 
-        const shiftX: number = view.setShift(startCoordinates.x,  moveEvt.clientX);
-        this.view.setPinPosition(shiftX);
+        if (
+          moveEvt.clientX  - startCoordinates.x === options.step / this.rangeKo
+          || startCoordinates.x - moveEvt.clientX === options.step / this.rangeKo
+        ) {
+          
+          const shift: number = model.setShift(
+            startCoordinates.x,
+            moveEvt.clientX,
+            this.totalWidth,
+            this.pin.offsetLeft,
+            options.step,
+            this.rangeKo
+          );
+          
+          this.pin.style.left = model.calculatePinPosition(shift, this.totalWidth) + 'px';
 
-        this.view.setPinUp(this.pin.offsetLeft, this.rangeKo, options);
-        this.view.setInputValue(this.pin.offsetLeft, this.rangeKo, options);
+          startCoordinates = {
+            x: moveEvt.clientX,
+            y: moveEvt.clientY
+          };
+        }
 
 
-        startCoordinates = {
-          x: moveEvt.clientX,
-          y: moveEvt.clientY
-        };
+        const content = model.calculateContent(this.pin.offsetLeft, options, this.totalWidth);
+
+        if (options.pinUp) {
+          this.pinUp.textContent = content.toString();
+        }
+        this.input.value = content.toString();
+
 
       };
 

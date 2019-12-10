@@ -2,15 +2,22 @@
 var Presenter = (function () {
     function Presenter(view, model, block, options) {
         var _this = this;
-        this.view = view;
-        this.view.createSlider(block, options);
+        view.createSlider(block, options);
         this.pin = view.getPin();
+        this.pinUp = view.getPinUp();
         this.input = view.getInput();
         this.line = view.getLine();
-        this.rangeKo = view.getRangeKo(this.line.offsetWidth, options);
+        this.totalWidth = this.line.offsetWidth;
+        this.rangeKo = model.getRangeKo(this.line.offsetWidth, options);
+        this.pin.style.left
+            = model.calculatePinPosition((options.value - options.min) / this.rangeKo, this.totalWidth) + 'px';
         this.input.addEventListener('input', function (ev) {
-            _this.view.setPinPosition((ev.target.value - options.min) / _this.rangeKo);
-            _this.view.setPinUp((ev.target.value - options.min) / _this.rangeKo, _this.rangeKo, options);
+            var position = model.calculatePinPosition((ev.target.value - options.min) / _this.rangeKo, _this.totalWidth);
+            var content = model.calculateContent((ev.target.value - options.min) / _this.rangeKo, options, _this.totalWidth);
+            _this.pin.style.left = position + 'px';
+            if (options.pinUp) {
+                _this.pinUp.textContent = content;
+            }
         });
         this.pin.addEventListener('mousedown', function (evt) {
             evt.preventDefault();
@@ -22,14 +29,20 @@ var Presenter = (function () {
             var onMouseMove = function (moveEvt) {
                 moveEvt.preventDefault();
                 dragged = true;
-                var shiftX = view.setShift(startCoordinates.x, moveEvt.clientX);
-                _this.view.setPinPosition(shiftX);
-                _this.view.setPinUp(_this.pin.offsetLeft, _this.rangeKo, options);
-                _this.view.setInputValue(_this.pin.offsetLeft, _this.rangeKo, options);
-                startCoordinates = {
-                    x: moveEvt.clientX,
-                    y: moveEvt.clientY
-                };
+                if (moveEvt.clientX - startCoordinates.x === options.step / _this.rangeKo
+                    || startCoordinates.x - moveEvt.clientX === options.step / _this.rangeKo) {
+                    var shift = model.setShift(startCoordinates.x, moveEvt.clientX, _this.totalWidth, _this.pin.offsetLeft, options.step, _this.rangeKo);
+                    _this.pin.style.left = model.calculatePinPosition(shift, _this.totalWidth) + 'px';
+                    startCoordinates = {
+                        x: moveEvt.clientX,
+                        y: moveEvt.clientY
+                    };
+                }
+                var content = model.calculateContent(_this.pin.offsetLeft, options, _this.totalWidth);
+                if (options.pinUp) {
+                    _this.pinUp.textContent = content.toString();
+                }
+                _this.input.value = content.toString();
             };
             var onMouseUp = function (upEvt) {
                 upEvt.preventDefault();

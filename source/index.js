@@ -13,10 +13,10 @@ var Presenter_1 = require('./Presenter');
 })(jQuery);
 $(function () {
     $('#block').myPlugin({
-        min: 100,
-        max: 1000,
-        value: 400,
-        interval: 0,
+        min: 0,
+        max: 100,
+        value: 0,
+        step: 10,
         orientation: 'horizontal',
         pinUp: true,
         double: false

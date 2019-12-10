@@ -16,51 +16,12 @@ var View = (function () {
             _this.pin = document.createElement('div');
             _this.pin.classList.add('slider__pin');
             _this.line.appendChild(_this.pin);
-            _this.rangeKo = _this.getRangeKo(_this.line.offsetWidth, options);
-            _this.setPinPosition((options.value - options.min) / _this.rangeKo);
             if (options.pinUp) {
                 _this.pinUp = document.createElement('div');
                 _this.pinUp.classList.add('slider__pin-up');
                 _this.pinUp.textContent = options.value;
                 _this.pin.appendChild(_this.pinUp);
             }
-        };
-        this.setPinPosition = function (shift) {
-            var position = shift;
-            if (position < 0)
-                position = 0;
-            if (position > _this.line.offsetWidth)
-                position = _this.line.offsetWidth;
-            _this.pin.style.left = position + 'px';
-        };
-        this.setPinUp = function (value, rangeKo, options) {
-            var pinUpContent = (Math.round(value * rangeKo) + options.min);
-            if (pinUpContent < options.min)
-                pinUpContent = options.min;
-            if (pinUpContent > options.max)
-                pinUpContent = options.max;
-            _this.pinUp.textContent = pinUpContent.toString();
-        };
-        this.setInputValue = function (value, rangeKo, options) {
-            var inputValue = (Math.round(value * rangeKo) + options.min);
-            if (inputValue < options.min)
-                inputValue = options.min;
-            if (inputValue > options.max)
-                inputValue = options.max;
-            _this.input.value = inputValue.toString();
-        };
-        this.setShift = function (startCoordinate, moveCoordinate) {
-            var shift = 0;
-            if (_this.pin.offsetLeft < _this.line.offsetWidth && _this.pin.offsetLeft >= 0) {
-                shift = startCoordinate - moveCoordinate;
-                return _this.pin.offsetLeft - shift;
-            }
-            if (_this.pin.offsetLeft < 0) {
-                shift = -1;
-                return _this.pin.offsetLeft - shift;
-            }
-            shift = 1;
-            return _this.pin.offsetLeft - shift;
         };
         this.getPin = function () {
             return _this.pin;
@@ -71,8 +32,8 @@ var View = (function () {
         this.getInput = function () {
             return _this.input;
         };
-        this.getRangeKo = function (width, options) {
-            return (options.max - options.min) / width;
+        this.getPinUp = function () {
+            return _this.pinUp;
         };
     }
     ;
@@ -80,13 +41,12 @@ var View = (function () {
 }());
 exports.__esModule = true;
 exports["default"] = View;
-// - Помимо базовых конфигов вроде мининимально, максимального и текущего значения
-// - два бегунка?
+//// - Помимо базовых конфигов вроде мининимально, максимального и текущего значения
 // - размер шага,
 // - вертикальный/горизонтальный вид,
 // - одиночное значение или интервал,
 // - возможность на лету изменить значение "снаружи" javascript-ом,
-// - возможность включать/отключать элемент над бегунком,
-// который показывает значение и который ползает за мышкой
-// (при выключении просто кругляш сам только на слайдера, при включении над кругляшом элемент с цифрой).
+//// - возможность включать/отключать элемент над бегунком,
+////который показывает значение и который ползает за мышкой
+//// (при выключении просто кругляш сам только на слайдера, при включении над кругляшом элемент с цифрой).
 //# sourceMappingURL=index.js.map

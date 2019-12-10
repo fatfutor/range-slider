@@ -4,11 +4,10 @@ export default class View {
   line: HTMLElement;
   pinUp: HTMLElement;
   input: HTMLElement | any;
-  rangeKo: number;
 
   constructor() {};
 
-  createSlider = (container: JQuery<HTMLElement>, options: any) => {
+  createSlider = (container: JQuery<HTMLElement>, options: any): void => {
     this.line = document.createElement('div');
     this.line.classList.add('slider__line');
     container.append(this.line);
@@ -25,10 +24,6 @@ export default class View {
     this.pin.classList.add('slider__pin');
     this.line.appendChild(this.pin);
 
-    this.rangeKo = this.getRangeKo(this.line.offsetWidth, options);
-
-    this.setPinPosition((options.value - options.min) / this.rangeKo);
-
     if (options.pinUp) {
       this.pinUp = document.createElement('div');
       this.pinUp.classList.add('slider__pin-up');
@@ -37,69 +32,28 @@ export default class View {
     }
   };
 
-  setPinPosition = (shift: number): void => {
-    let position = shift;
-    if (position < 0) position = 0;
-    if (position > this.line.offsetWidth) position = this.line.offsetWidth;
-    this.pin.style.left = position + 'px';
-  };
-
-  setPinUp = (value: number, rangeKo: number, options: any): void => {
-    let pinUpContent = (Math.round(value * rangeKo) + options.min);
-    if (pinUpContent < options.min) pinUpContent =  options.min;
-    if (pinUpContent > options.max) pinUpContent =  options.max;
-    this.pinUp.textContent = pinUpContent.toString();
-  };
-
-  setInputValue = (value: number, rangeKo: number, options: any): void => {
-    let inputValue = (Math.round(value * rangeKo) + options.min);
-    if (inputValue < options.min) inputValue =  options.min;
-    if (inputValue > options.max) inputValue =  options.max;
-    this.input.value = inputValue.toString();
-  };
-
-  setShift = (startCoordinate: number, moveCoordinate: number): number => {
-
-    let shift = 0;
-
-    if (this.pin.offsetLeft < this.line.offsetWidth && this.pin.offsetLeft >= 0) {
-      shift =  startCoordinate - moveCoordinate;
-      return this.pin.offsetLeft - shift;
-    }
-
-    if (this.pin.offsetLeft < 0) {
-      shift = -1;
-      return this.pin.offsetLeft - shift;
-    }
-
-    shift = 1;
-
-    return this.pin.offsetLeft - shift;
-  };
-
-  getPin = () => {
+  getPin = (): HTMLElement => {
     return this.pin;
   };
 
-  getLine = () => {
+  getLine = (): HTMLElement => {
     return this.line;
   };
 
-  getInput = () => {
+  getInput = (): HTMLElement => {
     return this.input;
   };
 
-  getRangeKo = (width: number, options: any) => {
-    return (options.max - options.min)/ width;
-  }
+  getPinUp = (): HTMLElement => {
+    return this.pinUp;
+  };
 }
 
-// - Помимо базовых конфигов вроде мининимально, максимального и текущего значения
-// - два бегунка?
+//// - Помимо базовых конфигов вроде мининимально, максимального и текущего значения
 // - размер шага,
 // - вертикальный/горизонтальный вид,
 // - одиночное значение или интервал,
 // - возможность на лету изменить значение "снаружи" javascript-ом,
-// - возможность включать/отключать элемент над бегунком,
-// который показывает значение и который ползает за мышкой
-// (при выключении просто кругляш сам только на слайдера, при включении над кругляшом элемент с цифрой).
+//// - возможность включать/отключать элемент над бегунком,
+////который показывает значение и который ползает за мышкой
+//// (при выключении просто кругляш сам только на слайдера, при включении над кругляшом элемент с цифрой).
