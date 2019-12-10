@@ -33,9 +33,15 @@ export default class Model {
     let shift = 0;
 
     if (pinPosition < totalSize && pinPosition >= 0) {
-      if (step && moveCoordinate - startCoordinate >= step / rangeKo || startCoordinate - moveCoordinate >= step / rangeKo) {
+      if (step && moveCoordinate - startCoordinate >= step / rangeKo) {
         shift =  startCoordinate - moveCoordinate;
-        return pinPosition - shift;
+        const regulator = (pinPosition - shift) % (step / rangeKo);
+        return pinPosition - shift - regulator;
+
+      } else if (step && startCoordinate - moveCoordinate >= step / rangeKo) {
+        shift =  startCoordinate - moveCoordinate;
+        const regulator = (pinPosition - shift) % (step / rangeKo);
+        return pinPosition - shift - regulator;
 
       } else if (step) {
         return pinPosition

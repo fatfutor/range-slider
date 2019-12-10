@@ -57,7 +57,7 @@ export default class Presenter {
         this.pin.style.left = model.calculatePinPosition(shift, this.totalWidth) + 'px';
 
         if (
-          moveEvt.clientX  - startCoordinates.x >= options.step / this.rangeKo
+          moveEvt.clientX - startCoordinates.x >= options.step / this.rangeKo
           || startCoordinates.x - moveEvt.clientX >= options.step / this.rangeKo
         ) {
           startCoordinates = {
