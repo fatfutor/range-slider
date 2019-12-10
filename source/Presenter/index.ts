@@ -44,22 +44,22 @@ export default class Presenter {
         moveEvt.preventDefault();
         dragged = true;
 
-        if (
-          moveEvt.clientX  - startCoordinates.x === options.step / this.rangeKo
-          || startCoordinates.x - moveEvt.clientX === options.step / this.rangeKo
-        ) {
-          
-          const shift: number = model.setShift(
-            startCoordinates.x,
-            moveEvt.clientX,
-            this.totalWidth,
-            this.pin.offsetLeft,
-            options.step,
-            this.rangeKo
-          );
-          
-          this.pin.style.left = model.calculatePinPosition(shift, this.totalWidth) + 'px';
 
+        const shift: number = model.setShift(
+          startCoordinates.x,
+          moveEvt.clientX,
+          this.totalWidth,
+          this.pin.offsetLeft,
+          options.step,
+          this.rangeKo
+        );
+
+        this.pin.style.left = model.calculatePinPosition(shift, this.totalWidth) + 'px';
+
+        if (
+          moveEvt.clientX  - startCoordinates.x >= options.step / this.rangeKo
+          || startCoordinates.x - moveEvt.clientX >= options.step / this.rangeKo
+        ) {
           startCoordinates = {
             x: moveEvt.clientX,
             y: moveEvt.clientY

@@ -26,7 +26,7 @@ $(function() {
     min: 0,
     max: 100,
     value: 0,
-    step: 10,
+    step: 3,
     orientation: 'horizontal',
     pinUp: true,
     double: false,

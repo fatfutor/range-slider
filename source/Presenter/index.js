@@ -29,10 +29,10 @@ var Presenter = (function () {
             var onMouseMove = function (moveEvt) {
                 moveEvt.preventDefault();
                 dragged = true;
-                if (moveEvt.clientX - startCoordinates.x === options.step / _this.rangeKo
-                    || startCoordinates.x - moveEvt.clientX === options.step / _this.rangeKo) {
-                    var shift = model.setShift(startCoordinates.x, moveEvt.clientX, _this.totalWidth, _this.pin.offsetLeft, options.step, _this.rangeKo);
-                    _this.pin.style.left = model.calculatePinPosition(shift, _this.totalWidth) + 'px';
+                var shift = model.setShift(startCoordinates.x, moveEvt.clientX, _this.totalWidth, _this.pin.offsetLeft, options.step, _this.rangeKo);
+                _this.pin.style.left = model.calculatePinPosition(shift, _this.totalWidth) + 'px';
+                if (moveEvt.clientX - startCoordinates.x >= options.step / _this.rangeKo
+                    || startCoordinates.x - moveEvt.clientX >= options.step / _this.rangeKo) {
                     startCoordinates = {
                         x: moveEvt.clientX,
                         y: moveEvt.clientY

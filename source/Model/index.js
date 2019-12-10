@@ -25,10 +25,13 @@ var Model = (function () {
             if (step === void 0) { step = 0; }
             var shift = 0;
             if (pinPosition < totalSize && pinPosition >= 0) {
-                // if (step && moveCoordinate - startCoordinate >= step / rangeKo || startCoordinate - moveCoordinate >= step / rangeKo) {
-                //   shift =  startCoordinate - step;
-                //   return pinPosition - shift;
-                // }
+                if (step && moveCoordinate - startCoordinate >= step / rangeKo || startCoordinate - moveCoordinate >= step / rangeKo) {
+                    shift = startCoordinate - moveCoordinate;
+                    return pinPosition - shift;
+                }
+                else if (step) {
+                    return pinPosition;
+                }
                 shift = startCoordinate - moveCoordinate;
                 return pinPosition - shift;
             }

@@ -33,10 +33,13 @@ export default class Model {
     let shift = 0;
 
     if (pinPosition < totalSize && pinPosition >= 0) {
-      // if (step && moveCoordinate - startCoordinate >= step / rangeKo || startCoordinate - moveCoordinate >= step / rangeKo) {
-      //   shift =  startCoordinate - step;
-      //   return pinPosition - shift;
-      // }
+      if (step && moveCoordinate - startCoordinate >= step / rangeKo || startCoordinate - moveCoordinate >= step / rangeKo) {
+        shift =  startCoordinate - moveCoordinate;
+        return pinPosition - shift;
+
+      } else if (step) {
+        return pinPosition
+      }
       shift =  startCoordinate - moveCoordinate;
       return pinPosition - shift;
     }
@@ -50,7 +53,4 @@ export default class Model {
 
     return pinPosition - shift;
   };
-
-//     moveEvt.clientX  - startCoordinates.x === options.step / this.rangeKo
-// || startCoordinates.x - moveEvt.clientX === options.step / this.rangeKo
 }
