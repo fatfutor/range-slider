@@ -17,22 +17,11 @@ var View = (function () {
             _this.input.type = 'number';
             _this.input.min = options.min;
             _this.input.max = options.max;
+            // this.input.setAttribute('readonly', true);
             container.append(_this.input);
-            _this.pin = document.createElement('div');
-            _this.pin.classList.add('slider__pin');
-            _this.line.appendChild(_this.pin);
             _this.innerLine = document.createElement('div');
             _this.innerLine.classList.add('slider__inner-line');
             _this.line.appendChild(_this.innerLine);
-            if (options.pinUp) {
-                _this.pinUp = document.createElement('div');
-                _this.pinUp.classList.add('slider__pin-up');
-                _this.pinUp.textContent = options.value;
-                _this.pin.appendChild(_this.pinUp);
-            }
-        };
-        this.getPin = function () {
-            return _this.pin;
         };
         this.getLine = function () {
             return _this.line;
@@ -43,11 +32,7 @@ var View = (function () {
         this.getInput = function () {
             return _this.input;
         };
-        this.getPinUp = function () {
-            return _this.pinUp;
-        };
     }
-    ;
     return View;
 }());
 exports.__esModule = true;

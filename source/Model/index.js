@@ -24,7 +24,7 @@ var Model = (function () {
         this.setShift = function (startCoordinate, moveCoordinate, totalSize, pinPosition, step, rangeKo) {
             if (step === void 0) { step = 0; }
             var shift = 0;
-            if (pinPosition < totalSize && pinPosition >= 0) {
+            if (pinPosition <= totalSize && pinPosition >= 0) {
                 if (step && moveCoordinate - startCoordinate >= step / rangeKo) {
                     shift = startCoordinate - moveCoordinate;
                     var regulator = (pinPosition - shift) % (step / rangeKo);
@@ -45,7 +45,7 @@ var Model = (function () {
                 shift = -1;
                 return pinPosition - shift;
             }
-            shift = 1;
+            shift = 0;
             return pinPosition - shift;
         };
     }

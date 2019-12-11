@@ -1,28 +1,26 @@
 "use strict";
+var Pin_1 = require('../View/Pin');
 var Presenter = (function () {
     function Presenter(view, model, block, options) {
         var _this = this;
         view.createSlider(block, options);
-        this.pin = view.getPin();
-        this.pinUp = view.getPinUp();
         this.input = view.getInput();
         this.line = view.getLine();
-        this.inneLine = view.getInnerLine();
+        this.pin = new Pin_1["default"](this.line, options.value, options.pinUp);
+        this.innerLine = view.getInnerLine();
         this.totalWidth = this.line.offsetWidth;
         this.rangeKo = model.getRangeKo(this.line.offsetWidth, options);
-        this.pin.style.left
-            = model.calculatePinPosition((options.value - options.min) / this.rangeKo, this.totalWidth) + 'px';
-        this.inneLine.style.width = this.pin.offsetLeft + 'px';
+        var pinPosition = model.calculatePinPosition((options.value - options.min) / this.rangeKo, this.totalWidth);
+        var pinUpValue = model.calculateContent(pinPosition, options, this.totalWidth);
+        this.pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
+        this.innerLine.style.width = pinPosition + 'px';
         this.input.addEventListener('input', function (ev) {
-            var position = model.calculatePinPosition((ev.target.value - options.min) / _this.rangeKo, _this.totalWidth);
-            var content = model.calculateContent((ev.target.value - options.min) / _this.rangeKo, options, _this.totalWidth);
-            _this.pin.style.left = position + 'px';
-            _this.inneLine.style.width = _this.pin.offsetLeft + 'px';
-            if (options.pinUp) {
-                _this.pinUp.textContent = content;
-            }
+            var pinPosition = model.calculatePinPosition((ev.target.value - options.min) / _this.rangeKo, _this.totalWidth);
+            var pinUpValue = model.calculateContent((ev.target.value - options.min) / _this.rangeKo, options, _this.totalWidth);
+            _this.pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
+            _this.innerLine.style.width = pinPosition + 'px';
         });
-        this.pin.addEventListener('mousedown', function (evt) {
+        this.pin.getDomElement().addEventListener('mousedown', function (evt) {
             evt.preventDefault();
             var startCoordinates = {
                 x: evt.clientX,
@@ -32,14 +30,12 @@ var Presenter = (function () {
             var onMouseMove = function (moveEvt) {
                 moveEvt.preventDefault();
                 dragged = true;
-                var shift = model.setShift(startCoordinates.x, moveEvt.clientX, _this.totalWidth, _this.pin.offsetLeft, options.step, _this.rangeKo);
-                _this.pin.style.left = model.calculatePinPosition(shift, _this.totalWidth) + 'px';
-                var content = model.calculateContent(_this.pin.offsetLeft, options, _this.totalWidth);
-                if (options.pinUp) {
-                    _this.pinUp.textContent = content.toString();
-                }
-                _this.input.value = content.toString();
-                _this.inneLine.style.width = _this.pin.offsetLeft + 'px';
+                var shift = model.setShift(startCoordinates.x, moveEvt.clientX, _this.totalWidth, _this.pin.getPinPosition(), options.step, _this.rangeKo);
+                var pinPosition = model.calculatePinPosition(shift, _this.totalWidth);
+                var pinUpValue = model.calculateContent(pinPosition, options, _this.totalWidth);
+                _this.pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
+                _this.input.value = pinUpValue.toString();
+                _this.innerLine.style.width = pinPosition + 'px';
                 if (moveEvt.clientX - startCoordinates.x >= options.step / _this.rangeKo
                     || startCoordinates.x - moveEvt.clientX >= options.step / _this.rangeKo) {
                     startCoordinates = {
@@ -55,9 +51,9 @@ var Presenter = (function () {
                 if (dragged) {
                     var onClickPreventDefault_1 = function (evt) {
                         evt.preventDefault();
-                        _this.pin.removeEventListener('click', onClickPreventDefault_1);
+                        _this.pin.getDomElement().removeEventListener('click', onClickPreventDefault_1);
                     };
-                    _this.pin.addEventListener('click', onClickPreventDefault_1);
+                    _this.pin.getDomElement().addEventListener('click', onClickPreventDefault_1);
                 }
             };
             document.addEventListener('mousemove', onMouseMove);

@@ -37,8 +37,8 @@ $(function() {
   $('#block2').myPlugin({
     min: 200,
     max: 500,
-    value: 0,
-    step: 0,
+    value: 200,
+    step: 15,
     pinUp: false,
     orientation: 'horizontal',
     double: false,

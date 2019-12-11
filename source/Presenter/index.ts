@@ -1,42 +1,40 @@
+import Pin from '../View/Pin';
 
 export default class Presenter {
-  pin: HTMLElement;
+  pin: HTMLElement | any;
   pinUp: HTMLElement;
   input: HTMLElement | any;
   line: HTMLElement;
-  inneLine: HTMLElement;
+  innerLine: HTMLElement;
   rangeKo: number;
   totalWidth: number;
 
   constructor(view: any, model: any, block: any, options: any) {
     view.createSlider(block, options);
-    this.pin = view.getPin();
-    this.pinUp = view.getPinUp();
     this.input = view.getInput();
     this.line = view.getLine();
-    this.inneLine = view.getInnerLine();
+    this.pin = new Pin(this.line, options.value, options.pinUp);
+
+    this.innerLine = view.getInnerLine();
     this.totalWidth = this.line.offsetWidth;
     this.rangeKo = model.getRangeKo(this.line.offsetWidth, options);
 
-    this.pin.style.left
-      = model.calculatePinPosition((options.value - options.min) / this.rangeKo, this.totalWidth) + 'px';
+    const pinPosition = model.calculatePinPosition((options.value - options.min) / this.rangeKo, this.totalWidth);
+    const pinUpValue = model.calculateContent(pinPosition, options, this.totalWidth);
+    this.pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
 
-    this.inneLine.style.width = this.pin.offsetLeft + 'px';
+    this.innerLine.style.width = pinPosition + 'px';
 
     this.input.addEventListener('input', (ev) => {
-      const position = model.calculatePinPosition((ev.target.value - options.min) / this.rangeKo, this.totalWidth);
-      const content = model.calculateContent((ev.target.value - options.min) / this.rangeKo, options, this.totalWidth);
+      const pinPosition = model.calculatePinPosition((ev.target.value - options.min) / this.rangeKo, this.totalWidth);
+      const pinUpValue = model.calculateContent((ev.target.value - options.min) / this.rangeKo, options, this.totalWidth);
 
-      this.pin.style.left = position + 'px';
-      this.inneLine.style.width = this.pin.offsetLeft + 'px';
+      this.pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
 
-      if (options.pinUp) {
-        this.pinUp.textContent = content;
-      }
+      this.innerLine.style.width = pinPosition + 'px';
     });
 
-
-    this.pin.addEventListener('mousedown', (evt) => {
+    this.pin.getDomElement().addEventListener('mousedown', (evt) => {
       evt.preventDefault();
 
       let startCoordinates = {
@@ -54,21 +52,19 @@ export default class Presenter {
           startCoordinates.x,
           moveEvt.clientX,
           this.totalWidth,
-          this.pin.offsetLeft,
+          this.pin.getPinPosition(),
           options.step,
           this.rangeKo
         );
 
-        this.pin.style.left = model.calculatePinPosition(shift, this.totalWidth) + 'px';
+        const pinPosition = model.calculatePinPosition(shift, this.totalWidth);
+        const pinUpValue = model.calculateContent(pinPosition, options, this.totalWidth);
 
-        const content = model.calculateContent(this.pin.offsetLeft, options, this.totalWidth);
+        this.pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
 
-        if (options.pinUp) {
-          this.pinUp.textContent = content.toString();
-        }
-        this.input.value = content.toString();
+        this.input.value = pinUpValue.toString();
 
-        this.inneLine.style.width = this.pin.offsetLeft + 'px';
+        this.innerLine.style.width = pinPosition + 'px';
 
         if (moveEvt.clientX - startCoordinates.x >= options.step / this.rangeKo
           || startCoordinates.x - moveEvt.clientX >= options.step / this.rangeKo) {
@@ -79,7 +75,6 @@ export default class Presenter {
         }
       };
 
-
       const onMouseUp = (upEvt) => {
         upEvt.preventDefault();
 
@@ -89,9 +84,9 @@ export default class Presenter {
         if (dragged) {
           const onClickPreventDefault = (evt) => {
             evt.preventDefault();
-            this.pin.removeEventListener('click', onClickPreventDefault)
+            this.pin.getDomElement().removeEventListener('click', onClickPreventDefault)
           };
-          this.pin.addEventListener('click', onClickPreventDefault);
+          this.pin.getDomElement().addEventListener('click', onClickPreventDefault);
         }
       };
 
