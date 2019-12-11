@@ -25,10 +25,22 @@ $(function() {
   $('#block').myPlugin({
     min: 0,
     max: 100,
+    value: 50,
+    step: 0,
+    pinUp: true,
+    orientation: 'horizontal',
+    double: false,
+  });
+});
+
+$(function() {
+  $('#block2').myPlugin({
+    min: 200,
+    max: 500,
     value: 0,
     step: 0,
+    pinUp: false,
     orientation: 'horizontal',
-    pinUp: true,
     double: false,
   });
 });

@@ -3,6 +3,11 @@ var View = (function () {
     function View() {
         var _this = this;
         this.createSlider = function (container, options) {
+            container.addClass('slider');
+            _this.range = document.createElement('div');
+            _this.range.classList.add('slider__range');
+            _this.range.textContent = "\u043E\u0442 " + options.min + " - \u0434\u043E " + options.max;
+            container.append(_this.range);
             _this.line = document.createElement('div');
             _this.line.classList.add('slider__line');
             container.append(_this.line);
@@ -16,6 +21,9 @@ var View = (function () {
             _this.pin = document.createElement('div');
             _this.pin.classList.add('slider__pin');
             _this.line.appendChild(_this.pin);
+            _this.innerLine = document.createElement('div');
+            _this.innerLine.classList.add('slider__inner-line');
+            _this.line.appendChild(_this.innerLine);
             if (options.pinUp) {
                 _this.pinUp = document.createElement('div');
                 _this.pinUp.classList.add('slider__pin-up');
@@ -28,6 +36,9 @@ var View = (function () {
         };
         this.getLine = function () {
             return _this.line;
+        };
+        this.getInnerLine = function () {
+            return _this.innerLine;
         };
         this.getInput = function () {
             return _this.input;

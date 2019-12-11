@@ -20,7 +20,6 @@ export default class Model {
     return position;
   };
 
-
   setShift = (
     startCoordinate: number,
     moveCoordinate: number,

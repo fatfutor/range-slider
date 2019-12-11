@@ -7,14 +7,17 @@ var Presenter = (function () {
         this.pinUp = view.getPinUp();
         this.input = view.getInput();
         this.line = view.getLine();
+        this.inneLine = view.getInnerLine();
         this.totalWidth = this.line.offsetWidth;
         this.rangeKo = model.getRangeKo(this.line.offsetWidth, options);
         this.pin.style.left
             = model.calculatePinPosition((options.value - options.min) / this.rangeKo, this.totalWidth) + 'px';
+        this.inneLine.style.width = this.pin.offsetLeft + 'px';
         this.input.addEventListener('input', function (ev) {
             var position = model.calculatePinPosition((ev.target.value - options.min) / _this.rangeKo, _this.totalWidth);
             var content = model.calculateContent((ev.target.value - options.min) / _this.rangeKo, options, _this.totalWidth);
             _this.pin.style.left = position + 'px';
+            _this.inneLine.style.width = _this.pin.offsetLeft + 'px';
             if (options.pinUp) {
                 _this.pinUp.textContent = content;
             }
@@ -31,6 +34,12 @@ var Presenter = (function () {
                 dragged = true;
                 var shift = model.setShift(startCoordinates.x, moveEvt.clientX, _this.totalWidth, _this.pin.offsetLeft, options.step, _this.rangeKo);
                 _this.pin.style.left = model.calculatePinPosition(shift, _this.totalWidth) + 'px';
+                var content = model.calculateContent(_this.pin.offsetLeft, options, _this.totalWidth);
+                if (options.pinUp) {
+                    _this.pinUp.textContent = content.toString();
+                }
+                _this.input.value = content.toString();
+                _this.inneLine.style.width = _this.pin.offsetLeft + 'px';
                 if (moveEvt.clientX - startCoordinates.x >= options.step / _this.rangeKo
                     || startCoordinates.x - moveEvt.clientX >= options.step / _this.rangeKo) {
                     startCoordinates = {
@@ -38,11 +47,6 @@ var Presenter = (function () {
                         y: moveEvt.clientY
                     };
                 }
-                var content = model.calculateContent(_this.pin.offsetLeft, options, _this.totalWidth);
-                if (options.pinUp) {
-                    _this.pinUp.textContent = content.toString();
-                }
-                _this.input.value = content.toString();
             };
             var onMouseUp = function (upEvt) {
                 upEvt.preventDefault();

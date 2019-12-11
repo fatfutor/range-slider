@@ -4,6 +4,7 @@ export default class Presenter {
   pinUp: HTMLElement;
   input: HTMLElement | any;
   line: HTMLElement;
+  inneLine: HTMLElement;
   rangeKo: number;
   totalWidth: number;
 
@@ -13,17 +14,22 @@ export default class Presenter {
     this.pinUp = view.getPinUp();
     this.input = view.getInput();
     this.line = view.getLine();
+    this.inneLine = view.getInnerLine();
     this.totalWidth = this.line.offsetWidth;
     this.rangeKo = model.getRangeKo(this.line.offsetWidth, options);
 
     this.pin.style.left
       = model.calculatePinPosition((options.value - options.min) / this.rangeKo, this.totalWidth) + 'px';
 
+    this.inneLine.style.width = this.pin.offsetLeft + 'px';
+
     this.input.addEventListener('input', (ev) => {
       const position = model.calculatePinPosition((ev.target.value - options.min) / this.rangeKo, this.totalWidth);
       const content = model.calculateContent((ev.target.value - options.min) / this.rangeKo, options, this.totalWidth);
 
       this.pin.style.left = position + 'px';
+      this.inneLine.style.width = this.pin.offsetLeft + 'px';
+
       if (options.pinUp) {
         this.pinUp.textContent = content;
       }
@@ -44,7 +50,6 @@ export default class Presenter {
         moveEvt.preventDefault();
         dragged = true;
 
-
         const shift: number = model.setShift(
           startCoordinates.x,
           moveEvt.clientX,
@@ -56,17 +61,6 @@ export default class Presenter {
 
         this.pin.style.left = model.calculatePinPosition(shift, this.totalWidth) + 'px';
 
-        if (
-          moveEvt.clientX - startCoordinates.x >= options.step / this.rangeKo
-          || startCoordinates.x - moveEvt.clientX >= options.step / this.rangeKo
-        ) {
-          startCoordinates = {
-            x: moveEvt.clientX,
-            y: moveEvt.clientY
-          };
-        }
-
-
         const content = model.calculateContent(this.pin.offsetLeft, options, this.totalWidth);
 
         if (options.pinUp) {
@@ -74,8 +68,17 @@ export default class Presenter {
         }
         this.input.value = content.toString();
 
+        this.inneLine.style.width = this.pin.offsetLeft + 'px';
 
+        if (moveEvt.clientX - startCoordinates.x >= options.step / this.rangeKo
+          || startCoordinates.x - moveEvt.clientX >= options.step / this.rangeKo) {
+          startCoordinates = {
+            x: moveEvt.clientX,
+            y: moveEvt.clientY
+          };
+        }
       };
+
 
       const onMouseUp = (upEvt) => {
         upEvt.preventDefault();
@@ -91,6 +94,7 @@ export default class Presenter {
           this.pin.addEventListener('click', onClickPreventDefault);
         }
       };
+
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
