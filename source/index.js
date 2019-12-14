@@ -14,23 +14,22 @@ var Presenter_1 = require('./Presenter');
 $(function () {
     $('#block').myPlugin({
         min: 0,
-        max: 100,
-        value: 50,
+        max: 300,
+        value: [50, 150],
         step: 0,
         pinUp: true,
-        orientation: 'horizontal',
-        double: false
+        orientation: 'horizontal'
     });
 });
-$(function () {
-    $('#block2').myPlugin({
-        min: 200,
-        max: 500,
-        value: 200,
-        step: 15,
-        pinUp: false,
-        orientation: 'horizontal',
-        double: false
-    });
-});
+// $(function() {
+//   $('#block2').myPlugin({
+//     min: 200,
+//     max: 500,
+//     value: [200, 300],
+//     step: 15,
+//     pinUp: false,
+//     orientation: 'horizontal',
+//     double: false,
+//   });
+// });
 //# sourceMappingURL=index.js.map

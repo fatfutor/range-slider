@@ -1,5 +1,4 @@
 export default class Model {
-  constructor() {}
 
   getRangeKo = (width: number, options: any): number => {
     return (options.max - options.min)/ width;

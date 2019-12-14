@@ -12,35 +12,6 @@ export default class View {
     this.range.classList.add('slider__range');
     this.range.textContent = `от ${options.min} - до ${options.max}`;
     container.append(this.range);
-
-    this.line = document.createElement('div');
-    this.line.classList.add('slider__line');
-    container.append(this.line);
-
-    this.input = document.createElement('input');
-    this.input.value = options.value;
-    this.input.classList.add('slider__input');
-    this.input.type = 'number';
-    this.input.min = options.min;
-    this.input.max = options.max;
-    // this.input.setAttribute('readonly', true);
-    container.append(this.input);
-
-    this.innerLine = document.createElement('div');
-    this.innerLine.classList.add('slider__inner-line');
-    this.line.appendChild(this.innerLine);
-  };
-
-  getLine = (): HTMLElement => {
-    return this.line;
-  };
-
-  getInnerLine = (): HTMLElement => {
-    return this.innerLine;
-  };
-
-  getInput = (): HTMLElement => {
-    return this.input;
   };
 }
 
