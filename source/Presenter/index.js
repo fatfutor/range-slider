@@ -7,6 +7,7 @@ var Presenter = (function () {
         this.input = view.getInput();
         this.line = view.getLine();
         this.pin = new Pin_1["default"](this.line, options.value, options.pinUp);
+        // this.pin2 = new Pin(this.line, options.value, options.pinUp);
         this.innerLine = view.getInnerLine();
         this.totalWidth = this.line.offsetWidth;
         this.rangeKo = model.getRangeKo(this.line.offsetWidth, options);

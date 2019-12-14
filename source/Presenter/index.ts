@@ -1,7 +1,8 @@
 import Pin from '../View/Pin';
 
 export default class Presenter {
-  pin: HTMLElement | any;
+  pin: any;
+  // pin2: any;
   pinUp: HTMLElement;
   input: HTMLElement | any;
   line: HTMLElement;
@@ -14,7 +15,7 @@ export default class Presenter {
     this.input = view.getInput();
     this.line = view.getLine();
     this.pin = new Pin(this.line, options.value, options.pinUp);
-
+    // this.pin2 = new Pin(this.line, options.value, options.pinUp);
     this.innerLine = view.getInnerLine();
     this.totalWidth = this.line.offsetWidth;
     this.rangeKo = model.getRangeKo(this.line.offsetWidth, options);
@@ -89,7 +90,6 @@ export default class Presenter {
           this.pin.getDomElement().addEventListener('click', onClickPreventDefault);
         }
       };
-
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
