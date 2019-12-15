@@ -21,6 +21,28 @@ var Model = (function () {
                 position = totalSize;
             return position;
         };
+        this.setStartValues = function (values, totalWidth, min, max) {
+            var array = [];
+            values.forEach(function (it) {
+                var value = totalWidth / (max - min) * (it - min);
+                array.push(value);
+            });
+            return array;
+        };
+        this.validateValue = function (values, value, idx) {
+            switch (idx) {
+                case 0:
+                    if (value >= values[1]) {
+                        return values[1] - 1;
+                    }
+                    return value;
+                case 1:
+                    if (value <= values[0]) {
+                        return values[0] + 1;
+                    }
+                    return value;
+            }
+        };
         this.setShift = function (startCoordinate, moveCoordinate, totalSize, pinPosition, step, rangeKo) {
             if (step === void 0) { step = 0; }
             var shift = 0;

@@ -1,6 +1,6 @@
 "use strict";
 var Pin = (function () {
-    function Pin(container, value, pinUp) {
+    function Pin(container, value, pinUp, pinUpValue) {
         var _this = this;
         this.getDomElement = function () {
             return _this.pin;
@@ -22,7 +22,7 @@ var Pin = (function () {
         if (pinUp) {
             this.pinUp = document.createElement('div');
             this.pinUp.classList.add('slider__pin-up');
-            this.pinUp.textContent = value.toString();
+            this.pinUp.textContent = pinUpValue.toString();
             this.pin.appendChild(this.pinUp);
         }
     }

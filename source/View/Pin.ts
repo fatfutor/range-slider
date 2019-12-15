@@ -3,7 +3,7 @@ export default class Pin {
   pin: HTMLElement | any;
   pinUp: HTMLElement;
 
-  constructor(container: HTMLElement, value: number, pinUp: boolean) {
+  constructor(container: HTMLElement, value: number, pinUp: boolean, pinUpValue?: number) {
     this.pin = document.createElement('div');
     this.pin.classList.add('slider__pin');
     this.pin.style.left = value + 'px';
@@ -12,7 +12,7 @@ export default class Pin {
     if (pinUp) {
       this.pinUp = document.createElement('div');
       this.pinUp.classList.add('slider__pin-up');
-      this.pinUp.textContent = value.toString();
+      this.pinUp.textContent = pinUpValue.toString();
       this.pin.appendChild(this.pinUp);
     }
   }

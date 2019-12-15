@@ -12,34 +12,35 @@ export default class Presenter {
   constructor(view: any, model: any, block: JQuery<HTMLElement>, options: any) {
     view.createSlider(block, options);
     this.line = new Line(block);
-    this.values = [...options.value];
+    this.totalWidth = this.line.getLineWidth();
+    this.values = model.setStartValues(options.value, this.totalWidth, options.min, options.max);
     this.line.setLinePosition(this.values);
     this.pins = [];
-    this.totalWidth = this.line.getLineWidth();
     this.rangeKo = model.getRangeKo(this.totalWidth, options);
 
-    this.values.forEach((it, idx) => {
+    options.value.forEach((it, idx) => {
 
-      const pin = new Pin(this.line.getDomElement(), it, options.pinUp);
+      const pinPosition = this.totalWidth / (options.max - options.min) * (it -  options.min);
+
+      const pin = new Pin(this.line.getDomElement(), pinPosition, options.pinUp, it);
       const input = new Input(block, it, options.min, options.max);
 
       pin.getDomElement().addEventListener('mousedown', this.onPinMove(model, pin, input, options, idx));
       this.pins.push({pin, input});
 
+      // input.getDomElement().addEventListener('input', (ev) => {
+      //   const pinPosition = model.calculatePinPosition((ev.target.value - options.min) / this.rangeKo, this.totalWidth);
+      //   const pinUpValue = model.calculateContent((ev.target.value - options.min) / this.rangeKo, options, this.totalWidth);
+      //
+      //   this.values[idx] = model.validateValue(this.values, pinPosition, idx);
+      //
+      //   pin.setPinValue(this.values[idx], options.pinUp, pinUpValue);
+      //   pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
+      //
+      //   this.line.setLinePosition(this.values);
+      // });
+
     });
-
-
-
-
-    // this.input.getDomElement().addEventListener('input', (ev) => {
-    //   const pinPosition = model.calculatePinPosition((ev.target.value - options.min) / this.rangeKo, this.totalWidth);
-    //   const pinUpValue = model.calculateContent((ev.target.value - options.min) / this.rangeKo, options, this.totalWidth);
-    //
-    //   this.pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
-    //
-    //   this.line.setLinePosition([pinPosition]);
-    // });
-
   };
 
   onPinMove = (model, pin, input, options, idx) => (evt) => {
@@ -68,11 +69,12 @@ export default class Presenter {
       const pinPosition = model.calculatePinPosition(shift, this.totalWidth);
       const pinUpValue = model.calculateContent(pinPosition, options, this.totalWidth);
 
-      pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
+      this.values[idx] = model.validateValue(this.values, pinPosition, idx);
+
+      pin.setPinValue(this.values[idx], options.pinUp, pinUpValue);
 
       input.setInputValue(pinUpValue);
 
-      this.values[idx] = pinPosition;
       this.line.setLinePosition(this.values);
 
       if (moveEvt.clientX - startCoordinates.x >= options.step / this.rangeKo

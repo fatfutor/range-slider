@@ -19,14 +19,32 @@ export default class Model {
     return position;
   };
 
-  setShift = (
-    startCoordinate: number,
-    moveCoordinate: number,
-    totalSize: number,
-    pinPosition: number,
-    step: number = 0,
-    rangeKo: number
-  ): number => {
+  setStartValues = (values, totalWidth: number, min: number, max: number) => {
+    const array = [];
+    values.forEach((it) => {
+      const value = totalWidth / (max - min) * (it -  min);
+      array.push(value);
+    });
+    return array;
+  };
+
+  validateValue = (values, value, idx) => {
+    switch (idx) {
+      case 0:
+        if (value >= values[1]) {
+          return values[1] - 1
+        }
+        return value;
+
+      case 1:
+        if (value <= values[0]) {
+          return values[0] + 1
+        }
+        return value;
+    }
+  };
+
+  setShift = (startCoordinate: number, moveCoordinate: number, totalSize: number, pinPosition: number, step: number = 0, rangeKo: number): number => {
 
     let shift = 0;
 
