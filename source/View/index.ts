@@ -1,10 +1,6 @@
 
 export default class View {
-  line: HTMLElement;
-  innerLine: HTMLElement;
-  pinUp: HTMLElement;
   range: HTMLElement;
-  input: HTMLElement | any;
 
   createSlider = (container: JQuery<HTMLElement>, options: any): void => {
     container.addClass('slider');

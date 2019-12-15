@@ -12,7 +12,8 @@ var Line = (function () {
         this.setLinePosition = function (values) {
             if (values.length === 2) {
                 _this.innerLine.style.left = values[0] + HALF_WIDTH + 'px';
-                _this.innerLine.style.width = values[1] + 'px';
+                _this.innerLine.style.width = values[1] - values[0] + 'px';
+                return;
             }
             _this.innerLine.style.width = values[0] + 'px';
         };

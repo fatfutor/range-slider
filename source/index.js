@@ -13,23 +13,22 @@ var Presenter_1 = require('./Presenter');
 })(jQuery);
 $(function () {
     $('#block').myPlugin({
-        min: 0,
-        max: 300,
-        value: [50, 150],
+        min: 200,
+        max: 600,
+        value: [200, 250],
         step: 0,
         pinUp: true,
         orientation: 'horizontal'
     });
 });
-// $(function() {
-//   $('#block2').myPlugin({
-//     min: 200,
-//     max: 500,
-//     value: [200, 300],
-//     step: 15,
-//     pinUp: false,
-//     orientation: 'horizontal',
-//     double: false,
-//   });
-// });
+$(function () {
+    $('#block2').myPlugin({
+        min: 0,
+        max: 500,
+        value: [50],
+        step: 0,
+        pinUp: true,
+        orientation: 'horizontal'
+    });
+});
 //# sourceMappingURL=index.js.map

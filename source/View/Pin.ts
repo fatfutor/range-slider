@@ -1,6 +1,6 @@
 
 export default class Pin {
-  pin: HTMLElement;
+  pin: HTMLElement | any;
   pinUp: HTMLElement;
 
   constructor(container: HTMLElement, value: number, pinUp: boolean) {
@@ -30,5 +30,5 @@ export default class Pin {
 
   getPinPosition = (): number => {
     return this.pin.offsetLeft;
-  }
+  };
 }
