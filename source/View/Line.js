@@ -3,6 +3,7 @@ var HALF_SIZE = 8;
 var Line = (function () {
     function Line(container, orientation) {
         var _this = this;
+        if (orientation === void 0) { orientation = 'horizontal'; }
         this.getDomElement = function () {
             return _this.line;
         };

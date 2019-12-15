@@ -18,9 +18,11 @@ a { text-decoration: none; }
 
 .slider {
   position: relative;
-  padding: 50px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  border: 1px dotted black;
+  margin: 5px;
 }
 
 .slider__range {
@@ -66,7 +68,8 @@ a { text-decoration: none; }
   position: absolute;
   left: 8px;
   top: 8px;
-  background: red;
+  background: #8917a2;
+  opacity: 0.5;
 
   &--horizontal {
     width: 0;
@@ -88,7 +91,7 @@ a { text-decoration: none; }
   margin: auto;
   top: 0;
   left: 0;
-  opacity: 0.2;
+  opacity: 0.9;
   z-index: 1;
 }
 

@@ -5,7 +5,7 @@ export default class Line {
   innerLine: HTMLElement;
   orientation: string;
 
-  constructor(container: JQuery<HTMLElement>, orientation?: string) {
+  constructor(container: JQuery<HTMLElement>, orientation: string = 'horizontal') {
     this.orientation = orientation;
     const orientationLineClass = (this.orientation === 'vertical')
       ? 'slider__line--vertical'
