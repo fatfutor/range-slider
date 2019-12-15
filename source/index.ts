@@ -17,7 +17,6 @@ declare global {
     const view = new View();
     const model = new Model();
     new Presenter(view, model, block, options);
-
   };
 })(jQuery);
 
@@ -28,7 +27,8 @@ $(function() {
     value: [300, 400],
     step: 0,
     pinUp: true,
-    orientation: 'horizontal',
+    orientation: 'vertical',
+    // orientation: 'horizontal',
   });
 });
 
@@ -36,9 +36,20 @@ $(function() {
   $('#block2').myPlugin({
     min: 0,
     max: 100,
-    value: [50],
-    step: 0,
+    value: [45, 75],
+    step: 3,
     pinUp: true,
     orientation: 'horizontal',
   });
 });
+
+
+//// - Помимо базовых конфигов вроде мининимально, максимального и текущего значения
+//// - размер шага,
+//// - вертикальный/горизонтальный вид,
+//// - одиночное значение или интервал,
+// - возможность на лету изменить значение "снаружи" javascript-ом,
+//// - возможность включать/отключать элемент над бегунком,
+////который показывает значение и который ползает за мышкой
+//// (при выключении просто кругляш сам только на слайдера, при включении над кругляшом элемент с цифрой).
+
