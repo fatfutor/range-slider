@@ -9,7 +9,6 @@ export default class Input {
     this.input.type = 'number';
     this.input.min = min;
     this.input.max = max;
-    this.input.setAttribute('readonly', true);
     container.append(this.input);
   }
 

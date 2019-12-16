@@ -28,7 +28,7 @@ export default class Model {
     return array;
   };
 
-  validateValue = (values, value, idx) => {
+  validateData = (values, value, idx) => {
     switch (idx) {
       case 0:
         if (value >= values[1]) {

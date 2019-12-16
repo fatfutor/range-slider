@@ -15,7 +15,7 @@ $(function () {
     $('#block').myPlugin({
         min: 200,
         max: 600,
-        value: [300, 400],
+        values: [300, 400],
         step: 0,
         pinUp: true,
         orientation: 'vertical'
@@ -25,7 +25,7 @@ $(function () {
     $('#block2').myPlugin({
         min: 0,
         max: 100,
-        value: [45],
+        values: [45],
         step: 3,
         pinUp: false,
         orientation: 'horizontal'

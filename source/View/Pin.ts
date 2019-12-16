@@ -1,14 +1,19 @@
 
 export default class Pin {
-  pin: HTMLElement | any;
-  pinUp: HTMLElement;
-  orientation: string;
+  private pin: HTMLElement;
+  private pinUp: HTMLElement;
+  private orientation: string;
 
-  constructor(container: HTMLElement, value: number, pinUp: boolean, pinUpValue?: number, orientation: string = 'horizontal') {
+  constructor(
+    container: HTMLElement,
+    value: number,
+    pinUp: boolean,
+    pinUpValue: number,
+    orientation: string = 'horizontal'
+  ) {
     this.orientation = orientation;
     this.pin = document.createElement('div');
     this.pin.classList.add('slider__pin');
-    this.setStartPinValue(value);
     container.appendChild(this.pin);
 
     if (pinUp) {
@@ -20,13 +25,15 @@ export default class Pin {
       this.pinUp.textContent = pinUpValue.toString();
       this.pin.appendChild(this.pinUp);
     }
+
+    this.setPinValue(value, pinUp, pinUpValue);
   }
 
   getDomElement = (): HTMLElement => {
     return this.pin;
   };
 
-  setPinValue = (value: number, pinUp: boolean, pinUpValue: number = 0): void => {
+  setPinValue = (value: number, pinUp: boolean = false, pinUpValue: number = 0): void => {
 
     switch (this.orientation) {
       case 'horizontal': this.pin.style.left = value + 'px';
@@ -38,17 +45,6 @@ export default class Pin {
 
     if (pinUp) {
       this.pinUp.textContent = pinUpValue.toString();
-    }
-  };
-
-  setStartPinValue = (value: number): void => {
-
-    switch (this.orientation) {
-      case 'horizontal': this.pin.style.left = value + 'px';
-        break;
-
-      case 'vertical': this.pin.style.top = value + 'px';
-        break;
     }
   };
 

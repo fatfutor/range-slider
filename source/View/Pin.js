@@ -7,6 +7,7 @@ var Pin = (function () {
             return _this.pin;
         };
         this.setPinValue = function (value, pinUp, pinUpValue) {
+            if (pinUp === void 0) { pinUp = false; }
             if (pinUpValue === void 0) { pinUpValue = 0; }
             switch (_this.orientation) {
                 case 'horizontal':
@@ -20,16 +21,6 @@ var Pin = (function () {
                 _this.pinUp.textContent = pinUpValue.toString();
             }
         };
-        this.setStartPinValue = function (value) {
-            switch (_this.orientation) {
-                case 'horizontal':
-                    _this.pin.style.left = value + 'px';
-                    break;
-                case 'vertical':
-                    _this.pin.style.top = value + 'px';
-                    break;
-            }
-        };
         this.getPinPosition = function () {
             switch (_this.orientation) {
                 case 'horizontal': return _this.pin.offsetLeft;
@@ -39,7 +30,6 @@ var Pin = (function () {
         this.orientation = orientation;
         this.pin = document.createElement('div');
         this.pin.classList.add('slider__pin');
-        this.setStartPinValue(value);
         container.appendChild(this.pin);
         if (pinUp) {
             var pinUpOrientationClass = (this.orientation === 'vertical')
@@ -50,6 +40,7 @@ var Pin = (function () {
             this.pinUp.textContent = pinUpValue.toString();
             this.pin.appendChild(this.pinUp);
         }
+        this.setPinValue(value, pinUp, pinUpValue);
     }
     return Pin;
 }());

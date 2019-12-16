@@ -3,47 +3,44 @@ import Input from '../View/Input';
 import Line from '../View/Line';
 
 export default class Presenter {
-  pins: any; // Array
-  line: any;
-  rangeKo: number;
-  totalSize: number;
-  values: any;
+  private line: any;
+  private rangeKo: number;
+  private totalSize: number;
+  private pinValues: Array<number>;
+  private pinUpValues: Array<number>;
 
   constructor(view: any, model: any, block: JQuery<HTMLElement>, options: any) {
     view.createSlider(block, options);
     this.line = new Line(block, options.orientation);
     this.totalSize = this.line.getLineSize();
-    this.values = model.setStartValues(options.value, this.totalSize, options.min, options.max);
-    this.line.setLinePosition(this.values);
-    this.pins = [];
+    this.pinValues = model.setStartValues(options.values, this.totalSize, options.min, options.max);
+    this.pinUpValues = [...options.values];
+    this.line.setLinePosition(this.pinValues);
     this.rangeKo = model.getRangeKo(this.totalSize, options);
-
-    options.value.forEach((it, idx) => {
-
-      const pinPosition = this.totalSize / (options.max - options.min) * (it -  options.min);
-
-      const pin = new Pin(this.line.getDomElement(), pinPosition, options.pinUp, it, options.orientation);
-      const input = new Input(block, it, options.min, options.max);
-
+    
+    options.values.forEach((it, idx) => {
+      const pinPosition: number = this.totalSize / (options.max - options.min) * (it -  options.min);
+      const pin: any = new Pin(this.line.getDomElement(), pinPosition, options.pinUp, it, options.orientation);
+      const input: any = new Input(block, it, options.min, options.max);
       pin.getDomElement().addEventListener('mousedown', this.onPinMove(model, pin, input, options, idx));
-      this.pins.push({pin, input});
 
-      // input.getDomElement().addEventListener('input', (ev) => {
-      //   const pinPosition = model.calculatePinPosition((ev.target.value - options.min) / this.rangeKo, this.totalSize);
-      //   const pinUpValue = model.calculateContent((ev.target.value - options.min) / this.rangeKo, options, this.totalSize);
-      //
-      //   this.values[idx] = model.validateValue(this.values, pinPosition, idx);
-      //
-      //   pin.setPinValue(this.values[idx], options.pinUp, pinUpValue);
-      //   pin.setPinValue(pinPosition, options.pinUp, pinUpValue);
-      //
-      //   this.line.setLinePosition(this.values);
-      // });
+      input.getDomElement().addEventListener('change', (ev) => {
+        const pinPosition: number = model.calculatePinPosition((ev.target.value - options.min) / this.rangeKo, this.totalSize);
+        const pinUpValue: number = model.calculateContent((ev.target.value - options.min) / this.rangeKo, options, this.totalSize);
 
+        this.pinValues[idx] = model.validateData(this.pinValues, pinPosition, idx);
+        this.pinUpValues[idx] = model.validateData(this.pinUpValues, pinUpValue, idx);
+
+        ev.target.value = this.pinUpValues[idx];
+
+        pin.setPinValue(this.pinValues[idx], options.pinUp, this.pinUpValues[idx]);
+
+        this.line.setLinePosition(this.pinValues);
+      });
     });
   };
 
-  onPinMove = (model, pin, input, options, idx) => (evt) => {
+  private onPinMove = (model, pin, input, options, idx) => (evt) => {
     evt.preventDefault();
 
     let startCoordinates = {
@@ -65,13 +62,13 @@ export default class Presenter {
       const pinPosition = model.calculatePinPosition(shift, this.totalSize);
       const pinUpValue = model.calculateContent(pinPosition, options, this.totalSize);
 
-      this.values[idx] = model.validateValue(this.values, pinPosition, idx);
+      this.pinValues[idx] = model.validateData(this.pinValues, pinPosition, idx);
 
-      pin.setPinValue(this.values[idx], options.pinUp, pinUpValue);
+      pin.setPinValue(this.pinValues[idx], options.pinUp, pinUpValue);
 
       input.setInputValue(pinUpValue);
 
-      this.line.setLinePosition(this.values);
+      this.line.setLinePosition(this.pinValues);
 
       if (move - coordinate >= options.step / this.rangeKo || coordinate - move >= options.step / this.rangeKo) {
         startCoordinates = {

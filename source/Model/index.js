@@ -29,7 +29,7 @@ var Model = (function () {
             });
             return array;
         };
-        this.validateValue = function (values, value, idx) {
+        this.validateData = function (values, value, idx) {
             switch (idx) {
                 case 0:
                     if (value >= values[1]) {
