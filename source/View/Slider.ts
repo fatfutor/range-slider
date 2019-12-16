@@ -1,5 +1,5 @@
 
-export default class View {
+export default class Slider {
   range: HTMLElement;
 
   createSlider = (container: JQuery<HTMLElement>, options: any): void => {
@@ -9,4 +9,8 @@ export default class View {
     this.range.textContent = `от ${options.min} - до ${options.max}`;
     container.append(this.range);
   };
+  
+  setMinMax = (min: number, max: number) => {
+    this.range.textContent = `от ${min} - до ${max}`;
+  }
 }

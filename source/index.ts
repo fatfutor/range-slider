@@ -1,7 +1,6 @@
 import './main.scss';
-import Model from './Model';
-import View from './View';
-import Presenter from './Presenter';
+// import Presenter from './Presenter';
+import { slider, slider2 } from './main';
 
 declare global {
 
@@ -12,11 +11,9 @@ declare global {
 
 (function($){
   $.fn.myPlugin = function(options) {
-
-    const block: any = $(this);
-    const view = new View();
-    const model = new Model();
-    new Presenter(view, model, block, options);
+    // new Presenter($(this), options);
+    slider($(this), options);
+    slider2($(this), options);
   };
 })(jQuery);
 
@@ -41,10 +38,3 @@ $(function() {
     orientation: 'horizontal',
   });
 });
-
-//// - Помимо базовых конфигов вроде мининимально, максимального и текущего значения
-//// - размер шага,
-//// - вертикальный/горизонтальный вид,
-//// - одиночное значение или интервал,
-// - возможность на лету изменить значение "снаружи" javascript-ом,
-//// - возможность включать/отключать элемент над бегунком

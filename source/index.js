@@ -1,14 +1,12 @@
 "use strict";
 require('./main.scss');
-var Model_1 = require('./Model');
-var View_1 = require('./View');
-var Presenter_1 = require('./Presenter');
+// import Presenter from './Presenter';
+var main_1 = require('./main');
 (function ($) {
     $.fn.myPlugin = function (options) {
-        var block = $(this);
-        var view = new View_1["default"]();
-        var model = new Model_1["default"]();
-        new Presenter_1["default"](view, model, block, options);
+        // new Presenter($(this), options);
+        main_1.slider($(this), options);
+        main_1.slider2($(this), options);
     };
 })(jQuery);
 $(function () {
@@ -31,10 +29,4 @@ $(function () {
         orientation: 'horizontal'
     });
 });
-//// - Помимо базовых конфигов вроде мининимально, максимального и текущего значения
-//// - размер шага,
-//// - вертикальный/горизонтальный вид,
-//// - одиночное значение или интервал,
-// - возможность на лету изменить значение "снаружи" javascript-ом,
-//// - возможность включать/отключать элемент над бегунком
 //# sourceMappingURL=index.js.map
