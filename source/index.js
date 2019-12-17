@@ -5,8 +5,7 @@ var main_1 = require('./main');
 (function ($) {
     $.fn.myPlugin = function (options) {
         // new Presenter($(this), options);
-        main_1.slider($(this), options);
-        main_1.slider2($(this), options);
+        new main_1["default"]($(this), options);
     };
 })(jQuery);
 $(function () {

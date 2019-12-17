@@ -1,6 +1,6 @@
 import './main.scss';
 // import Presenter from './Presenter';
-import { slider, slider2 } from './main';
+import Panel from './main';
 
 declare global {
 
@@ -12,8 +12,7 @@ declare global {
 (function($){
   $.fn.myPlugin = function(options) {
     // new Presenter($(this), options);
-    slider($(this), options);
-    slider2($(this), options);
+    new Panel($(this), options);
   };
 })(jQuery);
 

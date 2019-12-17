@@ -4,16 +4,7 @@ html(lang='ru')
     .sliders
 
       div(id="block")
-        .panel
-          label.panel__label вертикальный вид
-            input.panel__input(type="checkbox", name="vertical")
-          label.panel__label бегунок
-            input.panel__input(type="checkbox", name="pin-up")
-          label.panel__label min
-            input.panel__input(type="number", name="min")
-          label.panel__label max
-            input.panel__input(type="number", name="max")
-          label.panel__label размер шага
-            input.panel__input(type="number", name="step")
+        include ./panel.pug
 
       div(id="block2")
+        include ./panel.pug

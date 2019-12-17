@@ -8,6 +8,7 @@ var Presenter = (function () {
     function Presenter(block, options) {
         var _this = this;
         this.renderDomElements = function () {
+            console.log('renderDomElements', _this.options);
             _this.pinValues = _this.model.setStartValues(_this.options.values, _this.totalSize, _this.options.min, _this.options.max);
             _this.line = new Line_1["default"](_this.block, _this.options.orientation);
             _this.line.setLinePosition(_this.pinValues);
@@ -69,9 +70,10 @@ var Presenter = (function () {
             document.addEventListener('mouseup', onMouseUp);
         }; };
         this.changeOptions = function (options) {
-            $('.slider__line').remove();
-            $('.slider__input').remove();
-            console.log('options', options);
+            var blockId = "#" + _this.block[0].id;
+            $(blockId + " .slider__line").remove();
+            $(blockId + " .slider__input").remove();
+            // console.log('options', options);
             _this.options.step = options.step;
             _this.options.min = options.min;
             _this.options.max = options.max;

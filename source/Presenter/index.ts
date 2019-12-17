@@ -30,6 +30,7 @@ export default class Presenter {
   };
 
   private renderDomElements = () => {
+    console.log('renderDomElements', this.options)
     this.pinValues = this.model.setStartValues(this.options.values, this.totalSize, this.options.min, this.options.max);
     this.line = new Line(this.block, this.options.orientation);
     this.line.setLinePosition(this.pinValues);
@@ -114,9 +115,10 @@ export default class Presenter {
   };
 
   changeOptions = (options) => {
-    $('.slider__line').remove();
-    $('.slider__input').remove();
-    console.log('options', options);
+    const blockId = `#${this.block[0].id}`;
+    $(`${blockId} .slider__line`).remove();
+    $(`${blockId} .slider__input`).remove();
+    // console.log('options', options);
     this.options.step = options.step;
     this.options.min = options.min;
     this.options.max = options.max;
