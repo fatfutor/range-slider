@@ -1,10 +1,12 @@
+include ./panel.pug
+
 doctype html
 html(lang='ru')
   body
     .sliders
 
       div(id="block")
-        include ./panel.pug
-
+        +panel({vertical: true, pinUp: true, interval: true, min: 200, max: 600, step: 0})
       div(id="block2")
-        include ./panel.pug
+        +panel({vertical: false, pinUp: false, interval: false, min: 0, max: 100, step: 3})
+

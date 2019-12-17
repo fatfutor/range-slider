@@ -4,11 +4,13 @@ var Input_1 = require('../View/Input');
 var Line_1 = require('../View/Line');
 var Model_1 = require('../Model');
 var Slider_1 = require('../View/Slider');
+var SLIDER_SIZE = 300;
 var Presenter = (function () {
     function Presenter(block, options) {
         var _this = this;
         this.renderDomElements = function () {
-            console.log('renderDomElements', _this.options);
+            _this.validateOptions();
+            // console.log('renderDomElements', this.options)
             _this.pinValues = _this.model.setStartValues(_this.options.values, _this.totalSize, _this.options.min, _this.options.max);
             _this.line = new Line_1["default"](_this.block, _this.options.orientation);
             _this.line.setLinePosition(_this.pinValues);
@@ -69,11 +71,14 @@ var Presenter = (function () {
             document.addEventListener('mousemove', onMouseMove);
             document.addEventListener('mouseup', onMouseUp);
         }; };
+        this.validateOptions = function () {
+            _this.options.min = _this.model.validateMin(_this.options.min, _this.options.max);
+            _this.options.values = _this.model.validatePinValues([_this.options.min, _this.options.max], _this.options.values);
+        };
         this.changeOptions = function (options) {
             var blockId = "#" + _this.block[0].id;
             $(blockId + " .slider__line").remove();
             $(blockId + " .slider__input").remove();
-            // console.log('options', options);
             _this.options.step = options.step;
             _this.options.min = options.min;
             _this.options.max = options.max;
@@ -87,8 +92,7 @@ var Presenter = (function () {
         this.slider = new Slider_1["default"]();
         this.slider.createSlider(this.block, this.options);
         this.model = new Model_1["default"]();
-        // this.totalSize = this.line.getLineSize();
-        this.totalSize = 300;
+        this.totalSize = SLIDER_SIZE;
         this.pinUpValues = this.options.values.slice();
         this.rangeKo = this.model.getRangeKo(this.totalSize, this.options);
         this.renderDomElements();

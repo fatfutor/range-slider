@@ -1,11 +1,15 @@
-.panel
-  label.panel__label вертикальный вид
-    input.panel__input(type="checkbox", name="vertical")
-  label.panel__label бегунок
-    input.panel__input(type="checkbox", name="pin-up")
-  label.panel__label min
-    input.panel__input(type="number", name="min" min="0")
-  label.panel__label max
-    input.panel__input(type="number", name="max")
-  label.panel__label размер шага
-    input.panel__input(type="number", name="step")
+
+mixin panel(parameters)
+  .panel
+    label.panel__label вертикальный вид
+      input.panel__input(type="checkbox", name="vertical" checked=parameters.vertical)
+    label.panel__label бегунок
+      input.panel__input(type="checkbox", name="pin-up" checked=parameters.pinUp)
+    label.panel__label интервал
+      input.panel__input(type="checkbox", name="interval" checked=parameters.interval)
+    label.panel__label min
+      input.panel__input(type="number", name="min" min="0" value=parameters.min)
+    label.panel__label max
+      input.panel__input(type="number", name="max" value=parameters.max)
+    label.panel__label размер шага
+      input.panel__input(type="number", name="step" value=parameters.step)

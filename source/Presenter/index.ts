@@ -4,6 +4,8 @@ import Line from '../View/Line';
 import Model from '../Model';
 import Slider from '../View/Slider';
 
+const SLIDER_SIZE: number = 300;
+
 export default class Presenter {
   private block: JQuery<HTMLElement>;
   private options: any;
@@ -21,8 +23,7 @@ export default class Presenter {
     this.slider = new Slider();
     this.slider.createSlider(this.block, this.options);
     this.model = new Model();
-    // this.totalSize = this.line.getLineSize();
-    this.totalSize = 300;
+    this.totalSize = SLIDER_SIZE;
     this.pinUpValues = [...this.options.values];
     this.rangeKo = this.model.getRangeKo(this.totalSize, this.options);
 
@@ -30,7 +31,10 @@ export default class Presenter {
   };
 
   private renderDomElements = () => {
-    console.log('renderDomElements', this.options)
+    this.validateOptions();
+
+    // console.log('renderDomElements', this.options)
+
     this.pinValues = this.model.setStartValues(this.options.values, this.totalSize, this.options.min, this.options.max);
     this.line = new Line(this.block, this.options.orientation);
     this.line.setLinePosition(this.pinValues);
@@ -114,11 +118,15 @@ export default class Presenter {
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  changeOptions = (options) => {
-    const blockId = `#${this.block[0].id}`;
+  private validateOptions = (): void => {
+    this.options.min = this.model.validateMin(this.options.min, this.options.max);
+    this.options.values = this.model.validatePinValues([this.options.min, this.options.max], this.options.values);
+  };
+
+  changeOptions = (options: any): void => {
+    const blockId: string = `#${this.block[0].id}`;
     $(`${blockId} .slider__line`).remove();
     $(`${blockId} .slider__input`).remove();
-    // console.log('options', options);
     this.options.step = options.step;
     this.options.min = options.min;
     this.options.max = options.max;

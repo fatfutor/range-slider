@@ -29,20 +29,6 @@ var Model = (function () {
             });
             return array;
         };
-        this.validateData = function (values, value, idx) {
-            switch (idx) {
-                case 0:
-                    if (value >= values[1]) {
-                        return values[1] - 1;
-                    }
-                    return value;
-                case 1:
-                    if (value <= values[0]) {
-                        return values[0] + 1;
-                    }
-                    return value;
-            }
-        };
         this.setShift = function (startCoordinate, moveCoordinate, totalSize, pinPosition, step, rangeKo) {
             if (step === void 0) { step = 0; }
             var shift = 0;
@@ -69,6 +55,42 @@ var Model = (function () {
             }
             shift = 0;
             return pinPosition - shift;
+        };
+        this.validateData = function (values, value, idx) {
+            switch (idx) {
+                case 0:
+                    if (value >= values[1]) {
+                        return values[1] - 1;
+                    }
+                    return value;
+                case 1:
+                    if (value <= values[0]) {
+                        return values[0] + 1;
+                    }
+                    return value;
+            }
+        };
+        this.validatePinValues = function (minMax, pins) {
+            if (minMax[0] > pins[0]) {
+                pins[0] = minMax[0];
+            }
+            if (minMax[1] < pins[pins.length - 1]) {
+                pins[pins.length - 1] = minMax[1];
+            }
+            if (pins.length === 2) {
+                if (pins[0] > pins[1]) {
+                    pins[0] = minMax[0];
+                    pins[1] = minMax[1];
+                }
+            }
+            return pins;
+        };
+        this.validateMin = function (min, max) {
+            if (min < 0)
+                min = 0;
+            if (min >= max)
+                min = max - 1;
+            return min;
         };
     }
     return Model;
