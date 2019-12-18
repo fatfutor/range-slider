@@ -10,7 +10,7 @@ var Presenter = (function () {
         var _this = this;
         this.renderDomElements = function () {
             _this.validateOptions();
-            // console.log('renderDomElements', this.options)
+            _this.rangeKo = _this.model.getRangeKo(_this.totalSize, _this.options);
             _this.pinValues = _this.model.setStartValues(_this.options.values, _this.totalSize, _this.options.min, _this.options.max);
             _this.line = new Line_1["default"](_this.block, _this.options.orientation);
             _this.line.setLinePosition(_this.pinValues);
@@ -20,8 +20,9 @@ var Presenter = (function () {
                 var input = new Input_1["default"](_this.block, it, _this.options.min, _this.options.max);
                 pin.getDomElement().addEventListener('mousedown', _this.onPinMove(_this.model, pin, input, _this.options, idx));
                 input.getDomElement().addEventListener('change', function (ev) {
-                    var pinPosition = _this.model.calculatePinPosition((ev.target.value - _this.options.min) / _this.rangeKo, _this.totalSize);
-                    var pinUpValue = _this.model.calculateContent((ev.target.value - _this.options.min) / _this.rangeKo, _this.options, _this.totalSize);
+                    var position = (ev.target.value - _this.options.min) / _this.rangeKo;
+                    var pinPosition = _this.model.calculatePinPosition(0, position, _this.totalSize);
+                    var pinUpValue = _this.model.calculateContent(pinPosition, _this.options, _this.totalSize);
                     _this.pinValues[idx] = _this.model.validateData(_this.pinValues, pinPosition, idx);
                     _this.pinUpValues[idx] = _this.model.validateData(_this.pinUpValues, pinUpValue, idx);
                     ev.target.value = _this.pinUpValues[idx];
@@ -40,21 +41,28 @@ var Presenter = (function () {
             var onMouseMove = function (moveEvt) {
                 moveEvt.preventDefault();
                 dragged = true;
-                var coordinate = (options.orientation === 'vertical') ? startCoordinates.y : startCoordinates.x;
-                var move = (options.orientation === 'vertical') ? moveEvt.clientY : moveEvt.clientX;
-                var shift = model.setShift(coordinate, move, _this.totalSize, pin.getPinPosition(), _this.options.step, _this.rangeKo);
-                var pinPosition = model.calculatePinPosition(shift, _this.totalSize);
-                var pinUpValue = model.calculateContent(pinPosition, options, _this.totalSize);
+                var shift = model.setShift(startCoordinates, moveEvt, options.orientation);
+                if (options.step) {
+                    if (shift >= options.step / _this.rangeKo) {
+                        shift = Math.round(options.step / _this.rangeKo);
+                    }
+                    else if (-shift >= options.step / _this.rangeKo) {
+                        shift = -Math.round(options.step / _this.rangeKo);
+                    }
+                    else {
+                        return;
+                    }
+                }
+                var pinPosition = model.calculatePinPosition(shift, pin.getPinPosition(), _this.totalSize);
+                var pinUpValue = model.calculateContent(pinPosition, options, _this.totalSize, options.step);
                 _this.pinValues[idx] = model.validateData(_this.pinValues, pinPosition, idx);
                 pin.setPinValue(_this.pinValues[idx], options.pinUp, pinUpValue);
                 input.setInputValue(pinUpValue);
                 _this.line.setLinePosition(_this.pinValues);
-                if (move - coordinate >= _this.options.step / _this.rangeKo || coordinate - move >= _this.options.step / _this.rangeKo) {
-                    startCoordinates = {
-                        x: moveEvt.clientX,
-                        y: moveEvt.clientY
-                    };
-                }
+                startCoordinates = {
+                    x: moveEvt.clientX,
+                    y: moveEvt.clientY
+                };
             };
             var onMouseUp = function (upEvt) {
                 upEvt.preventDefault();

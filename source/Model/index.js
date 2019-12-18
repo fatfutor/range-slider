@@ -4,17 +4,21 @@ var Model = (function () {
         this.getRangeKo = function (width, options) {
             return (options.max - options.min) / width;
         };
-        this.calculateContent = function (value, options, totalSize) {
+        this.calculateContent = function (pinPosition, options, totalSize, step) {
             var rangeKo = (options.max - options.min) / totalSize;
-            var content = (Math.round(value * rangeKo) + options.min);
+            var content = (Math.round(pinPosition * rangeKo) + options.min);
+            if (step > 1) {
+                var x = content % step;
+                content = content - x;
+            }
             if (content < options.min)
                 content = options.min;
             if (content > options.max)
                 content = options.max;
             return content;
         };
-        this.calculatePinPosition = function (shift, totalSize) {
-            var position = shift;
+        this.calculatePinPosition = function (shift, pinPosition, totalSize) {
+            var position = pinPosition - shift;
             if (position < 0)
                 position = 0;
             if (position > totalSize)
@@ -29,32 +33,10 @@ var Model = (function () {
             });
             return array;
         };
-        this.setShift = function (startCoordinate, moveCoordinate, totalSize, pinPosition, step, rangeKo) {
-            if (step === void 0) { step = 0; }
-            var shift = 0;
-            if (pinPosition <= totalSize && pinPosition >= 0) {
-                if (step && moveCoordinate - startCoordinate >= step / rangeKo) {
-                    shift = startCoordinate - moveCoordinate;
-                    var regulator = (pinPosition - shift) % (step / rangeKo);
-                    return pinPosition - shift - regulator;
-                }
-                else if (step && startCoordinate - moveCoordinate >= step / rangeKo) {
-                    shift = startCoordinate - moveCoordinate;
-                    var regulator = (pinPosition - shift) % (step / rangeKo);
-                    return pinPosition - shift - regulator;
-                }
-                else if (step) {
-                    return pinPosition;
-                }
-                shift = startCoordinate - moveCoordinate;
-                return pinPosition - shift;
-            }
-            if (pinPosition < 0) {
-                shift = -1;
-                return pinPosition - shift;
-            }
-            shift = 0;
-            return pinPosition - shift;
+        this.setShift = function (startCoordinates, moveEvt, orientation) {
+            var coordinate = (orientation === 'vertical') ? startCoordinates.y : startCoordinates.x;
+            var move = (orientation === 'vertical') ? moveEvt.clientY : moveEvt.clientX;
+            return coordinate - move;
         };
         this.validateData = function (values, value, idx) {
             switch (idx) {

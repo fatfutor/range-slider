@@ -1,19 +1,25 @@
 export default class Model {
 
   getRangeKo = (width: number, options: any): number => {
-    return (options.max - options.min)/ width;
+    return (options.max - options.min) / width;
   };
 
-  calculateContent = (value: number, options: any, totalSize: number): number => {
+  calculateContent = (pinPosition: number, options: any, totalSize: number, step: number): number => {
     const rangeKo = (options.max - options.min) / totalSize;
-    let content = (Math.round(value * rangeKo) + options.min);
+    let content = (Math.round(pinPosition * rangeKo) + options.min);
+
+    if(step > 1) {
+      let x = content % step;
+      content = content - x;
+    }
+
     if (content < options.min) content =  options.min;
     if (content > options.max) content =  options.max;
     return content;
   };
 
-  calculatePinPosition = (shift: number, totalSize: number): number => {
-    let position: number = shift;
+  calculatePinPosition = (shift: number, pinPosition: number, totalSize: number): number => {
+    let position: number = pinPosition - shift;
     if (position < 0) position = 0;
     if (position > totalSize) position = totalSize;
     return position;
@@ -28,36 +34,11 @@ export default class Model {
     return array;
   };
 
-  setShift = (startCoordinate: number, moveCoordinate: number, totalSize: number, pinPosition: number, step: number = 0, rangeKo: number): number => {
+  setShift = (startCoordinates, moveEvt, orientation: string): number => {
+    const coordinate = (orientation === 'vertical') ? startCoordinates.y : startCoordinates.x;
+    const move = (orientation === 'vertical') ? moveEvt.clientY : moveEvt.clientX;
 
-    let shift = 0;
-
-    if (pinPosition <= totalSize && pinPosition >= 0) {
-      if (step && moveCoordinate - startCoordinate >= step / rangeKo) {
-        shift =  startCoordinate - moveCoordinate;
-        const regulator = (pinPosition - shift) % (step / rangeKo);
-        return pinPosition - shift - regulator;
-
-      } else if (step && startCoordinate - moveCoordinate >= step / rangeKo) {
-        shift =  startCoordinate - moveCoordinate;
-        const regulator = (pinPosition - shift) % (step / rangeKo);
-        return pinPosition - shift - regulator;
-
-      } else if (step) {
-        return pinPosition
-      }
-      shift =  startCoordinate - moveCoordinate;
-      return pinPosition - shift;
-    }
-
-    if (pinPosition < 0) {
-      shift = -1;
-      return pinPosition - shift;
-    }
-
-    shift = 0;
-
-    return pinPosition - shift;
+    return coordinate - move;
   };
 
   validateData = (values: Array<number>, value: number, idx: number): number => {

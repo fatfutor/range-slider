@@ -21,9 +21,9 @@ $(function () {
 $(function () {
     $('#block2').myPlugin({
         min: 0,
-        max: 100,
+        max: 900,
         values: [45],
-        step: 3,
+        step: 5,
         pinUp: false,
         orientation: 'horizontal'
     });
