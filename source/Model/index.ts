@@ -1,10 +1,12 @@
+/// <reference path="../globals.d.ts" />
+
 export default class Model {
 
-  getRangeKo = (width: number, options: any): number => {
+  getRangeKo = (width: number, options: Options): number => {
     return (options.max - options.min) / width;
   };
 
-  calculateContent = (pinPosition: number, options: any, totalSize: number, step: number): number => {
+  calculateContent = (pinPosition: number, options: Options, totalSize: number, step: number): number => {
     const rangeKo = (options.max - options.min) / totalSize;
     let content = (Math.round(pinPosition * rangeKo) + options.min);
 
@@ -34,7 +36,8 @@ export default class Model {
     return array;
   };
 
-  setShift = (startCoordinates, moveEvt, orientation: string): number => {
+  setShift = (startCoordinates: MousePosition, moveEvt: MouseEvent, orientation: string): number => {
+
     const coordinate = (orientation === 'vertical') ? startCoordinates.y : startCoordinates.x;
     const move = (orientation === 'vertical') ? moveEvt.clientY : moveEvt.clientX;
 

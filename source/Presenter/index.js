@@ -1,3 +1,4 @@
+/// <reference path="../globals.d.ts" />
 "use strict";
 var Pin_1 = require('../View/Pin');
 var Input_1 = require('../View/Input');
@@ -19,13 +20,13 @@ var Presenter = (function () {
                 var pin = new Pin_1["default"](_this.line.getDomElement(), pinPosition, _this.options.pinUp, it, _this.options.orientation);
                 var input = new Input_1["default"](_this.block, it, _this.options.min, _this.options.max);
                 pin.getDomElement().addEventListener('mousedown', _this.onPinMove(_this.model, pin, input, _this.options, idx));
-                input.getDomElement().addEventListener('change', function (ev) {
-                    var position = (ev.target.value - _this.options.min) / _this.rangeKo;
+                input.getDomElement().addEventListener('change', function (evt) {
+                    var position = (+evt.target.value - _this.options.min) / _this.rangeKo;
                     var pinPosition = _this.model.calculatePinPosition(0, position, _this.totalSize);
-                    var pinUpValue = _this.model.calculateContent(pinPosition, _this.options, _this.totalSize);
+                    var pinUpValue = _this.model.calculateContent(pinPosition, _this.options, _this.totalSize, 0);
                     _this.pinValues[idx] = _this.model.validateData(_this.pinValues, pinPosition, idx);
                     _this.pinUpValues[idx] = _this.model.validateData(_this.pinUpValues, pinUpValue, idx);
-                    ev.target.value = _this.pinUpValues[idx];
+                    evt.target.value = '' + _this.pinUpValues[idx];
                     pin.setPinValue(_this.pinValues[idx], _this.options.pinUp, _this.pinUpValues[idx]);
                     _this.line.setLinePosition(_this.pinValues);
                 });

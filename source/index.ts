@@ -1,16 +1,11 @@
+/// <reference path="./globals.d.ts" />
+
 import './main.scss';
 // import Presenter from './Presenter';
-import Panel from './main';
-
-declare global {
-
-  interface JQuery {
-    myPlugin: any;
-  }
-}
+import Panel from './Panel';
 
 (function($){
-  $.fn.myPlugin = function(options) {
+  $.fn.myPlugin = function(options: Options) {
     // new Presenter($(this), options);
     new Panel($(this), options);
   };

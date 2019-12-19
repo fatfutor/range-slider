@@ -1,18 +1,20 @@
+/// <reference path="./globals.d.ts" />
+
 import Presenter from './Presenter';
 
 export default class Panel {
-  container: HTMLElement | any;
-  slider: any;
-  options: any;
-  vertical: HTMLElement | any;
-  pinUp: HTMLElement | any;
-  min: HTMLElement | any;
-  max: HTMLElement | any;
-  step: HTMLElement | any;
-  interval: HTMLElement | any;
+  container: HTMLElement;
+  slider: Presenter;
+  options: Options;
+  vertical: HTMLInputElement;
+  pinUp: HTMLInputElement;
+  min: HTMLInputElement;
+  max: HTMLInputElement;
+  step: HTMLInputElement;
+  interval: HTMLInputElement;
   values: Array<HTMLElement>;
 
-  constructor(block: JQuery<HTMLElement>, options: any) {
+  constructor(block: JQuery<HTMLElement>, options: Options) {
     this.container = document.querySelector(`#${block[0].id}`);
     this.options = options;
     this.slider = new Presenter(block, options);
@@ -23,7 +25,7 @@ export default class Panel {
     this.step = this.container.querySelector('.panel__input[name="step"]');
     this.interval = this.container.querySelector('.panel__input[name="interval"]');
 
-    this.vertical.addEventListener('change', () => {
+    this.vertical.addEventListener('change', (): void => {
       this.options.values = this.getValues();
       if (this.vertical.checked) {
         this.options.orientation = 'vertical';
@@ -33,31 +35,31 @@ export default class Panel {
       this.slider.changeOptions(this.options);
     });
 
-    this.pinUp.addEventListener('change', () => {
+    this.pinUp.addEventListener('change', (): void => {
       this.options.values = this.getValues();
       this.options.pinUp = !!this.pinUp.checked;
       this.slider.changeOptions(this.options);
     });
 
-    this.min.addEventListener('change', () => {
+    this.min.addEventListener('change', (): void => {
       this.options.values = this.getValues();
       this.options.min = +this.min.value;
       this.slider.changeOptions(this.options);
     });
 
-    this.max.addEventListener('change', () => {
+    this.max.addEventListener('change', (): void => {
       this.options.values = this.getValues();
       this.options.max = +this.max.value;
       this.slider.changeOptions(this.options);
     });
 
-    this.step.addEventListener('change', () => {
+    this.step.addEventListener('change', (): void => {
       this.options.values = this.getValues();
       this.options.step = +this.step.value;
       this.slider.changeOptions(this.options);
     });
 
-    this.interval.addEventListener('change', () => {
+    this.interval.addEventListener('change', (): void => {
       this.options.values = this.getValues();
       if (this.interval.checked) {
         this.options.values[1] = this.options.max;
@@ -69,7 +71,7 @@ export default class Panel {
   }
 
   private getValues = (): Array<number> => {
-    const values = this.container.querySelectorAll('.slider__input');
+    const values: NodeListOf<HTMLInputElement> = this.container.querySelectorAll('.slider__input');
     let array = [];
     for(let i = 0; i < values.length; i++) {
       array.push(+values[i].value);

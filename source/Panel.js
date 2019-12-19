@@ -1,3 +1,4 @@
+/// <reference path="./globals.d.ts" />
 "use strict";
 var Presenter_1 = require('./Presenter');
 var Panel = (function () {
@@ -65,4 +66,4 @@ var Panel = (function () {
 }());
 exports.__esModule = true;
 exports["default"] = Panel;
-//# sourceMappingURL=main.js.map
+//# sourceMappingURL=Panel.js.map

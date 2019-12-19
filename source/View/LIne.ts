@@ -42,7 +42,7 @@ export default class Line {
     return size;
   };
 
-  setLinePosition = (values) => {
+  setLinePosition = (values: Array<number>) => {
     if (this.orientation === 'horizontal') {
       if (values.length === 2) {
         this.innerLine.style.left = values[0] + HALF_SIZE + 'px';

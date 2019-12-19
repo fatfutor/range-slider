@@ -1,3 +1,4 @@
+/// <reference path="../globals.d.ts" />
 "use strict";
 var Slider = (function () {
     function Slider() {

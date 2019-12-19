@@ -1,3 +1,4 @@
+/// <reference path="../globals.d.ts" />
 "use strict";
 var Model = (function () {
     function Model() {

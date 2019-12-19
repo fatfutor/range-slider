@@ -1,11 +1,12 @@
+/// <reference path="./globals.d.ts" />
 "use strict";
 require('./main.scss');
 // import Presenter from './Presenter';
-var main_1 = require('./main');
+var Panel_1 = require('./Panel');
 (function ($) {
     $.fn.myPlugin = function (options) {
         // new Presenter($(this), options);
-        new main_1["default"]($(this), options);
+        new Panel_1["default"]($(this), options);
     };
 })(jQuery);
 $(function () {

@@ -4,13 +4,7 @@ export default class Pin {
   private pinUp: HTMLElement;
   private orientation: string;
 
-  constructor(
-    container: HTMLElement,
-    value: number,
-    pinUp: boolean,
-    pinUpValue: number,
-    orientation: string = 'horizontal'
-  ) {
+  constructor(container: HTMLElement, value: number, pinUp: boolean, pinUpValue: number, orientation: string = 'horizontal') {
     this.orientation = orientation;
     this.pin = document.createElement('div');
     this.pin.classList.add('slider__pin');
