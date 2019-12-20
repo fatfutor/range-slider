@@ -12,7 +12,6 @@ export default class Panel {
   max: HTMLInputElement;
   step: HTMLInputElement;
   interval: HTMLInputElement;
-  values: Array<HTMLElement>;
 
   constructor(block: JQuery<HTMLElement>, options: Options) {
     this.container = document.querySelector(`#${block[0].id}`);

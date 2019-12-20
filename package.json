@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --config ./config/webpack.dev.conf.js",
-    "build": "webpack --config ./config/webpack.build.conf.js"
+    "build": "webpack --config ./config/webpack.build.conf.js",
+    "test": "webpack --config ./config/webpack.test.conf.js"
   },
   "browserslist": [
     "> 1%",
