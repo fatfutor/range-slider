@@ -37,10 +37,8 @@ export default class Model {
   };
 
   setShift = (startCoordinates: MousePosition, moveEvt: MouseEvent, orientation: string): number => {
-
     const coordinate = (orientation === 'vertical') ? startCoordinates.y : startCoordinates.x;
     const move = (orientation === 'vertical') ? moveEvt.clientY : moveEvt.clientX;
-
     return coordinate - move;
   };
 
@@ -75,7 +73,6 @@ export default class Model {
         pins[1] = minMax[1];
       }
     }
-
     return pins
   };
 

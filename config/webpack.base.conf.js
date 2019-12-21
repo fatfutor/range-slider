@@ -5,10 +5,16 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 const PATHS = {
   src: path.join(__dirname, '../source'),
   dist: path.join(__dirname, '../build'),
 };
+
+if (process.env.TEST) {
+  PATHS.src = path.join(__dirname, '../test');
+  PATHS.dist = path.join(__dirname, '../test-dist');
+}
 
 const PAGES_DIR = `${PATHS.src}/`;
 const PAGES = fs.readdirSync(PAGES_DIR).filter(fileName => fileName.endsWith('.pug'));

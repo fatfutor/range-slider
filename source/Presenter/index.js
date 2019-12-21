@@ -1,4 +1,3 @@
-/// <reference path="../globals.d.ts" />
 "use strict";
 var Pin_1 = require('../View/Pin');
 var Input_1 = require('../View/Input');
@@ -13,12 +12,12 @@ var Presenter = (function () {
             _this.validateOptions();
             _this.rangeKo = _this.model.getRangeKo(_this.totalSize, _this.options);
             _this.pinValues = _this.model.setStartValues(_this.options.values, _this.totalSize, _this.options.min, _this.options.max);
-            _this.line = new Line_1["default"](_this.block, _this.options.orientation);
+            _this.line = new Line_1.default(_this.block, _this.options.orientation);
             _this.line.setLinePosition(_this.pinValues);
             _this.options.values.forEach(function (it, idx) {
                 var pinPosition = _this.totalSize / (_this.options.max - _this.options.min) * (it - _this.options.min);
-                var pin = new Pin_1["default"](_this.line.getDomElement(), pinPosition, _this.options.pinUp, it, _this.options.orientation);
-                var input = new Input_1["default"](_this.block, it, _this.options.min, _this.options.max);
+                var pin = new Pin_1.default(_this.line.getDomElement(), pinPosition, _this.options.pinUp, it, _this.options.orientation);
+                var input = new Input_1.default(_this.block, it, _this.options.min, _this.options.max);
                 pin.getDomElement().addEventListener('mousedown', _this.onPinMove(_this.model, pin, input, _this.options, idx));
                 input.getDomElement().addEventListener('change', function (evt) {
                     var position = (+evt.target.value - _this.options.min) / _this.rangeKo;
@@ -98,9 +97,9 @@ var Presenter = (function () {
         };
         this.block = block;
         this.options = options;
-        this.slider = new Slider_1["default"]();
+        this.slider = new Slider_1.default();
         this.slider.createSlider(this.block, this.options);
-        this.model = new Model_1["default"]();
+        this.model = new Model_1.default();
         this.totalSize = SLIDER_SIZE;
         this.pinUpValues = this.options.values.slice();
         this.rangeKo = this.model.getRangeKo(this.totalSize, this.options);
@@ -109,7 +108,7 @@ var Presenter = (function () {
     ;
     return Presenter;
 }());
-exports.__esModule = true;
-exports["default"] = Presenter;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Presenter;
 ;
 //# sourceMappingURL=index.js.map

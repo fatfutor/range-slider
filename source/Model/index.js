@@ -1,4 +1,3 @@
-/// <reference path="../globals.d.ts" />
 "use strict";
 var Model = (function () {
     function Model() {
@@ -78,6 +77,6 @@ var Model = (function () {
     }
     return Model;
 }());
-exports.__esModule = true;
-exports["default"] = Model;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Model;
 //# sourceMappingURL=index.js.map

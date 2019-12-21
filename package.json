@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --config ./config/webpack.dev.conf.js",
     "build": "webpack --config ./config/webpack.build.conf.js",
-    "test": "webpack --config ./config/webpack.test.conf.js"
+    "test": "set TEST=true && webpack-dev-server --open --config ./config/webpack.dev.conf.js"
   },
   "browserslist": [
     "> 1%",
@@ -20,6 +20,7 @@
     "autoprefixer": "^9.7.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
     "css-mqpacker": "^7.0.0",
@@ -27,6 +28,7 @@
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",
+    "mocha": "^6.2.2",
     "node-sass": "^4.13.0",
     "postcss-loader": "^3.0.0",
     "pug": "^2.0.4",

@@ -18,6 +18,6 @@ var Input = (function () {
     }
     return Input;
 }());
-exports.__esModule = true;
-exports["default"] = Input;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Input;
 //# sourceMappingURL=Input.js.map

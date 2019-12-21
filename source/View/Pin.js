@@ -44,6 +44,6 @@ var Pin = (function () {
     }
     return Pin;
 }());
-exports.__esModule = true;
-exports["default"] = Pin;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Pin;
 //# sourceMappingURL=Pin.js.map

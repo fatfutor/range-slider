@@ -1,4 +1,3 @@
-/// <reference path="./globals.d.ts" />
 "use strict";
 var Presenter_1 = require('./Presenter');
 var Panel = (function () {
@@ -14,7 +13,7 @@ var Panel = (function () {
         };
         this.container = document.querySelector("#" + block[0].id);
         this.options = options;
-        this.slider = new Presenter_1["default"](block, options);
+        this.slider = new Presenter_1.default(block, options);
         this.vertical = this.container.querySelector('.panel__input[name="vertical"]');
         this.pinUp = this.container.querySelector('.panel__input[name="pin-up"]');
         this.min = this.container.querySelector('.panel__input[name="min"]');
@@ -64,6 +63,6 @@ var Panel = (function () {
     }
     return Panel;
 }());
-exports.__esModule = true;
-exports["default"] = Panel;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Panel;
 //# sourceMappingURL=Panel.js.map

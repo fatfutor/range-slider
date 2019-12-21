@@ -53,6 +53,6 @@ var Line = (function () {
     }
     return Line;
 }());
-exports.__esModule = true;
-exports["default"] = Line;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Line;
 //# sourceMappingURL=Line.js.map

@@ -1,4 +1,3 @@
-/// <reference path="../globals.d.ts" />
 "use strict";
 var Slider = (function () {
     function Slider() {
@@ -16,6 +15,6 @@ var Slider = (function () {
     }
     return Slider;
 }());
-exports.__esModule = true;
-exports["default"] = Slider;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Slider;
 //# sourceMappingURL=Slider.js.map

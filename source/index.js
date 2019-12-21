@@ -1,12 +1,9 @@
-/// <reference path="./globals.d.ts" />
 "use strict";
 require('./main.scss');
-// import Presenter from './Presenter';
 var Panel_1 = require('./Panel');
 (function ($) {
     $.fn.myPlugin = function (options) {
-        // new Presenter($(this), options);
-        new Panel_1["default"]($(this), options);
+        new Panel_1.default($(this), options);
     };
 })(jQuery);
 $(function () {
@@ -16,7 +13,7 @@ $(function () {
         values: [300, 400],
         step: 0,
         pinUp: true,
-        orientation: 'vertical'
+        orientation: 'vertical',
     });
 });
 $(function () {
@@ -26,7 +23,7 @@ $(function () {
         values: [45],
         step: 5,
         pinUp: false,
-        orientation: 'horizontal'
+        orientation: 'horizontal',
     });
 });
 //# sourceMappingURL=index.js.map
