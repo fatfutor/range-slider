@@ -25,10 +25,10 @@ var Model = (function () {
                 position = totalSize;
             return position;
         };
-        this.setStartValues = function (values, totalWidth, min, max) {
+        this.setStartValues = function (values, totalSize, min, max) {
             var array = [];
             values.forEach(function (it) {
-                var value = totalWidth / (max - min) * (it - min);
+                var value = totalSize / (max - min) * (it - min);
                 array.push(value);
             });
             return array;

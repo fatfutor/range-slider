@@ -36,7 +36,7 @@ Presenter       | Реализует логику работы слайдера,
 
 ## UML диаграмма
 
-![Diagram](https://github.com/)
+![Diagram](https://github.com/fatfutor/range-slider/diafram.jpg)
 
 ## Пример инициализации
 

@@ -1,9 +1,9 @@
 const HALF_SIZE: number = 8;
 
 export default class Line {
-  line: HTMLElement;
-  innerLine: HTMLElement;
-  orientation: string;
+  private line: HTMLElement;
+  private innerLine: HTMLElement;
+  private orientation: string;
 
   constructor(container: JQuery<HTMLElement>, orientation: string = 'horizontal') {
     this.orientation = orientation;
@@ -42,7 +42,7 @@ export default class Line {
     return size;
   };
 
-  setLinePosition = (values: Array<number>) => {
+  setLinePosition = (values: Array<number>): void => {
     if (this.orientation === 'horizontal') {
       if (values.length === 2) {
         this.innerLine.style.left = values[0] + HALF_SIZE + 'px';

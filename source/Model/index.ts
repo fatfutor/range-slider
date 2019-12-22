@@ -27,10 +27,10 @@ export default class Model {
     return position;
   };
 
-  setStartValues = (values: Array<number>, totalWidth: number, min: number, max: number): Array<number> => {
+  setStartValues = (values: Array<number>, totalSize: number, min: number, max: number): Array<number> => {
     const array: Array<number> = [];
     values.forEach((it) => {
-      const value = totalWidth / (max - min) * (it -  min);
+      const value = totalSize / (max - min) * (it -  min);
       array.push(value);
     });
     return array;
