@@ -20,10 +20,30 @@ $(function () {
     $('#block2').myPlugin({
         min: 0,
         max: 900,
-        values: [45],
-        step: 5,
+        values: [60],
+        step: 30,
         pinUp: false,
         orientation: 'horizontal',
+    });
+});
+$(function () {
+    $('#block3').myPlugin({
+        min: 0,
+        max: 100,
+        values: [60, 90],
+        step: 0,
+        pinUp: false,
+        orientation: 'horizontal',
+    });
+});
+$(function () {
+    $('#block4').myPlugin({
+        min: 0,
+        max: 300,
+        values: [0],
+        step: 0,
+        pinUp: false,
+        orientation: 'vertical',
     });
 });
 //# sourceMappingURL=index.js.map

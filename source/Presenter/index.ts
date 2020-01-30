@@ -1,4 +1,4 @@
-/// <reference path="../globals.d.ts" />
+// <reference path="../globals.d.ts" />
 
 import Pin from '../View/Pin';
 import Input from '../View/Input';
