@@ -11,7 +11,7 @@ const SLIDER_SIZE: number = 300;
 export default class Presenter {
   private block: JQuery<HTMLElement>;
   private options: Options;
-  private line: Line;
+  private line: ILine;
   private model: Model;
   private slider: Slider;
   private rangeKo: number;

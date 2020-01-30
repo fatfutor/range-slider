@@ -8,7 +8,11 @@ interface Options {
   orientation: string;
 }
 
-interface Line {}
+interface ILine {
+  setLinePosition: (values: Array<number>) => void;
+  getDomElement: () => HTMLElement;
+  getLineSize: () => number;
+}
 
 interface Model {}
 
