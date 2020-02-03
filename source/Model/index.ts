@@ -1,7 +1,7 @@
 // / <reference path="../globals.d.ts" />
 
 class Model {
-  getRangeKo = (width: number, options: Options): number => (options.max - options.min) / width;
+  getRangeKo = (width: number, max: number, min: number): number => (max - min) / width;
 
   calculateContent =
   (pinPosition: number, options: Options, totalSize: number, step: number): number => {
@@ -24,6 +24,13 @@ class Model {
     if (position > totalSize) position = totalSize;
     return position;
   };
+
+  calculateStartPinPosition = (
+    totalSize: number,
+    max: number,
+    min: number,
+    item: number
+  ): number => (totalSize / (max - min)) * (item - min);
 
   setStartValues =
   (values: Array<number>, totalSize: number, min: number, max: number): Array<number> => {

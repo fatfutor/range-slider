@@ -31,62 +31,101 @@ class Presenter {
     this.block = block;
     this.options = options;
     this.slider = new Slider();
-    this.slider.createSlider(this.block, this.options);
     this.model = new Model();
     this.totalSize = SLIDER_SIZE;
     this.pinUpValues = [...this.options.values];
-    this.rangeKo = this.model.getRangeKo(this.totalSize, this.options);
 
+    this.slider.createSlider(
+      this.block,
+      this.options
+    );
     this.renderDomElements();
   }
 
   private renderDomElements = (): void => {
     this.validateOptions();
 
-    this.rangeKo = this.model.getRangeKo(this.totalSize, this.options);
-    this.pinValues = this.model.setStartValues(
-      this.options.values, this.totalSize, this.options.min, this.options.max
+    this.rangeKo = this.model.getRangeKo(
+      this.totalSize,
+      this.options.max,
+      this.options.min
     );
-    this.line = new Line(this.block, this.options.orientation);
+
+    this.pinValues = this.model.setStartValues(
+      this.options.values,
+      this.totalSize,
+      this.options.min,
+      this.options.max
+    );
+
+    this.line = new Line(
+      this.block,
+      this.options.orientation
+    );
+
     this.line.setLinePosition(this.pinValues);
 
     this.options.values.forEach((it, idx) => {
-      const pinPosition: number = this.totalSize / (this.options.max - this.options.min) * (it - this.options.min);
-      const pin: any = new Pin(
+      const pinStartPosition: number = this.model.calculateStartPinPosition(
+        this.totalSize,
+        this.options.max,
+        this.options.min,
+        it
+      );
+
+      const pin = new Pin(
         this.line.getDomElement(),
-        pinPosition,
+        pinStartPosition,
         this.options.pinUp,
         it,
         this.options.orientation
       );
-      const input: any = new Input(this.block, it, this.options.min, this.options.max);
-      pin.getDomElement().addEventListener(
-        'mousedown',
-        this.onPinMove(this.model, pin, input, this.options, idx)
+
+      const input: any = new Input(
+        this.block,
+        it,
+        this.options.min,
+        this.options.max
       );
 
-      input.getDomElement().addEventListener('change', (evt: InputEvent) => {
-        const position = (+evt.target.value - this.options.min) / this.rangeKo;
-        const pinPosition: number = this.model.calculatePinPosition(0, position, this.totalSize);
-        const pinUpValue: number = this.model.calculateContent(
-          pinPosition, this.options, this.totalSize, 0
-        );
+      pin.getDomElement().addEventListener('mousedown', this.onPinMove(
+        this.model,
+        pin,
+        input,
+        this.options,
+        idx
+      ));
 
-        this.pinValues[idx] = this.model.validateData(this.pinValues, pinPosition, idx);
-        this.pinUpValues[idx] = this.model.validateData(this.pinUpValues, pinUpValue, idx);
+      const inputNode = input.getDomElement();
 
-        evt.target.value = `${this.pinUpValues[idx]}`;
-
-        pin.setPinValue(this.pinValues[idx], this.options.pinUp, this.pinUpValues[idx]);
-
-        this.line.setLinePosition(this.pinValues);
-      });
+      inputNode.addEventListener('change', this.onInputNodeChange(idx, pin).bind(this));
     });
   };
 
-  private onPinMove =
-  (
-    model: Model, pin: Pin, input: Input, options: Options, idx: number
+  private onInputNodeChange = (
+    idx: number,
+    pin: Pin
+  ) => (evt: InputEvent) => {
+    const position = (+evt.target.value - this.options.min) / this.rangeKo;
+    const pinPosition: number = this.model.calculatePinPosition(0, position, this.totalSize);
+    const pinUpValue: number = this.model.calculateContent(
+      pinPosition, this.options, this.totalSize, 0
+    );
+
+    this.pinValues[idx] = this.model.validateData(this.pinValues, pinPosition, idx);
+    this.pinUpValues[idx] = this.model.validateData(this.pinUpValues, pinUpValue, idx);
+
+    pin.setPinValue(this.pinValues[idx], this.options.pinUp, this.pinUpValues[idx]);
+
+    this.line.setLinePosition(this.pinValues);
+  };
+
+  private onPinMove = (
+    model: Model,
+    pin: Pin,
+    input: Input,
+    options: Options,
+    idx: number
   ) => (evt: MouseEvent) => {
     evt.preventDefault();
 
@@ -137,8 +176,8 @@ class Presenter {
       document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
-        const onClickPreventDefault = (evt: MouseEvent) => {
-          evt.preventDefault();
+        const onClickPreventDefault = (moveEvt: MouseEvent) => {
+          moveEvt.preventDefault();
           pin.getDomElement().removeEventListener('click', onClickPreventDefault);
         };
         pin.getDomElement().addEventListener('click', onClickPreventDefault);

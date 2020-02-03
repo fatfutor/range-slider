@@ -18,21 +18,21 @@ $(() => {
     values: [300, 400],
     step: 0,
     pinUp: true,
-    orientation: 'vertical',
-  });
-});
-
-$(() => {
-  $('#block2').myPlugin({
-    min: 0,
-    max: 900,
-    values: [60],
-    step: 30,
-    pinUp: false,
     orientation: 'horizontal',
   });
 });
 
+// $(() => {
+//   $('#block2').myPlugin({
+//     min: 0,
+//     max: 900,
+//     values: [60],
+//     step: 30,
+//     pinUp: false,
+//     orientation: 'horizontal',
+//   });
+// });
+//
 // $(() => {
 //   $('#block3').myPlugin({
 //     min: 0,
