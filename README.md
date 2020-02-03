@@ -3,7 +3,7 @@
 ---
 
 ## Развёртывание
-Установка
+Клонирование
 >git clone https://github.com/fatfutor/range-slider.git
 
 Установка

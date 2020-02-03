@@ -1,8 +1,8 @@
 // <reference path="../globals.d.ts" />
 
 import Pin from '../View/Pin';
-import Input from '../View/Input';
 import Line from '../View/Line';
+import Input from '../View/Input';
 import Model from '../Model';
 import Slider from '../View/Slider';
 
