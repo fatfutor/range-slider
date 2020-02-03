@@ -1,8 +1,10 @@
-# FSD The 4th task. JQuery Custom plugin
+# range-slider
 
 ---
 
 ## Развёртывание
+Установка
+>git clone https://github.com/fatfutor/range-slider.git
 
 Установка
 >npm i
@@ -15,6 +17,10 @@
 
 Запустить production версию
 >npm run build
+
+---
+## Опубликованный проект:
+>https://range-slider.000webhostapp.com/
 
 
 ---
