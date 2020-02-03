@@ -1,6 +1,6 @@
 const HALF_SIZE: number = 8;
 
-export default class Line {
+class Line {
   private line: HTMLElement;
 
   private innerLine: HTMLElement;
@@ -38,6 +38,7 @@ export default class Line {
       case 'vertical':
         size = this.line.offsetHeight;
         break;
+      default: return;
     }
     return size;
   };
@@ -60,3 +61,5 @@ export default class Line {
     }
   };
 }
+
+export default Line;

@@ -1,6 +1,6 @@
 // / <reference path="../globals.d.ts" />
 
-export default class Slider {
+class Slider {
   private range: HTMLElement;
 
   createSlider = (container: JQuery<HTMLElement>, options: Options): void => {
@@ -15,3 +15,5 @@ export default class Slider {
     this.range.textContent = `от ${min} - до ${max}`;
   };
 }
+
+export default Slider;

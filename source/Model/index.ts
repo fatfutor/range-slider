@@ -1,9 +1,10 @@
 // / <reference path="../globals.d.ts" />
 
-export default class Model {
+class Model {
   getRangeKo = (width: number, options: Options): number => (options.max - options.min) / width;
 
-  calculateContent = (pinPosition: number, options: Options, totalSize: number, step: number): number => {
+  calculateContent =
+  (pinPosition: number, options: Options, totalSize: number, step: number): number => {
     const rangeKo = (options.max - options.min) / totalSize;
     let content = (Math.round(pinPosition * rangeKo) + options.min);
 
@@ -24,16 +25,19 @@ export default class Model {
     return position;
   };
 
-  setStartValues = (values: Array<number>, totalSize: number, min: number, max: number): Array<number> => {
+  setStartValues =
+  (values: Array<number>, totalSize: number, min: number, max: number): Array<number> => {
     const array: Array<number> = [];
     values.forEach((it) => {
-      const value = totalSize / (max - min) * (it - min);
+      let value = totalSize / (max - min);
+      value *= (it - min);
       array.push(value);
     });
     return array;
   };
 
-  setShift = (startCoordinates: MousePosition, moveEvt: MouseEvent, orientation: string): number => {
+  setShift =
+  (startCoordinates: MousePosition, moveEvt: MouseEvent, orientation: string): number => {
     const coordinate = (orientation === 'vertical') ? startCoordinates.y : startCoordinates.x;
     const move = (orientation === 'vertical') ? moveEvt.clientY : moveEvt.clientX;
     return coordinate - move;
@@ -52,6 +56,7 @@ export default class Model {
           return values[0] + 1;
         }
         return value;
+      default:
     }
   };
 
@@ -79,3 +84,5 @@ export default class Model {
     return min;
   };
 }
+
+export default Model;

@@ -1,5 +1,5 @@
 
-export default class Input {
+class Input {
   private input: HTMLInputElement;
 
   constructor(container: JQuery<HTMLElement>, value: number, min: number, max: number) {
@@ -18,3 +18,5 @@ export default class Input {
     this.input.value = `${value}`;
   };
 }
+
+export default Input;

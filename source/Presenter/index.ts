@@ -8,7 +8,7 @@ import Slider from '../View/Slider';
 
 const SLIDER_SIZE: number = 300;
 
-export default class Presenter {
+class Presenter {
   private block: JQuery<HTMLElement>;
 
   private options: Options;
@@ -44,20 +44,33 @@ export default class Presenter {
     this.validateOptions();
 
     this.rangeKo = this.model.getRangeKo(this.totalSize, this.options);
-    this.pinValues = this.model.setStartValues(this.options.values, this.totalSize, this.options.min, this.options.max);
+    this.pinValues = this.model.setStartValues(
+      this.options.values, this.totalSize, this.options.min, this.options.max
+    );
     this.line = new Line(this.block, this.options.orientation);
     this.line.setLinePosition(this.pinValues);
 
     this.options.values.forEach((it, idx) => {
       const pinPosition: number = this.totalSize / (this.options.max - this.options.min) * (it - this.options.min);
-      const pin: any = new Pin(this.line.getDomElement(), pinPosition, this.options.pinUp, it, this.options.orientation);
+      const pin: any = new Pin(
+        this.line.getDomElement(),
+        pinPosition,
+        this.options.pinUp,
+        it,
+        this.options.orientation
+      );
       const input: any = new Input(this.block, it, this.options.min, this.options.max);
-      pin.getDomElement().addEventListener('mousedown', this.onPinMove(this.model, pin, input, this.options, idx));
+      pin.getDomElement().addEventListener(
+        'mousedown',
+        this.onPinMove(this.model, pin, input, this.options, idx)
+      );
 
       input.getDomElement().addEventListener('change', (evt: InputEvent) => {
         const position = (+evt.target.value - this.options.min) / this.rangeKo;
         const pinPosition: number = this.model.calculatePinPosition(0, position, this.totalSize);
-        const pinUpValue: number = this.model.calculateContent(pinPosition, this.options, this.totalSize, 0);
+        const pinUpValue: number = this.model.calculateContent(
+          pinPosition, this.options, this.totalSize, 0
+        );
 
         this.pinValues[idx] = this.model.validateData(this.pinValues, pinPosition, idx);
         this.pinUpValues[idx] = this.model.validateData(this.pinUpValues, pinUpValue, idx);
@@ -71,7 +84,10 @@ export default class Presenter {
     });
   };
 
-  private onPinMove = (model: Model, pin: Pin, input: Input, options: Options, idx: number) => (evt: MouseEvent) => {
+  private onPinMove =
+  (
+    model: Model, pin: Pin, input: Input, options: Options, idx: number
+  ) => (evt: MouseEvent) => {
     evt.preventDefault();
 
     let startCoordinates = {
@@ -135,7 +151,10 @@ export default class Presenter {
 
   private validateOptions = (): void => {
     this.options.min = this.model.validateMin(this.options.min, this.options.max);
-    this.options.values = this.model.validatePinValues([this.options.min, this.options.max], this.options.values);
+    this.options.values = this.model.validatePinValues(
+      [this.options.min, this.options.max],
+      this.options.values
+    );
   };
 
   changeOptions = (options: Options): void => {
@@ -151,3 +170,5 @@ export default class Presenter {
     this.renderDomElements();
   };
 }
+
+export default Presenter;

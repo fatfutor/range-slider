@@ -2,7 +2,7 @@
 
 import Presenter from './Presenter';
 
-export default class Panel {
+class Panel {
   container: HTMLElement;
 
   slider: Presenter;
@@ -80,9 +80,11 @@ export default class Panel {
   private getValues = (): Array<number> => {
     const values: NodeListOf<HTMLInputElement> = this.container.querySelectorAll('.slider__input');
     const array = [];
-    for (let i = 0; i < values.length; i++) {
+    for (let i = 0; i < values.length; i += 1) {
       array.push(+values[i].value);
     }
     return array;
   };
 }
+
+export default Panel;

@@ -33,24 +33,24 @@ $(() => {
   });
 });
 
-$(() => {
-  $('#block3').myPlugin({
-    min: 0,
-    max: 100,
-    values: [60, 90],
-    step: 0,
-    pinUp: false,
-    orientation: 'horizontal',
-  });
-});
-
-$(() => {
-  $('#block4').myPlugin({
-    min: 0,
-    max: 300,
-    values: [0],
-    step: 0,
-    pinUp: false,
-    orientation: 'vertical',
-  });
-});
+// $(() => {
+//   $('#block3').myPlugin({
+//     min: 0,
+//     max: 100,
+//     values: [60, 90],
+//     step: 0,
+//     pinUp: false,
+//     orientation: 'horizontal',
+//   });
+// });
+//
+// $(() => {
+//   $('#block4').myPlugin({
+//     min: 0,
+//     max: 300,
+//     values: [0],
+//     step: 0,
+//     pinUp: false,
+//     orientation: 'vertical',
+//   });
+// });

@@ -1,5 +1,5 @@
 
-export default class Pin {
+class Pin {
   private pin: HTMLElement;
 
   private pinUp: HTMLElement;
@@ -34,6 +34,8 @@ export default class Pin {
 
       case 'vertical': this.pin.style.top = `${value}px`;
         break;
+
+      default: return;
     }
 
     if (pinUp) {
@@ -46,6 +48,10 @@ export default class Pin {
       case 'horizontal': return this.pin.offsetLeft;
 
       case 'vertical': return this.pin.offsetTop;
+
+      default:
     }
   };
 }
+
+export default Pin;
