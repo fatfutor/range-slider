@@ -10,13 +10,21 @@ const SLIDER_SIZE: number = 300;
 
 export default class Presenter {
   private block: JQuery<HTMLElement>;
+
   private options: Options;
+
   private line: ILine;
+
   private model: Model;
+
   private slider: Slider;
+
   private rangeKo: number;
+
   private totalSize: number;
+
   private pinValues: Array<number>;
+
   private pinUpValues: Array<number>;
 
   constructor(block: JQuery<HTMLElement>, options: Options) {
@@ -30,7 +38,7 @@ export default class Presenter {
     this.rangeKo = this.model.getRangeKo(this.totalSize, this.options);
 
     this.renderDomElements();
-  };
+  }
 
   private renderDomElements = (): void => {
     this.validateOptions();
@@ -41,7 +49,7 @@ export default class Presenter {
     this.line.setLinePosition(this.pinValues);
 
     this.options.values.forEach((it, idx) => {
-      const pinPosition: number = this.totalSize / (this.options.max - this.options.min) * (it -  this.options.min);
+      const pinPosition: number = this.totalSize / (this.options.max - this.options.min) * (it - this.options.min);
       const pin: any = new Pin(this.line.getDomElement(), pinPosition, this.options.pinUp, it, this.options.orientation);
       const input: any = new Input(this.block, it, this.options.min, this.options.max);
       pin.getDomElement().addEventListener('mousedown', this.onPinMove(this.model, pin, input, this.options, idx));
@@ -54,7 +62,7 @@ export default class Presenter {
         this.pinValues[idx] = this.model.validateData(this.pinValues, pinPosition, idx);
         this.pinUpValues[idx] = this.model.validateData(this.pinUpValues, pinUpValue, idx);
 
-        evt.target.value = '' + this.pinUpValues[idx];
+        evt.target.value = `${this.pinUpValues[idx]}`;
 
         pin.setPinValue(this.pinValues[idx], this.options.pinUp, this.pinUpValues[idx]);
 
@@ -79,11 +87,11 @@ export default class Presenter {
 
       let shift: number = model.setShift(startCoordinates, moveEvt, options.orientation);
 
-      if(options.step) {
-        if(shift >=  options.step / this.rangeKo) {
+      if (options.step) {
+        if (shift >= options.step / this.rangeKo) {
           shift = Math.round(options.step / this.rangeKo);
-        } else if (-shift >=  options.step / this.rangeKo) {
-          shift = - Math.round(options.step / this.rangeKo);
+        } else if (-shift >= options.step / this.rangeKo) {
+          shift = -Math.round(options.step / this.rangeKo);
         } else {
           return;
         }
@@ -115,7 +123,7 @@ export default class Presenter {
       if (dragged) {
         const onClickPreventDefault = (evt: MouseEvent) => {
           evt.preventDefault();
-          pin.getDomElement().removeEventListener('click', onClickPreventDefault)
+          pin.getDomElement().removeEventListener('click', onClickPreventDefault);
         };
         pin.getDomElement().addEventListener('click', onClickPreventDefault);
       }
@@ -141,5 +149,5 @@ export default class Presenter {
     this.options.orientation = options.orientation;
     this.slider.setMinMax(options.min, options.max);
     this.renderDomElements();
-  }
-};
+  };
+}

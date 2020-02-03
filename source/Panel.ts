@@ -1,16 +1,24 @@
-/// <reference path="./globals.d.ts" />
+// / <reference path="./globals.d.ts" />
 
 import Presenter from './Presenter';
 
 export default class Panel {
   container: HTMLElement;
+
   slider: Presenter;
+
   options: Options;
+
   vertical: HTMLInputElement;
+
   pinUp: HTMLInputElement;
+
   min: HTMLInputElement;
+
   max: HTMLInputElement;
+
   step: HTMLInputElement;
+
   interval: HTMLInputElement;
 
   constructor(block: JQuery<HTMLElement>, options: Options) {
@@ -71,10 +79,10 @@ export default class Panel {
 
   private getValues = (): Array<number> => {
     const values: NodeListOf<HTMLInputElement> = this.container.querySelectorAll('.slider__input');
-    let array = [];
-    for(let i = 0; i < values.length; i++) {
+    const array = [];
+    for (let i = 0; i < values.length; i++) {
       array.push(+values[i].value);
     }
     return array;
-  }
+  };
 }

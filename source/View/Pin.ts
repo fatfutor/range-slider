@@ -1,7 +1,9 @@
 
 export default class Pin {
   private pin: HTMLElement;
+
   private pinUp: HTMLElement;
+
   private orientation: string;
 
   constructor(container: HTMLElement, value: number, pinUp: boolean, pinUpValue: number, orientation: string = 'horizontal') {
@@ -23,17 +25,14 @@ export default class Pin {
     this.setPinValue(value, pinUp, pinUpValue);
   }
 
-  getDomElement = (): HTMLElement => {
-    return this.pin;
-  };
+  getDomElement = (): HTMLElement => this.pin;
 
   setPinValue = (value: number, pinUp: boolean = false, pinUpValue: number = 0): void => {
-
     switch (this.orientation) {
-      case 'horizontal': this.pin.style.left = value + 'px';
+      case 'horizontal': this.pin.style.left = `${value}px`;
         break;
 
-      case 'vertical': this.pin.style.top = value + 'px';
+      case 'vertical': this.pin.style.top = `${value}px`;
         break;
     }
 

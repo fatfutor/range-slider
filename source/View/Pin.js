@@ -3,18 +3,16 @@ var Pin = (function () {
     function Pin(container, value, pinUp, pinUpValue, orientation) {
         var _this = this;
         if (orientation === void 0) { orientation = 'horizontal'; }
-        this.getDomElement = function () {
-            return _this.pin;
-        };
+        this.getDomElement = function () { return _this.pin; };
         this.setPinValue = function (value, pinUp, pinUpValue) {
             if (pinUp === void 0) { pinUp = false; }
             if (pinUpValue === void 0) { pinUpValue = 0; }
             switch (_this.orientation) {
                 case 'horizontal':
-                    _this.pin.style.left = value + 'px';
+                    _this.pin.style.left = value + "px";
                     break;
                 case 'vertical':
-                    _this.pin.style.top = value + 'px';
+                    _this.pin.style.top = value + "px";
                     break;
             }
             if (pinUp) {

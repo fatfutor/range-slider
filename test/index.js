@@ -1,21 +1,21 @@
 import Model from '../source/Model';
 
 mocha.setup('bdd');
-const assert = chai.assert;
+const { assert } = chai;
 
 const model = new Model();
 
 describe('model', () => {
   it('getRangeKo', () => {
-    assert(model.getRangeKo(300, {min: 0, max: 300}) === 1);
-    assert(model.getRangeKo(300, {min: 300, max: 900}) === 2);
-    assert(model.getRangeKo(300, {min: 0, max: 30}) === 0.1);
+    assert(model.getRangeKo(300, { min: 0, max: 300 }) === 1);
+    assert(model.getRangeKo(300, { min: 300, max: 900 }) === 2);
+    assert(model.getRangeKo(300, { min: 0, max: 30 }) === 0.1);
   });
 
   it('calculateContent', () => {
-    assert(model.calculateContent(35, {min: 0, max: 900}, 300, 5) === 105);
-    assert(model.calculateContent(300, {min: 0, max: 900}, 300, 5) === 900);
-    assert(model.calculateContent(0, {min: 0, max: 900}, 300, 0) === 0);
+    assert(model.calculateContent(35, { min: 0, max: 900 }, 300, 5) === 105);
+    assert(model.calculateContent(300, { min: 0, max: 900 }, 300, 5) === 900);
+    assert(model.calculateContent(0, { min: 0, max: 900 }, 300, 0) === 0);
   });
 
   it('calculatePinPosition', () => {
@@ -30,8 +30,8 @@ describe('model', () => {
   });
 
   it('setShift', () => {
-    assert(model.setShift({x: 60, y: 200}, {clientX: 60, clientY: 199}, 'vertical') === 1);
-    assert(model.setShift({x: 60, y: 200}, {clientX: 61, clientY: 200}, 'horizontal') === -1);
+    assert(model.setShift({ x: 60, y: 200 }, { clientX: 60, clientY: 199 }, 'vertical') === 1);
+    assert(model.setShift({ x: 60, y: 200 }, { clientX: 61, clientY: 200 }, 'horizontal') === -1);
   });
 
   it('validateData', () => {

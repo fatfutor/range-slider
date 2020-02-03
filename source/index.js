@@ -5,7 +5,7 @@ var Panel_1 = require('./Panel');
     $.fn.myPlugin = function (options) {
         new Panel_1.default($(this), options);
     };
-})(jQuery);
+}(jQuery));
 $(function () {
     $('#block').myPlugin({
         min: 200,

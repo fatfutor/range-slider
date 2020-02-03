@@ -25,7 +25,7 @@ var Presenter = (function () {
                     var pinUpValue = _this.model.calculateContent(pinPosition, _this.options, _this.totalSize, 0);
                     _this.pinValues[idx] = _this.model.validateData(_this.pinValues, pinPosition, idx);
                     _this.pinUpValues[idx] = _this.model.validateData(_this.pinUpValues, pinUpValue, idx);
-                    evt.target.value = '' + _this.pinUpValues[idx];
+                    evt.target.value = "" + _this.pinUpValues[idx];
                     pin.setPinValue(_this.pinValues[idx], _this.options.pinUp, _this.pinUpValues[idx]);
                     _this.line.setLinePosition(_this.pinValues);
                 });
@@ -105,10 +105,8 @@ var Presenter = (function () {
         this.rangeKo = this.model.getRangeKo(this.totalSize, this.options);
         this.renderDomElements();
     }
-    ;
     return Presenter;
 }());
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Presenter;
-;
 //# sourceMappingURL=index.js.map

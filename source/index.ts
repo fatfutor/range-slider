@@ -1,17 +1,17 @@
-/// <reference path="./globals.d.ts" />
+// / <reference path="./globals.d.ts" />
 
 import './main.scss';
 // import Presenter from './Presenter';
 import Panel from './Panel';
 
-(function($){
-  $.fn.myPlugin = function(options: Options) {
+(function ($) {
+  $.fn.myPlugin = function (options: Options) {
     // new Presenter($(this), options);
     new Panel($(this), options);
   };
-})(jQuery);
+}(jQuery));
 
-$(function() {
+$(() => {
   $('#block').myPlugin({
     min: 200,
     max: 600,
@@ -22,7 +22,7 @@ $(function() {
   });
 });
 
-$(function() {
+$(() => {
   $('#block2').myPlugin({
     min: 0,
     max: 900,
@@ -33,7 +33,7 @@ $(function() {
   });
 });
 
-$(function() {
+$(() => {
   $('#block3').myPlugin({
     min: 0,
     max: 100,
@@ -44,7 +44,7 @@ $(function() {
   });
 });
 
-$(function() {
+$(() => {
   $('#block4').myPlugin({
     min: 0,
     max: 300,

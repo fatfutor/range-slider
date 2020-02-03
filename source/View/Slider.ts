@@ -1,4 +1,4 @@
-/// <reference path="../globals.d.ts" />
+// / <reference path="../globals.d.ts" />
 
 export default class Slider {
   private range: HTMLElement;
@@ -13,5 +13,5 @@ export default class Slider {
 
   setMinMax = (min: number, max: number): void => {
     this.range.textContent = `от ${min} - до ${max}`;
-  }
+  };
 }

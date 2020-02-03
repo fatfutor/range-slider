@@ -4,9 +4,7 @@ var Line = (function () {
     function Line(container, orientation) {
         var _this = this;
         if (orientation === void 0) { orientation = 'horizontal'; }
-        this.getDomElement = function () {
-            return _this.line;
-        };
+        this.getDomElement = function () { return _this.line; };
         this.getLineSize = function () {
             var size;
             switch (_this.orientation) {
@@ -22,19 +20,19 @@ var Line = (function () {
         this.setLinePosition = function (values) {
             if (_this.orientation === 'horizontal') {
                 if (values.length === 2) {
-                    _this.innerLine.style.left = values[0] + HALF_SIZE + 'px';
-                    _this.innerLine.style.width = values[1] - values[0] + 'px';
+                    _this.innerLine.style.left = (values[0] + HALF_SIZE) + "px";
+                    _this.innerLine.style.width = (values[1] - values[0]) + "px";
                     return;
                 }
-                _this.innerLine.style.width = values[0] + 'px';
+                _this.innerLine.style.width = values[0] + "px";
             }
             else if (_this.orientation === 'vertical') {
                 if (values.length === 2) {
-                    _this.innerLine.style.top = values[0] + HALF_SIZE + 'px';
-                    _this.innerLine.style.height = values[1] - values[0] + 'px';
+                    _this.innerLine.style.top = (values[0] + HALF_SIZE) + "px";
+                    _this.innerLine.style.height = (values[1] - values[0]) + "px";
                     return;
                 }
-                _this.innerLine.style.height = values[0] + 'px';
+                _this.innerLine.style.height = values[0] + "px";
             }
         };
         this.orientation = orientation;

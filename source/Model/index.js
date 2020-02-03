@@ -1,15 +1,13 @@
 "use strict";
 var Model = (function () {
     function Model() {
-        this.getRangeKo = function (width, options) {
-            return (options.max - options.min) / width;
-        };
+        this.getRangeKo = function (width, options) { return (options.max - options.min) / width; };
         this.calculateContent = function (pinPosition, options, totalSize, step) {
             var rangeKo = (options.max - options.min) / totalSize;
             var content = (Math.round(pinPosition * rangeKo) + options.min);
             if (step > 1) {
                 var x = content % step;
-                content = content - x;
+                content -= x;
             }
             if (content < options.min)
                 content = options.min;

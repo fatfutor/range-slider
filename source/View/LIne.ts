@@ -2,7 +2,9 @@ const HALF_SIZE: number = 8;
 
 export default class Line {
   private line: HTMLElement;
+
   private innerLine: HTMLElement;
+
   private orientation: string;
 
   constructor(container: JQuery<HTMLElement>, orientation: string = 'horizontal') {
@@ -24,9 +26,7 @@ export default class Line {
     this.line.appendChild(this.innerLine);
   }
 
-  getDomElement = (): HTMLElement => {
-    return this.line;
-  };
+  getDomElement = (): HTMLElement => this.line;
 
   getLineSize = (): number => {
     let size: number;
@@ -45,19 +45,18 @@ export default class Line {
   setLinePosition = (values: Array<number>): void => {
     if (this.orientation === 'horizontal') {
       if (values.length === 2) {
-        this.innerLine.style.left = values[0] + HALF_SIZE + 'px';
-        this.innerLine.style.width = values[1] - values[0] + 'px';
+        this.innerLine.style.left = `${values[0] + HALF_SIZE}px`;
+        this.innerLine.style.width = `${values[1] - values[0]}px`;
         return;
       }
-      this.innerLine.style.width = values[0] + 'px';
-
+      this.innerLine.style.width = `${values[0]}px`;
     } else if (this.orientation === 'vertical') {
       if (values.length === 2) {
-        this.innerLine.style.top = values[0] + HALF_SIZE + 'px';
-        this.innerLine.style.height = values[1] - values[0] + 'px';
+        this.innerLine.style.top = `${values[0] + HALF_SIZE}px`;
+        this.innerLine.style.height = `${values[1] - values[0]}px`;
         return;
       }
-      this.innerLine.style.height = values[0] + 'px';
+      this.innerLine.style.height = `${values[0]}px`;
     }
-  }
+  };
 }
