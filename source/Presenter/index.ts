@@ -108,12 +108,16 @@ class Presenter {
   ) => (evt: InputEvent) => {
     const position = (+evt.target.value - this.options.min) / this.rangeKo;
     const pinPosition: number = this.model.calculatePinPosition(0, position, this.totalSize);
-    const pinUpValue: number = this.model.calculateContent(
-      pinPosition, this.options, this.totalSize, 0
-    );
 
     this.pinValues[idx] = this.model.validateData(this.pinValues, pinPosition, idx);
-    this.pinUpValues[idx] = this.model.validateData(this.pinUpValues, pinUpValue, idx);
+
+    this.pinUpValues[idx] = this.model.calculateContent(
+      this.pinValues[idx],
+      this.options.max,
+      this.options.min,
+      this.totalSize,
+      0
+    );
 
     pin.setPinValue(this.pinValues[idx], this.options.pinUp, this.pinUpValues[idx]);
 
@@ -153,9 +157,16 @@ class Presenter {
       }
 
       const pinPosition = model.calculatePinPosition(shift, pin.getPinPosition(), this.totalSize);
-      const pinUpValue = model.calculateContent(pinPosition, options, this.totalSize, options.step);
 
       this.pinValues[idx] = model.validateData(this.pinValues, pinPosition, idx);
+
+      const pinUpValue = model.calculateContent(
+        this.pinValues[idx],
+        options.max,
+        options.min,
+        this.totalSize,
+        options.step
+      );
 
       pin.setPinValue(this.pinValues[idx], options.pinUp, pinUpValue);
 

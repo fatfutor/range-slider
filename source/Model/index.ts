@@ -4,17 +4,17 @@ class Model {
   getRangeKo = (width: number, max: number, min: number): number => (max - min) / width;
 
   calculateContent =
-  (pinPosition: number, options: Options, totalSize: number, step: number): number => {
-    const rangeKo = (options.max - options.min) / totalSize;
-    let content = (Math.round(pinPosition * rangeKo) + options.min);
+  (pinPosition: number, max: number, min: number, totalSize: number, step: number): number => {
+    const rangeKo = (max - min) / totalSize;
+    let content = (Math.round(pinPosition * rangeKo) + min);
 
     if (step > 1) {
       const x = content % step;
       content -= x;
     }
 
-    if (content < options.min) content = options.min;
-    if (content > options.max) content = options.max;
+    if (content < min) content = min;
+    if (content > max) content = max;
     return content;
   };
 
@@ -63,7 +63,7 @@ class Model {
           return values[0] + 1;
         }
         return value;
-      default:
+      default: return;
     }
   };
 
