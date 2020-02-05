@@ -1,4 +1,5 @@
 // / <reference path="../globals.d.ts" />
+import constant from '../constant';
 
 class Model {
   getRangeKo = (width: number, max: number, min: number): number => (max - min) / width;
@@ -45,44 +46,13 @@ class Model {
 
   setShift =
   (startCoordinates: MousePosition, moveEvt: MouseEvent, orientation: string): number => {
-    const coordinate = (orientation === 'vertical') ? startCoordinates.y : startCoordinates.x;
-    const move = (orientation === 'vertical') ? moveEvt.clientY : moveEvt.clientX;
+    const coordinate = (orientation === constant.VERTICAL)
+      ? startCoordinates.y
+      : startCoordinates.x;
+    const move = (orientation === constant.VERTICAL)
+      ? moveEvt.clientY
+      : moveEvt.clientX;
     return coordinate - move;
-  };
-
-  validateData = (values: Array<number>, value: number, idx: number): number => {
-    switch (idx) {
-      case 0:
-        if (value >= values[1]) {
-          return values[1] - 1;
-        }
-        return value;
-
-      case 1:
-        if (value <= values[0]) {
-          return values[0] + 1;
-        }
-        return value;
-      default: return;
-    }
-  };
-
-  validatePinValues = (minMax: Array<number>, pins: Array<number>): Array<number> => {
-    if (minMax[0] > pins[0]) {
-      pins[0] = minMax[0];
-    }
-
-    if (minMax[1] < pins[pins.length - 1]) {
-      pins[pins.length - 1] = minMax[1];
-    }
-
-    if (pins.length === 2) {
-      if (pins[0] > pins[1]) {
-        pins[0] = minMax[0];
-        pins[1] = minMax[1];
-      }
-    }
-    return pins;
   };
 }
 

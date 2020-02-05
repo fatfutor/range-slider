@@ -1,3 +1,4 @@
+import constant from '../constant';
 
 class Pin {
   private pin: HTMLElement;
@@ -6,14 +7,20 @@ class Pin {
 
   private orientation: string;
 
-  constructor(container: HTMLElement, value: number, pinUp: boolean, pinUpValue: number, orientation: string = 'horizontal') {
+  constructor(
+    container: HTMLElement,
+    value: number,
+    pinUp: boolean,
+    pinUpValue: number,
+    orientation: string = constant.HORIZONTAL
+  ) {
     this.orientation = orientation;
     this.pin = document.createElement('div');
     this.pin.classList.add('slider__pin');
     container.appendChild(this.pin);
 
     if (pinUp) {
-      const pinUpOrientationClass = (this.orientation === 'vertical')
+      const pinUpOrientationClass = (this.orientation === constant.VERTICAL)
         ? 'slider__pin-up--vertical'
         : 'slider__pin-up--horizontal';
       this.pinUp = document.createElement('div');
@@ -28,14 +35,12 @@ class Pin {
   getDomElement = (): HTMLElement => this.pin;
 
   setPinValue = (value: number, pinUp: boolean = false, pinUpValue: number = 0): void => {
-    switch (this.orientation) {
-      case 'horizontal': this.pin.style.left = `${value}px`;
-        break;
+    if (this.orientation === constant.HORIZONTAL) {
+      this.pin.style.left = `${value}px`;
+    }
 
-      case 'vertical': this.pin.style.top = `${value}px`;
-        break;
-
-      default: return;
+    if (this.orientation === constant.VERTICAL) {
+      this.pin.style.top = `${value}px`;
     }
 
     if (pinUp) {
@@ -44,13 +49,15 @@ class Pin {
   };
 
   getPinPosition = (): number => {
-    switch (this.orientation) {
-      case 'horizontal': return this.pin.offsetLeft;
-
-      case 'vertical': return this.pin.offsetTop;
-
-      default:
+    if (this.orientation === constant.HORIZONTAL) {
+      return this.pin.offsetLeft;
     }
+
+    if (this.orientation === constant.VERTICAL) {
+      return this.pin.offsetTop;
+    }
+
+    return this.pin.offsetLeft;
   };
 }
 

@@ -13,7 +13,7 @@ class Slider {
   };
 
   setMinMax = (min: number, max: number): void => {
-    this.range.textContent = `от ${util.makeMinEqualMax(min, max)} - до ${max}`;
+    this.range.textContent = `от ${util.makeMinLessMax(min, max)} - до ${max}`;
   };
 }
 
