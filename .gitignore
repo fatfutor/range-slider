@@ -1,19 +1,9 @@
-# Default
 .idea
-.vscode
 
-# Node
 node_modules
 
-# Dist & test
 test-dist
 build
-PP
-
-source/*.js, *.map
-
-# BD, logs
-*.log
 
 source/Model/index.js
 source/Model/index.js.map
@@ -31,3 +21,5 @@ source/View/Slider.js
 source/View/Slider.js.map
 source/index.js
 source/index.js.map
+source/util/index.js
+source/util/index.js.map

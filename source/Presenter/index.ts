@@ -1,5 +1,5 @@
 // <reference path="../globals.d.ts" />
-
+import util from '../util';
 import Pin from '../View/Pin';
 import Line from '../View/Line';
 import Input from '../View/Input';
@@ -200,7 +200,7 @@ class Presenter {
   };
 
   private validateOptions = (): void => {
-    this.options.min = this.model.validateMin(this.options.min, this.options.max);
+    this.options.min = util.makeMinEqualMax(this.options.min, this.options.max);
     this.options.values = this.model.validatePinValues(
       [this.options.min, this.options.max],
       this.options.values

@@ -1,4 +1,5 @@
 // / <reference path="../globals.d.ts" />
+import util from '../util';
 
 class Slider {
   private range: HTMLElement;
@@ -12,7 +13,7 @@ class Slider {
   };
 
   setMinMax = (min: number, max: number): void => {
-    this.range.textContent = `от ${min} - до ${max}`;
+    this.range.textContent = `от ${util.makeMinEqualMax(min, max)} - до ${max}`;
   };
 }
 

@@ -84,12 +84,6 @@ class Model {
     }
     return pins;
   };
-
-  validateMin = (min: number, max: number): number => {
-    if (min < 0) min = 0;
-    if (min >= max) min = max - 1;
-    return min;
-  };
 }
 
 export default Model;
