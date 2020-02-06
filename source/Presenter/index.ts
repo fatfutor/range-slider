@@ -1,17 +1,28 @@
 // <reference path="../globals.d.ts" />
 import util from '../util';
+import constant from '../constant';
 import Pin from '../View/Pin';
 import Line from '../View/Line';
 import Input from '../View/Input';
 import Model from '../Model';
 import Slider from '../View/Slider';
 
-const SLIDER_SIZE: number = 300;
-
 class Presenter {
   private block: JQuery<HTMLElement>;
 
   private options: Options;
+
+  private min: number;
+
+  private max: number;
+
+  private values: Array<number>;
+
+  private step: number;
+
+  private pinUp: boolean;
+
+  private orientation: string;
 
   private line: ILine;
 
@@ -30,10 +41,16 @@ class Presenter {
   constructor(block: JQuery<HTMLElement>, options: Options) {
     this.block = block;
     this.options = options;
+    this.min = options.min;
+    this.max = options.max;
+    this.values = options.values;
+    this.step = options.step;
+    this.pinUp = options.pinUp;
+    this.orientation = options.orientation;
     this.slider = new Slider();
     this.model = new Model();
-    this.totalSize = SLIDER_SIZE;
-    this.pinUpValues = [...this.options.values];
+    this.totalSize = constant.SLIDER_SIZE;
+    this.pinUpValues = [...options.values];
 
     this.slider.createSlider(
       this.block,
@@ -47,52 +64,50 @@ class Presenter {
 
     this.rangeKo = this.model.getRangeKo(
       this.totalSize,
-      this.options.max,
-      this.options.min
+      this.max,
+      this.min
     );
 
     this.pinValues = this.model.setStartValues(
-      this.options.values,
+      this.values,
       this.totalSize,
-      this.options.min,
-      this.options.max
+      this.min,
+      this.max
     );
 
     this.line = new Line(
       this.block,
-      this.options.orientation
+      this.orientation
     );
 
     this.line.setLinePosition(this.pinValues);
 
-    this.options.values.forEach((it, idx) => {
+    this.values.forEach((it, idx) => {
       const pinStartPosition: number = this.model.calculateStartPinPosition(
         this.totalSize,
-        this.options.max,
-        this.options.min,
+        this.max,
+        this.min,
         it
       );
 
       const pin = new Pin(
         this.line.getDomElement(),
         pinStartPosition,
-        this.options.pinUp,
+        this.pinUp,
         it,
-        this.options.orientation
+        this.orientation
       );
 
-      const input: any = new Input(
+      const input: Input = new Input(
         this.block,
         it,
-        this.options.min,
-        this.options.max
+        this.min,
+        this.max
       );
 
       pin.getDomElement().addEventListener('mousedown', this.onPinMove(
-        this.model,
         pin,
         input,
-        this.options,
         idx
       ));
 
@@ -106,28 +121,26 @@ class Presenter {
     idx: number,
     pin: Pin
   ) => (evt: InputEvent) => {
-    const position = (+evt.target.value - this.options.min) / this.rangeKo;
+    const position = (+evt.target.value - this.min) / this.rangeKo;
     const pinPosition: number = this.model.calculatePinPosition(0, position, this.totalSize);
     this.pinValues[idx] = util.makePinValueLimit(this.pinValues, pinPosition, idx);
 
     this.pinUpValues[idx] = this.model.calculateContent(
       this.pinValues[idx],
-      this.options.max,
-      this.options.min,
+      this.max,
+      this.min,
       this.totalSize,
       0
     );
 
-    pin.setPinValue(this.pinValues[idx], this.options.pinUp, this.pinUpValues[idx]);
+    pin.setPinValue(this.pinValues[idx], this.pinUp, this.pinUpValues[idx]);
 
     this.line.setLinePosition(this.pinValues);
   };
 
   private onPinMove = (
-    model: Model,
     pin: Pin,
     input: Input,
-    options: Options,
     idx: number
   ) => (evt: MouseEvent) => {
     evt.preventDefault();
@@ -143,30 +156,34 @@ class Presenter {
       moveEvt.preventDefault();
       dragged = true;
 
-      let shift: number = model.setShift(startCoordinates, moveEvt, options.orientation);
+      let shift: number = this.model.setShift(startCoordinates, moveEvt, this.orientation);
 
-      if (options.step) {
-        if (shift >= options.step / this.rangeKo) {
-          shift = Math.round(options.step / this.rangeKo);
-        } else if (-shift >= options.step / this.rangeKo) {
-          shift = -Math.round(options.step / this.rangeKo);
+      if (this.step) {
+        if (shift >= this.step / this.rangeKo) {
+          shift = Math.round(this.step / this.rangeKo);
+        } else if (-shift >= this.step / this.rangeKo) {
+          shift = -Math.round(this.step / this.rangeKo);
         } else {
           return;
         }
       }
 
-      const pinPosition = model.calculatePinPosition(shift, pin.getPinPosition(), this.totalSize);
+      const pinPosition = this.model.calculatePinPosition(
+        shift,
+        pin.getPinPosition(),
+        this.totalSize
+      );
       this.pinValues[idx] = util.makePinValueLimit(this.pinValues, pinPosition, idx);
 
-      const pinUpValue = model.calculateContent(
+      const pinUpValue = this.model.calculateContent(
         this.pinValues[idx],
-        options.max,
-        options.min,
+        this.max,
+        this.min,
         this.totalSize,
-        options.step
+        this.step
       );
 
-      pin.setPinValue(this.pinValues[idx], options.pinUp, pinUpValue);
+      pin.setPinValue(this.pinValues[idx], this.pinUp, pinUpValue);
 
       input.setInputValue(pinUpValue);
 
@@ -198,10 +215,10 @@ class Presenter {
   };
 
   private validateOptions = (): void => {
-    this.options.min = util.makeMinLessMax(this.options.min, this.options.max);
-    this.options.values = util.validateOptionsPinValues(
-      [this.options.min, this.options.max],
-      this.options.values
+    this.min = util.makeMinLessMax(this.min, this.max);
+    this.values = util.validateOptionsPinValues(
+      [this.min, this.max],
+      this.values
     );
   };
 
@@ -209,12 +226,12 @@ class Presenter {
     const blockId: string = `#${this.block[0].id}`;
     $(`${blockId} .slider__line`).remove();
     $(`${blockId} .slider__input`).remove();
-    this.options.step = options.step;
-    this.options.min = options.min;
-    this.options.max = options.max;
-    this.options.pinUp = options.pinUp;
-    this.options.orientation = options.orientation;
-    this.slider.setMinMax(options.min, options.max);
+    this.min = options.min;
+    this.max = options.max;
+    this.step = options.step;
+    this.pinUp = options.pinUp;
+    this.orientation = options.orientation;
+    this.slider.setMinMax(this.min, this.max);
     this.renderDomElements();
   };
 }
