@@ -10,8 +10,6 @@ import Slider from '../View/Slider';
 class Presenter {
   private block: JQuery<HTMLElement>;
 
-  private options: Options;
-
   private min: number;
 
   private max: number;
@@ -40,7 +38,6 @@ class Presenter {
 
   constructor(block: JQuery<HTMLElement>, options: Options) {
     this.block = block;
-    this.options = options;
     this.min = options.min;
     this.max = options.max;
     this.values = options.values;
@@ -52,10 +49,7 @@ class Presenter {
     this.totalSize = constant.SLIDER_SIZE;
     this.pinUpValues = [...options.values];
 
-    this.slider.createSlider(
-      this.block,
-      this.options
-    );
+    this.slider.createSlider(this.block, this.min, this.max);
     this.renderDomElements();
   }
 
