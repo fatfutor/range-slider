@@ -24,7 +24,7 @@ class Presenter {
 
   private orientation: string;
 
-  private line: ILine;
+  private line: Line;
 
   private model: Model;
 
@@ -62,65 +62,37 @@ class Presenter {
   private renderDomElements = (): void => {
     this.validateOptions();
 
-    this.rangeKo = this.model.getRangeKo(
-      this.totalSize,
-      this.max,
-      this.min
-    );
+    this.step = util.validateStep(this.min, this.max, this.step);
 
-    this.pinValues = this.model.setStartValues(
-      this.values,
-      this.totalSize,
-      this.min,
-      this.max
-    );
+    this.rangeKo = this.model.getRangeKo(this.totalSize, this.max, this.min);
 
-    this.line = new Line(
-      this.block,
-      this.orientation
-    );
+    this.pinValues = this.model.setStartValues(this.values, this.totalSize, this.min, this.max);
+
+    this.line = new Line(this.block, this.orientation);
 
     this.line.setLinePosition(this.pinValues);
 
     this.values.forEach((it, idx) => {
-      const pinStartPosition: number = this.model.calculateStartPinPosition(
-        this.totalSize,
-        this.max,
-        this.min,
-        it
+      const pinStartPosition: number = this.model
+        .calculateStartPinPosition(this.totalSize, this.max, this.min, it);
+
+      const pin: Pin = new Pin(
+        this.line.getDomElement(), pinStartPosition, this.pinUp, it, this.orientation
       );
 
-      const pin = new Pin(
-        this.line.getDomElement(),
-        pinStartPosition,
-        this.pinUp,
-        it,
-        this.orientation
-      );
+      const input: Input = new Input(this.block, it, this.min, this.max);
 
-      const input: Input = new Input(
-        this.block,
-        it,
-        this.min,
-        this.max
-      );
+      pin
+        .getDomElement()
+        .addEventListener('mousedown', this.onPinMove(pin, input, idx));
 
-      pin.getDomElement().addEventListener('mousedown', this.onPinMove(
-        pin,
-        input,
-        idx
-      ));
-
-      const inputNode = input.getDomElement();
-
-      inputNode.addEventListener('change', this.onInputNodeChange(idx, pin).bind(this));
+      input
+        .getDomElement()
+        .addEventListener('change', this.onInputNodeChange(idx, pin).bind(this));
     });
   };
 
-  private onInputNodeChange = (
-    idx: number,
-    pin: Pin
-  ) => (evt: InputEvent) => {
+  private onInputNodeChange = (idx: number, pin: Pin) => (evt: InputEvent) => {
     const position = (+evt.target.value - this.min) / this.rangeKo;
     const pinPosition: number = this.model.calculatePinPosition(0, position, this.totalSize);
     this.pinValues[idx] = util.makePinValueLimit(this.pinValues, pinPosition, idx);
@@ -138,11 +110,7 @@ class Presenter {
     this.line.setLinePosition(this.pinValues);
   };
 
-  private onPinMove = (
-    pin: Pin,
-    input: Input,
-    idx: number
-  ) => (evt: MouseEvent) => {
+  private onPinMove = (pin: Pin, input: Input, idx: number) => (evt: MouseEvent) => {
     evt.preventDefault();
 
     let startCoordinates = {

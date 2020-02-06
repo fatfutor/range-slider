@@ -45,10 +45,19 @@ const validateOptionsPinValues = (minMax: Array<number>, pins: Array<number>): A
   return [firstElementPin, secondElementPin];
 };
 
+const validateStep = (min: number, max: number, step: number): number => {
+  let stepValue = step;
+  const maxSizeStep = (max - min) / 2;
+  if (stepValue <= 1) stepValue = 0;
+  if (stepValue >= maxSizeStep) stepValue = maxSizeStep;
+  return stepValue;
+};
+
 const util = {
   makeMinLessMax,
   makePinValueLimit,
   validateOptionsPinValues,
+  validateStep,
 };
 
 export default util;

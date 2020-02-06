@@ -8,22 +8,6 @@ interface Options {
   orientation: string;
 }
 
-interface ILine {
-  setLinePosition: (values: Array<number>) => void;
-  getDomElement: () => HTMLElement;
-  getLineSize: () => number;
-}
-
-interface Model {}
-
-interface Slider {}
-
-interface Pin {}
-
-interface Input {}
-
-interface Presenter {}
-
 interface MousePosition {
   x: number;
   y: number;
