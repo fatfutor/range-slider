@@ -1,10 +1,10 @@
 // / <reference path="../globals.d.ts" />
 import util from '../util';
 
-class Slider {
+class Container {
   private range: HTMLElement;
 
-  createSlider = (container: JQuery<HTMLElement>, min: number, max: number): void => {
+  createContainer = (container: JQuery<HTMLElement>, min: number, max: number): void => {
     container.addClass('slider');
     this.range = document.createElement('div');
     this.range.classList.add('slider__range');
@@ -17,4 +17,4 @@ class Slider {
   };
 }
 
-export default Slider;
+export default Container;

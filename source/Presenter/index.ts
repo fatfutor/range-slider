@@ -5,7 +5,7 @@ import Pin from '../View/Pin';
 import Line from '../View/Line';
 import Input from '../View/Input';
 import Model from '../Model';
-import Slider from '../View/Slider';
+import Container from '../View/Container';
 
 class Presenter {
   private block: JQuery<HTMLElement>;
@@ -26,7 +26,7 @@ class Presenter {
 
   private model: Model;
 
-  private slider: Slider;
+  private container: Container;
 
   private rangeKo: number;
 
@@ -44,12 +44,12 @@ class Presenter {
     this.step = options.step;
     this.pinUp = options.pinUp;
     this.orientation = options.orientation;
-    this.slider = new Slider();
+    this.container = new Container();
     this.model = new Model();
     this.totalSize = constant.SLIDER_SIZE;
     this.pinUpValues = [...options.values];
 
-    this.slider.createSlider(this.block, this.min, this.max);
+    this.container.createContainer(this.block, this.min, this.max);
     this.renderDomElements();
   }
 
@@ -193,7 +193,7 @@ class Presenter {
     this.step = options.step;
     this.pinUp = options.pinUp;
     this.orientation = options.orientation;
-    this.slider.setMinMax(this.min, this.max);
+    this.container.setMinMax(this.min, this.max);
     this.renderDomElements();
   };
 }

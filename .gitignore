@@ -17,8 +17,8 @@ source/View/Line.js
 source/View/Line.js.map
 source/View/Pin.js
 source/View/Pin.js.map
-source/View/Slider.js
-source/View/Slider.js.map
+source/View/Container.js
+source/View/Container.js.map
 source/index.js
 source/index.js.map
 source/util/index.js
