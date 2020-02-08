@@ -7,6 +7,8 @@ build
 
 source/Model/index.js
 source/Model/index.js.map
+source/Slider/index.js
+source/Slider/index.js.map
 source/Panel.js
 source/Panel.js.map
 source/Presenter/index.js

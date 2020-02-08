@@ -24,3 +24,5 @@ interface targetValue {
 interface JQuery {
   myPlugin: any;
 }
+
+interface ISlider {}
