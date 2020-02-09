@@ -25,4 +25,6 @@ interface JQuery {
   myPlugin: any;
 }
 
-interface ISlider {}
+interface ISlider {
+  changeOptions: (options: Options) => void;
+}

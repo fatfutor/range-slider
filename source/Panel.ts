@@ -1,16 +1,103 @@
 // <reference path="./globals.d.ts" />
-
 import './Slider';
 
 class Panel {
   private slider: ISlider;
 
+  private options: Options;
+
+  private container: any;
+
+  private vertical: HTMLInputElement;
+
+  private pinUp: HTMLInputElement;
+
+  private min: HTMLInputElement;
+
+  private max: HTMLInputElement;
+
+  private step: HTMLInputElement;
+
+  private interval: HTMLInputElement;
+
   constructor(containerSelector: string, options: Options) {
+    this.options = options;
+    this.container = document.querySelector(containerSelector);
+    this.vertical = this.container.querySelector('.js-panel__input[name="vertical"]');
+    this.pinUp = this.container.querySelector('.js-panel__input[name="pin-up"]');
+    this.min = this.container.querySelector('.js-panel__input[name="min"]');
+    this.max = this.container.querySelector('.js-panel__input[name="max"]');
+    this.step = this.container.querySelector('.js-panel__input[name="step"]');
+    this.interval = this.container.querySelector('.js-panel__input[name="interval"]');
     this.initPanel(containerSelector, options);
+
+    this.addEventListeners();
   }
-  
-  initPanel(containerSelector: string, options: Options): void {
+
+  private initPanel(containerSelector: string, options: Options): void {
     this.slider = $(containerSelector).myPlugin(options);
+  }
+
+  private getValues = (): Array<number> => {
+    const values: NodeListOf<HTMLInputElement> = this.container.querySelectorAll('.slider__input');
+    const array = [];
+    for (let i = 0; i < values.length; i += 1) {
+      array.push(+values[i].value);
+    }
+    return array;
+  };
+
+  private addEventListeners(): void {
+    this.pinUp.addEventListener('change', this.onPinUpChange.bind(this));
+    this.vertical.addEventListener('change', this.onVerticalChange.bind(this));
+    this.min.addEventListener('change', this.onMinChange.bind(this));
+    this.max.addEventListener('change', this.onMaxChange.bind(this));
+    this.step.addEventListener('change', this.onStepChange.bind(this));
+    this.interval.addEventListener('change', this.onIntervalChange.bind(this));
+  }
+
+  private onPinUpChange(): void {
+    this.options.values = this.getValues();
+    this.options.pinUp = !!this.pinUp.checked;
+    this.slider.changeOptions(this.options);
+  }
+
+  private onVerticalChange(): void {
+    this.options.values = this.getValues();
+    if (this.vertical.checked) {
+      this.options.orientation = 'vertical';
+    } else {
+      this.options.orientation = 'horizontal';
+    }
+    this.slider.changeOptions(this.options);
+  }
+
+  private onMinChange(): void {
+    this.options.values = this.getValues();
+    this.options.min = +this.min.value;
+    this.slider.changeOptions(this.options);
+  }
+
+  private onMaxChange(): void {
+    this.options.values = this.getValues();
+    this.options.max = +this.max.value;
+    this.slider.changeOptions(this.options);
+  }
+
+  private onStepChange(): void {
+    this.options.values = this.getValues();
+    this.options.step = +this.step.value;
+    this.slider.changeOptions(this.options);
+  }
+
+  private onIntervalChange(): void {
+    this.options.values = this.getValues();
+    if (this.interval.checked) {
+      this.options.values[1] = this.options.max;
+    } else {
+      this.options.values = this.options.values.slice(0, 1);
+    }
+    this.slider.changeOptions(this.options);
   }
 }
 

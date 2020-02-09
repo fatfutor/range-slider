@@ -4,9 +4,10 @@ import Presenter from '../Presenter';
 
 class Slider {
   constructor() {
-    this.initSlider(jQuery)
+    this.initSlider();
   }
-  private initSlider($: any) {
+
+  private initSlider(): void {
     $.fn.myPlugin = function (options: Options) {
       return new Presenter($(this), options);
     };

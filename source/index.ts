@@ -16,7 +16,7 @@ new Panel('#block', {
 //   max: 900,
 //   values: [60],
 //   step: 30,
-//   pinUp: false,
+//   pinUp: true,
 //   orientation: 'horizontal',
 // });
 //
