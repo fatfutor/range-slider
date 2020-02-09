@@ -10,13 +10,13 @@ import Container from '../View/Container';
 class Presenter {
   private block: JQuery<HTMLElement>;
 
-  private min: number;
+  public min: number;
 
-  private max: number;
+  public max: number;
 
   private values: Array<number>;
 
-  private step: number;
+  public step: number;
 
   private pinUp: boolean;
 
@@ -184,12 +184,13 @@ class Presenter {
     );
   };
 
-  changeOptions = (options: Options): void => {
+  public changeOptions = (options: Options): void => {
     const blockId: string = `#${this.block[0].id}`;
     $(`${blockId} .slider__line`).remove();
     $(`${blockId} .slider__input`).remove();
     this.min = options.min;
     this.max = options.max;
+    this.values = options.values;
     this.step = options.step;
     this.pinUp = options.pinUp;
     this.orientation = options.orientation;

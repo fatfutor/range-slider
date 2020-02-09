@@ -27,4 +27,7 @@ interface JQuery {
 
 interface ISlider {
   changeOptions: (options: Options) => void;
+  step: number;
+  min: number;
+  max: number;
 }

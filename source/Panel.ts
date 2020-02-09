@@ -6,7 +6,7 @@ class Panel {
 
   private options: Options;
 
-  private container: any;
+  private container: HTMLElement | any;
 
   private vertical: HTMLInputElement;
 
@@ -40,7 +40,7 @@ class Panel {
 
   private getValues = (): Array<number> => {
     const values: NodeListOf<HTMLInputElement> = this.container.querySelectorAll('.slider__input');
-    const array = [];
+    const array: Array<number> = [];
     for (let i = 0; i < values.length; i += 1) {
       array.push(+values[i].value);
     }
@@ -76,18 +76,24 @@ class Panel {
     this.options.values = this.getValues();
     this.options.min = +this.min.value;
     this.slider.changeOptions(this.options);
+    this.min.value = this.slider.min.toString();
+    this.options.min = this.slider.min;
   }
 
   private onMaxChange(): void {
     this.options.values = this.getValues();
     this.options.max = +this.max.value;
     this.slider.changeOptions(this.options);
+    this.min.value = this.slider.min.toString();
+    this.options.min = this.slider.min;
   }
 
   private onStepChange(): void {
     this.options.values = this.getValues();
     this.options.step = +this.step.value;
     this.slider.changeOptions(this.options);
+    this.step.value = this.slider.step.toString();
+    this.options.step = this.slider.step;
   }
 
   private onIntervalChange(): void {

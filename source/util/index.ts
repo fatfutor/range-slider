@@ -23,6 +23,7 @@ const makePinValueLimit = (values: Array<number>, value: number, idx: number): n
 };
 
 const validateOptionsPinValues = (minMax: Array<number>, pins: Array<number>): Array<number> => {
+  const array: Array<number> = [];
   const firstElementMinMax = minMax[0];
   const secondElementMinMax = minMax[1];
   let firstElementPin = pins[0];
@@ -42,7 +43,11 @@ const validateOptionsPinValues = (minMax: Array<number>, pins: Array<number>): A
       secondElementPin = secondElementMinMax;
     }
   }
-  return [firstElementPin, secondElementPin];
+
+  array.push(firstElementPin);
+  if (secondElementPin) array.push(secondElementPin);
+
+  return array;
 };
 
 const validateStep = (min: number, max: number, step: number): number => {
