@@ -5,14 +5,9 @@ class Model {
   getRangeKo = (width: number, max: number, min: number): number => (max - min) / width;
 
   calculateContent =
-  (pinPosition: number, max: number, min: number, totalSize: number, step: number): number => {
+  (pinPosition: number, max: number, min: number, totalSize: number): number => {
     const rangeKo = (max - min) / totalSize;
     let content = (Math.round(pinPosition * rangeKo) + min);
-
-    if (step > 1) {
-      const x = content % step;
-      content -= x;
-    }
 
     if (content < min) content = min;
     if (content > max) content = max;
@@ -45,14 +40,25 @@ class Model {
   };
 
   setShift =
-  (startCoordinates: MousePosition, moveEvt: MouseEvent, orientation: string): number => {
-    const coordinate = (orientation === constant.VERTICAL)
-      ? startCoordinates.y
-      : startCoordinates.x;
-    const move = (orientation === constant.VERTICAL)
-      ? moveEvt.clientY
-      : moveEvt.clientX;
-    return coordinate - move;
+  (startCoordinates: MousePosition, moveEvt: MouseEvent, orientation: string, step: number, rangeKo: number): number => {
+
+    const stepKo = step / rangeKo;
+    let movedCoordinate = 0;
+    let moduleMovedCoordinate = 0;
+
+    if (orientation === constant.HORIZONTAL) {
+      movedCoordinate = moveEvt.clientX - startCoordinates.x;
+    } else if (orientation === constant.VERTICAL) {
+      movedCoordinate = moveEvt.clientY - startCoordinates.y;
+    }
+
+    if (movedCoordinate > 0) {
+      moduleMovedCoordinate = Math.floor((movedCoordinate) / stepKo);
+    } else if (movedCoordinate < 0) {
+      moduleMovedCoordinate = Math.ceil((movedCoordinate) / stepKo);
+    }
+
+    return -(moduleMovedCoordinate * stepKo);
   };
 }
 

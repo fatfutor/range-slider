@@ -53,7 +53,7 @@ const validateOptionsPinValues = (minMax: Array<number>, pins: Array<number>): A
 const validateStep = (min: number, max: number, step: number): number => {
   let stepValue = step;
   const maxSizeStep = (max - min) / 2;
-  if (stepValue <= 1) stepValue = 0;
+  if (stepValue <= 0) stepValue = 1;
   if (stepValue >= maxSizeStep) stepValue = maxSizeStep;
   return stepValue;
 };

@@ -95,8 +95,7 @@ class Presenter {
       this.pinValues[idx],
       this.max,
       this.min,
-      this.totalSize,
-      0
+      this.totalSize
     );
 
     pin.setPinValue(this.pinValues[idx], this.pinUp, this.pinUpValues[idx]);
@@ -118,17 +117,7 @@ class Presenter {
       moveEvt.preventDefault();
       dragged = true;
 
-      let shift: number = this.model.setShift(startCoordinates, moveEvt, this.orientation);
-
-      if (this.step) {
-        if (shift >= this.step / this.rangeKo) {
-          shift = Math.round(this.step / this.rangeKo);
-        } else if (-shift >= this.step / this.rangeKo) {
-          shift = -Math.round(this.step / this.rangeKo);
-        } else {
-          return;
-        }
-      }
+      const shift: number = this.model.setShift(startCoordinates, moveEvt, this.orientation, this.step, this.rangeKo);
 
       const pinPosition = this.model.calculatePinPosition(
         shift,
@@ -141,8 +130,7 @@ class Presenter {
         this.pinValues[idx],
         this.max,
         this.min,
-        this.totalSize,
-        this.step
+        this.totalSize
       );
 
       pin.setPinValue(this.pinValues[idx], this.pinUp, pinUpValue);
@@ -151,10 +139,12 @@ class Presenter {
 
       this.line.setLinePosition(this.pinValues);
 
-      startCoordinates = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
+      if (shift) {
+        startCoordinates = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
+      }
     };
 
     const onMouseUp = (upEvt: MouseEvent) => {

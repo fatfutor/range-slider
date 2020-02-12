@@ -3,10 +3,10 @@
 import Panel from './Panel';
 
 new Panel('#block', {
-  min: 200,
+  min: 0,
   max: 600,
-  values: [200, 400],
-  step: 0,
+  values: [0, 250],
+  step: 150,
   pinUp: true,
   orientation: 'horizontal',
 });
@@ -24,7 +24,7 @@ new Panel('#block3', {
   min: -200,
   max: 100,
   values: [0, 90],
-  step: 0,
+  step: 1,
   pinUp: false,
   orientation: 'horizontal',
 });
