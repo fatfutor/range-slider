@@ -8,6 +8,10 @@ class Line {
   private orientation: string;
 
   constructor(container: JQuery<HTMLElement>, orientation: string = constant.HORIZONTAL) {
+    this.createLine(container, orientation);
+  }
+
+  private createLine = (container: JQuery<HTMLElement>, orientation: string): void => {
     this.orientation = orientation;
     const orientationLineClass = (this.orientation === constant.VERTICAL)
       ? 'slider__line--vertical'
@@ -24,7 +28,7 @@ class Line {
     this.innerLine = document.createElement('div');
     this.innerLine.classList.add('slider__inner-line', orientationInnerLineClass);
     this.line.appendChild(this.innerLine);
-  }
+  };
 
   getDomElement = (): HTMLElement => this.line;
 

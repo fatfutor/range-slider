@@ -2,34 +2,46 @@
 import constant from '../constant';
 
 class Model {
-  getRangeKo = (width: number, max: number, min: number): number => (max - min) / width;
+  getRangeKo = (getRangeKoParameters: IGetRangeKoParameters): number => {
+    const { width, max, min } = getRangeKoParameters;
 
-  calculateContent =
-  (pinPosition: number, max: number, min: number, totalSize: number): number => {
+    return (max - min) / width;
+  };
+
+  calculateContent = (calculateContentParameters: ICalculateContentParameters): number => {
+    const {
+      pinPosition, max, min, totalSize
+    } = calculateContentParameters;
+
     const rangeKo = (max - min) / totalSize;
     let content = (Math.round(pinPosition * rangeKo) + min);
-
     if (content < min) content = min;
     if (content > max) content = max;
     return content;
   };
 
-  calculatePinPosition = (shift: number, pinPosition: number, totalSize: number): number => {
+  calculatePinPosition = (calcPinPosParameters: ICalcPinPosParameters): number => {
+    const { shift, pinPosition, totalSize } = calcPinPosParameters;
+
     let position: number = pinPosition - shift;
     if (position < 0) position = 0;
     if (position > totalSize) position = totalSize;
     return position;
   };
 
-  calculateStartPinPosition = (
-    totalSize: number,
-    max: number,
-    min: number,
-    item: number
-  ): number => (totalSize / (max - min)) * (item - min);
+  calculateStartPinPosition = (calcStartPinPosParameters: ICalcStartPinPosParameters): number => {
+    const {
+      totalSize, max, min, item
+    } = calcStartPinPosParameters;
 
-  setStartValues =
-  (values: Array<number>, totalSize: number, min: number, max: number): Array<number> => {
+    return (totalSize / (max - min)) * (item - min);
+  };
+
+  setStartValues = (setStartValuesParameters: ISetStartValuesParameters): Array<number> => {
+    const {
+      values, totalSize, max, min
+    } = setStartValuesParameters;
+
     const array: Array<number> = [];
     values.forEach((it) => {
       let value = totalSize / (max - min);
@@ -39,8 +51,10 @@ class Model {
     return array;
   };
 
-  setShift =
-  (startCoordinates: MousePosition, moveEvt: MouseEvent, orientation: string, step: number, rangeKo: number): number => {
+  setShift = (setShiftParameters: ISetShiftParameters): number => {
+    const {
+      startCoordinates, moveEvt, orientation, step, rangeKo
+    } = setShiftParameters;
 
     const stepKo = step / rangeKo;
     let movedCoordinate = 0;
@@ -60,6 +74,52 @@ class Model {
 
     return -(moduleMovedCoordinate * stepKo);
   };
+}
+
+interface IGetRangeKoParameters {
+  width: number;
+  max: number;
+  min: number;
+}
+
+interface ICalculateContentParameters {
+  pinPosition: number;
+  max: number;
+  min: number;
+  totalSize: number;
+}
+
+interface ICalcPinPosParameters {
+  shift: number;
+  pinPosition: number;
+  totalSize: number;
+}
+
+interface ICalcStartPinPosParameters {
+  totalSize: number;
+  max: number;
+  min: number;
+  item: number;
+}
+
+interface ISetStartValuesParameters {
+  values: Array<number>;
+  totalSize: number;
+  min: number;
+  max: number;
+}
+
+interface ISetShiftParameters {
+  startCoordinates: IMousePosition;
+  moveEvt: MouseEvent;
+  orientation: string;
+  step: number;
+  rangeKo: number;
+}
+
+interface IMousePosition {
+  x: number;
+  y: number;
 }
 
 export default Model;

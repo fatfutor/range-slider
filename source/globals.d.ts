@@ -1,5 +1,5 @@
 
-interface Options {
+interface IOptions {
   min: number;
   max: number;
   values: Array<number>;
@@ -8,25 +8,12 @@ interface Options {
   orientation: string;
 }
 
-interface MousePosition {
-  x: number;
-  y: number;
-}
-
-interface InputEvent {
-  target: targetValue;
-}
-
-interface targetValue {
-  value: string
-}
-
 interface JQuery {
   myPlugin: any;
 }
 
 interface ISlider {
-  changeOptions: (options: Options) => void;
+  changeOptions: (options: IOptions) => void;
   step: number;
   min: number;
   max: number;

@@ -36,7 +36,12 @@ class Presenter {
 
   private pinUpValues: Array<number>;
 
-  constructor(block: JQuery<HTMLElement>, options: Options) {
+  constructor(block: JQuery<HTMLElement>, options: IOptions) {
+    this.defaultState(block, options);
+    this.renderDomElements();
+  }
+
+  private defaultState = (block: JQuery<HTMLElement>, options: IOptions): void => {
     this.block = block;
     this.min = options.min;
     this.max = options.max;
@@ -50,25 +55,33 @@ class Presenter {
     this.pinUpValues = [...options.values];
 
     this.container.createContainer(this.block, this.min, this.max);
-    this.renderDomElements();
-  }
+  };
 
   private renderDomElements = (): void => {
     this.validateOptions();
 
     this.step = util.validateStep(this.min, this.max, this.step);
 
-    this.rangeKo = this.model.getRangeKo(this.totalSize, this.max, this.min);
+    this.rangeKo = this.model.getRangeKo({ width: this.totalSize, max: this.max, min: this.min });
 
-    this.pinValues = this.model.setStartValues(this.values, this.totalSize, this.min, this.max);
+    this.pinValues = this.model.setStartValues({
+      values: this.values,
+      totalSize: this.totalSize,
+      min: this.min,
+      max: this.max
+    });
 
     this.line = new Line(this.block, this.orientation);
 
     this.line.setLinePosition(this.pinValues);
 
     this.values.forEach((it, idx) => {
-      const pinStartPosition: number = this.model
-        .calculateStartPinPosition(this.totalSize, this.max, this.min, it);
+      const pinStartPosition: number = this.model.calculateStartPinPosition({
+        totalSize: this.totalSize,
+        max: this.max,
+        min: this.min,
+        item: it
+      });
 
       const pin: Pin = new Pin(
         this.line.getDomElement(), pinStartPosition, this.pinUp, it, this.orientation
@@ -87,16 +100,20 @@ class Presenter {
   };
 
   private onInputNodeChange = (idx: number, pin: Pin) => (evt: InputEvent) => {
-    const position = (+evt.target.value - this.min) / this.rangeKo;
-    const pinPosition: number = this.model.calculatePinPosition(0, position, this.totalSize);
+    const position = (Number.parseInt(evt.target.value, 10) - this.min) / this.rangeKo;
+    const pinPosition: number = this.model.calculatePinPosition({
+      shift: 0,
+      pinPosition: position,
+      totalSize: this.totalSize
+    });
     this.pinValues[idx] = util.makePinValueLimit(this.pinValues, pinPosition, idx);
 
-    this.pinUpValues[idx] = this.model.calculateContent(
-      this.pinValues[idx],
-      this.max,
-      this.min,
-      this.totalSize
-    );
+    this.pinUpValues[idx] = this.model.calculateContent({
+      pinPosition: this.pinValues[idx],
+      max: this.max,
+      min: this.min,
+      totalSize: this.totalSize
+    });
 
     pin.setPinValue(this.pinValues[idx], this.pinUp, this.pinUpValues[idx]);
 
@@ -117,21 +134,28 @@ class Presenter {
       moveEvt.preventDefault();
       dragged = true;
 
-      const shift: number = this.model.setShift(startCoordinates, moveEvt, this.orientation, this.step, this.rangeKo);
+      const shift: number = this.model.setShift({
+        startCoordinates,
+        moveEvt,
+        orientation: this.orientation,
+        step: this.step,
+        rangeKo: this.rangeKo
+      });
 
-      const pinPosition = this.model.calculatePinPosition(
+      const pinPosition = this.model.calculatePinPosition({
         shift,
-        pin.getPinPosition(),
-        this.totalSize
-      );
+        pinPosition: pin.getPinPosition(),
+        totalSize: this.totalSize
+      });
+
       this.pinValues[idx] = util.makePinValueLimit(this.pinValues, pinPosition, idx);
 
-      const pinUpValue = this.model.calculateContent(
-        this.pinValues[idx],
-        this.max,
-        this.min,
-        this.totalSize
-      );
+      const pinUpValue = this.model.calculateContent({
+        pinPosition: this.pinValues[idx],
+        max: this.max,
+        min: this.min,
+        totalSize: this.totalSize
+      });
 
       pin.setPinValue(this.pinValues[idx], this.pinUp, pinUpValue);
 
@@ -174,7 +198,7 @@ class Presenter {
     );
   };
 
-  public changeOptions = (options: Options): void => {
+  public changeOptions = (options: IOptions): void => {
     const blockId: string = `#${this.block[0].id}`;
     $(`${blockId} .slider__line`).remove();
     $(`${blockId} .slider__input`).remove();
@@ -187,6 +211,14 @@ class Presenter {
     this.container.setMinMax(this.min, this.max);
     this.renderDomElements();
   };
+}
+
+interface InputEvent {
+  target: ITargetValue;
+}
+
+interface ITargetValue {
+  value: string
 }
 
 export default Presenter;

@@ -3,9 +3,9 @@
 import Panel from './Panel';
 
 new Panel('#block', {
-  min: 0,
+  min: 200,
   max: 600,
-  values: [0, 250],
+  values: [200, 400],
   step: 150,
   pinUp: true,
   orientation: 'horizontal',

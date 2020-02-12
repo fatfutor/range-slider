@@ -8,7 +8,7 @@ class Slider {
   }
 
   private initSlider(): void {
-    $.fn.myPlugin = function (options: Options) {
+    $.fn.myPlugin = function (options: IOptions) {
       return new Presenter($(this), options);
     };
   }

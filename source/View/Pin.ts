@@ -14,6 +14,16 @@ class Pin {
     pinUpValue: number,
     orientation: string = constant.HORIZONTAL
   ) {
+    this.createPin({
+      container, value, pinUp, pinUpValue, orientation
+    });
+  }
+
+  private createPin = (createPinParameters: ICreatePinParameters): void => {
+    const {
+      container, value, pinUp, pinUpValue, orientation
+    } = createPinParameters;
+
     this.orientation = orientation;
     this.pin = document.createElement('div');
     this.pin.classList.add('slider__pin');
@@ -30,7 +40,7 @@ class Pin {
     }
 
     this.setPinValue(value, pinUp, pinUpValue);
-  }
+  };
 
   getDomElement = (): HTMLElement => this.pin;
 
@@ -59,6 +69,14 @@ class Pin {
 
     return this.pin.offsetLeft;
   };
+}
+
+interface ICreatePinParameters {
+  container: HTMLElement;
+  value: number;
+  pinUp: boolean;
+  pinUpValue: number;
+  orientation: string;
 }
 
 export default Pin;

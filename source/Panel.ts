@@ -4,7 +4,7 @@ import './Slider';
 class Panel {
   private slider: ISlider;
 
-  private options: Options;
+  private options: IOptions;
 
   private container: HTMLElement | any;
 
@@ -20,7 +20,12 @@ class Panel {
 
   private interval: HTMLInputElement;
 
-  constructor(containerSelector: string, options: Options) {
+  constructor(containerSelector: string, options: IOptions) {
+    this.createPanel(containerSelector, options);
+    this.addEventListeners();
+  }
+
+  private createPanel = (containerSelector: string, options: IOptions) => {
     this.options = options;
     this.container = document.querySelector(containerSelector);
     this.vertical = this.container.querySelector('.js-panel__input[name="vertical"]');
@@ -30,11 +35,9 @@ class Panel {
     this.step = this.container.querySelector('.js-panel__input[name="step"]');
     this.interval = this.container.querySelector('.js-panel__input[name="interval"]');
     this.initPanel(containerSelector, options);
+  };
 
-    this.addEventListeners();
-  }
-
-  private initPanel(containerSelector: string, options: Options): void {
+  private initPanel(containerSelector: string, options: IOptions): void {
     this.slider = $(containerSelector).myPlugin(options);
   }
 
