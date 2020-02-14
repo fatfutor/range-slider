@@ -8,7 +8,7 @@ class Container {
     this.createContainer();
   }
 
-  createContainer = (): void => {
+  private createContainer = (): void => {
     this.container.addClass('slider');
   };
 }

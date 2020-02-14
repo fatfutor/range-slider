@@ -46,8 +46,18 @@ class Panel {
         : '';
     });
 
+    this.showSecondField(this.options.values.length);
     this.initSlider(containerSelector, options);
     this.activateSliderPins();
+  };
+
+  private showSecondField = (length: number): void => {
+    if (length < 2) {
+      this.values[1].parentElement.style.display = 'none';
+      return;
+    }
+    this.values[1].parentElement.style.display = '';
+    this.values[1].value = this.options.values[1].toString();
   };
 
   private initSlider(containerSelector: string, options: IOptions): void {
@@ -103,6 +113,7 @@ class Panel {
     this.options.values = this.getValues();
     this.options.values[idx] = Number(this.values[idx].value);
     this.slider.changeOptions(this.options);
+    this.values[idx].value = this.slider.values[idx].toString();
     this.activateSliderPins();
   };
 
@@ -158,6 +169,7 @@ class Panel {
     } else {
       this.options.values = this.options.values.slice(0, 1);
     }
+    this.showSecondField(this.options.values.length);
     this.slider.changeOptions(this.options);
     this.activateSliderPins();
   }
