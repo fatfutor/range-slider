@@ -1,19 +1,15 @@
 // / <reference path="../globals.d.ts" />
-import util from '../util';
 
 class Container {
-  private range: HTMLElement;
+  private container: JQuery<HTMLElement>;
 
-  createContainer = (container: JQuery<HTMLElement>, min: number, max: number): void => {
-    container.addClass('slider');
-    this.range = document.createElement('div');
-    this.range.classList.add('slider__range');
-    this.range.textContent = `от ${min} - до ${max}`;
-    container.append(this.range);
-  };
+  constructor(container: JQuery<HTMLElement>) {
+    this.container = container;
+    this.createContainer();
+  }
 
-  setMinMax = (min: number, max: number): void => {
-    this.range.textContent = `от ${util.makeMinLessMax(min, max)} - до ${max}`;
+  createContainer = (): void => {
+    this.container.addClass('slider');
   };
 }
 

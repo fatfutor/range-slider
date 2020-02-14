@@ -46,11 +46,11 @@ class Panel {
         : '';
     });
 
-    this.initPanel(containerSelector, options);
+    this.initSlider(containerSelector, options);
     this.activateSliderPins();
   };
 
-  private initPanel(containerSelector: string, options: IOptions): void {
+  private initSlider(containerSelector: string, options: IOptions): void {
     this.slider = $(containerSelector).myPlugin(options);
   }
 

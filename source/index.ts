@@ -23,7 +23,7 @@ new Panel('#block2', {
 new Panel('#block3', {
   min: -200,
   max: 100,
-  values: [0, 90],
+  values: [-10, 90],
   step: 1,
   pinUp: false,
   orientation: 'horizontal',

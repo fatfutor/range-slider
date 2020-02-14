@@ -29,13 +29,9 @@ a { text-decoration: none; }
   height: 600px;
 }
 
-.slider__range {
-  margin-left: auto;
-  margin-bottom: 25px;
-}
-
 .slider__line {
   position: relative;
+  margin-top: 30px;
 
   &--horizontal {
     width: 300px;

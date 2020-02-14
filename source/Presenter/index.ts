@@ -48,12 +48,10 @@ class Presenter {
     this.step = options.step;
     this.pinUp = options.pinUp;
     this.orientation = options.orientation;
-    this.container = new Container();
+    this.container = new Container(this.block);
     this.model = new Model();
     this.totalSize = constant.SLIDER_SIZE;
     this.pins = [];
-
-    this.container.createContainer(this.block, this.min, this.max);
   };
 
   private renderDomElements = (): void => {
@@ -181,7 +179,7 @@ class Presenter {
     this.step = options.step;
     this.pinUp = options.pinUp;
     this.orientation = options.orientation;
-    this.container.setMinMax(this.min, this.max);
+    // this.container.setMinMax(this.min, this.max);
     this.renderDomElements();
   };
 }
