@@ -50,30 +50,6 @@ class Panel {
     this.activateSliderPins();
   };
 
-  private onPinMove = (idx: number) => (evt: MouseEvent) => {
-    evt.preventDefault();
-    let dragged = false;
-    const onMouseMove = (moveEvt: MouseEvent) => {
-      moveEvt.preventDefault();
-      dragged = true;
-      this.values[idx].value = this.slider.values[idx].toString();
-    };
-    const onMouseUp = (upEvt: MouseEvent) => {
-      upEvt.preventDefault();
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-      if (dragged) {
-        const onClickPreventDefault = (moveEvt: MouseEvent) => {
-          moveEvt.preventDefault();
-          this.pins[idx].removeEventListener('click', onClickPreventDefault);
-        };
-        this.pins[idx].addEventListener('click', onClickPreventDefault);
-      }
-    };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  };
-
   private initPanel(containerSelector: string, options: IOptions): void {
     this.slider = $(containerSelector).myPlugin(options);
   }
@@ -98,6 +74,30 @@ class Panel {
       it.addEventListener('change', this.onValuesChange(idx).bind(this));
     });
   }
+
+  private onPinMove = (idx: number) => (evt: MouseEvent) => {
+    evt.preventDefault();
+    let dragged = false;
+    const onMouseMove = (moveEvt: MouseEvent) => {
+      moveEvt.preventDefault();
+      dragged = true;
+      this.values[idx].value = this.slider.values[idx].toString();
+    };
+    const onMouseUp = (upEvt: MouseEvent) => {
+      upEvt.preventDefault();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+      if (dragged) {
+        const onClickPreventDefault = (moveEvt: MouseEvent) => {
+          moveEvt.preventDefault();
+          this.pins[idx].removeEventListener('click', onClickPreventDefault);
+        };
+        this.pins[idx].addEventListener('click', onClickPreventDefault);
+      }
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
 
   private onValuesChange = (idx: number) => () => {
     this.options.values = this.getValues();

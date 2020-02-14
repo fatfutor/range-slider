@@ -107,7 +107,6 @@ class Presenter {
     const onMouseMove = (moveEvt: MouseEvent) => {
       moveEvt.preventDefault();
       dragged = true;
-
       const shift: number = this.model.setShift({
         startCoordinates,
         moveEvt,
@@ -118,12 +117,11 @@ class Presenter {
 
       const pinPosition = this.model.calculatePinPosition({
         shift,
-        pinPosition: this.pins[idx].getPinPosition(),
+        pinPosition: this.pinValues[idx],
         totalSize: this.totalSize
       });
 
       this.pinValues[idx] = util.makePinValueLimit(this.pinValues, pinPosition, idx);
-
       const pinUpValue = this.model.calculateContent({
         pinPosition: this.pinValues[idx],
         max: this.max,

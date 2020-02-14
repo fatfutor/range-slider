@@ -6,7 +6,7 @@ new Panel('#block', {
   min: 200,
   max: 600,
   values: [200, 400],
-  step: 1,
+  step: 150,
   pinUp: true,
   orientation: 'horizontal',
 });

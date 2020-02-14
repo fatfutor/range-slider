@@ -57,18 +57,6 @@ class Pin {
       this.pinUp.textContent = pinUpValue.toString();
     }
   };
-
-  getPinPosition = (): number => {
-    if (this.orientation === constant.HORIZONTAL) {
-      return this.pin.offsetLeft;
-    }
-
-    if (this.orientation === constant.VERTICAL) {
-      return this.pin.offsetTop;
-    }
-
-    return this.pin.offsetLeft;
-  };
 }
 
 interface ICreatePinParameters {

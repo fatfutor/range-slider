@@ -22,10 +22,10 @@ class Model {
 
   calculatePinPosition = (calcPinPosParameters: ICalcPinPosParameters): number => {
     const { shift, pinPosition, totalSize } = calcPinPosParameters;
-
     let position: number = pinPosition - shift;
     if (position < 0) position = 0;
     if (position > totalSize) position = totalSize;
+
     return position;
   };
 
@@ -71,7 +71,6 @@ class Model {
     } else if (movedCoordinate < 0) {
       moduleMovedCoordinate = Math.ceil((movedCoordinate) / stepKo);
     }
-
     return -(moduleMovedCoordinate * stepKo);
   };
 }

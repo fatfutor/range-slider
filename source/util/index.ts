@@ -18,7 +18,6 @@ const makePinValueLimit = (values: Array<number>, value: number, idx: number): n
     }
     return value;
   }
-
   return value;
 };
 
