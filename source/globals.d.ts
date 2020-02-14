@@ -17,4 +17,6 @@ interface ISlider {
   step: number;
   min: number;
   max: number;
+  values: Array<number>;
+  pinValues: Array<number>;
 }

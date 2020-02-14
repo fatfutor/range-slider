@@ -3,7 +3,6 @@ import util from '../util';
 import constant from '../constant';
 import Pin from '../View/Pin';
 import Line from '../View/Line';
-import Input from '../View/Input';
 import Model from '../Model';
 import Container from '../View/Container';
 
@@ -14,7 +13,7 @@ class Presenter {
 
   public max: number;
 
-  private values: Array<number>;
+  public values: Array<number>;
 
   public step: number;
 
@@ -34,7 +33,7 @@ class Presenter {
 
   private pinValues: Array<number>;
 
-  private pinUpValues: Array<number>;
+  public pins: Array<Pin>;
 
   constructor(block: JQuery<HTMLElement>, options: IOptions) {
     this.defaultState(block, options);
@@ -52,7 +51,7 @@ class Presenter {
     this.container = new Container();
     this.model = new Model();
     this.totalSize = constant.SLIDER_SIZE;
-    this.pinUpValues = [...options.values];
+    this.pins = [];
 
     this.container.createContainer(this.block, this.min, this.max);
   };
@@ -87,40 +86,15 @@ class Presenter {
         this.line.getDomElement(), pinStartPosition, this.pinUp, it, this.orientation
       );
 
-      const input: Input = new Input(this.block, it, this.min, this.max);
-
       pin
         .getDomElement()
-        .addEventListener('mousedown', this.onPinMove(pin, input, idx));
+        .addEventListener('mousedown', this.onPinMove(idx));
 
-      input
-        .getDomElement()
-        .addEventListener('change', this.onInputNodeChange(idx, pin).bind(this));
+      this.pins[idx] = pin;
     });
   };
 
-  private onInputNodeChange = (idx: number, pin: Pin) => (evt: InputEvent) => {
-    const position = (Number.parseInt(evt.target.value, 10) - this.min) / this.rangeKo;
-    const pinPosition: number = this.model.calculatePinPosition({
-      shift: 0,
-      pinPosition: position,
-      totalSize: this.totalSize
-    });
-    this.pinValues[idx] = util.makePinValueLimit(this.pinValues, pinPosition, idx);
-
-    this.pinUpValues[idx] = this.model.calculateContent({
-      pinPosition: this.pinValues[idx],
-      max: this.max,
-      min: this.min,
-      totalSize: this.totalSize
-    });
-
-    pin.setPinValue(this.pinValues[idx], this.pinUp, this.pinUpValues[idx]);
-
-    this.line.setLinePosition(this.pinValues);
-  };
-
-  private onPinMove = (pin: Pin, input: Input, idx: number) => (evt: MouseEvent) => {
+  private onPinMove = (idx: number) => (evt: MouseEvent) => {
     evt.preventDefault();
 
     let startCoordinates = {
@@ -144,7 +118,7 @@ class Presenter {
 
       const pinPosition = this.model.calculatePinPosition({
         shift,
-        pinPosition: pin.getPinPosition(),
+        pinPosition: this.pins[idx].getPinPosition(),
         totalSize: this.totalSize
       });
 
@@ -157,11 +131,16 @@ class Presenter {
         totalSize: this.totalSize
       });
 
-      pin.setPinValue(this.pinValues[idx], this.pinUp, pinUpValue);
-
-      input.setInputValue(pinUpValue);
+      this.pins[idx].setPinValue(this.pinValues[idx], this.pinUp, pinUpValue);
 
       this.line.setLinePosition(this.pinValues);
+
+      this.values[idx] = this.model.calculateContent({
+        pinPosition: this.pinValues[idx],
+        max: this.max,
+        min: this.min,
+        totalSize: this.totalSize
+      });
 
       if (shift) {
         startCoordinates = {
@@ -180,9 +159,9 @@ class Presenter {
       if (dragged) {
         const onClickPreventDefault = (moveEvt: MouseEvent) => {
           moveEvt.preventDefault();
-          pin.getDomElement().removeEventListener('click', onClickPreventDefault);
+          this.pins[idx].getDomElement().removeEventListener('click', onClickPreventDefault);
         };
-        pin.getDomElement().addEventListener('click', onClickPreventDefault);
+        this.pins[idx].getDomElement().addEventListener('click', onClickPreventDefault);
       }
     };
 
@@ -192,16 +171,12 @@ class Presenter {
 
   private validateOptions = (): void => {
     this.min = util.makeMinLessMax(this.min, this.max);
-    this.values = util.validateOptionsPinValues(
-      [this.min, this.max],
-      this.values
-    );
+    this.values = util.validateOptionsPinValues([this.min, this.max], this.values);
   };
 
   public changeOptions = (options: IOptions): void => {
     const blockId: string = `#${this.block[0].id}`;
     $(`${blockId} .slider__line`).remove();
-    $(`${blockId} .slider__input`).remove();
     this.min = options.min;
     this.max = options.max;
     this.values = options.values;
@@ -211,14 +186,6 @@ class Presenter {
     this.container.setMinMax(this.min, this.max);
     this.renderDomElements();
   };
-}
-
-interface InputEvent {
-  target: ITargetValue;
-}
-
-interface ITargetValue {
-  value: string
 }
 
 export default Presenter;
