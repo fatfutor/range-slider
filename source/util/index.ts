@@ -60,6 +60,24 @@ const validateStep = (min: number, max: number, step: number): number => {
   return stepValue;
 };
 
+const getNearNumber = (
+  arr: Array<number>, searchNumber: number
+) => arr.find(
+  (it: number) => Math.abs(it - searchNumber) === Math.min(...arr.map(
+    (item) => Math.abs(item - searchNumber)
+  ))
+);
+
+const getNearIndex = (array: Array<number>, searchNumber: number) => {
+  let index = 0;
+  array.forEach((it, idx) => {
+    if (it === getNearNumber(array, searchNumber)) {
+      index = idx;
+    }
+  });
+  return index;
+};
+
 interface IMakePinValueLimit {
   values: Array<number>;
   value: number;
@@ -71,6 +89,7 @@ const util = {
   makePinValueLimit,
   validateOptionsPinValues,
   validateStep,
+  getNearIndex,
 };
 
 export default util;

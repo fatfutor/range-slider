@@ -70,6 +70,10 @@ class Presenter {
 
     this.line = new Line(this.block, this.orientation);
 
+    const line: HTMLElement = this.line.getDomElement();
+
+    line.addEventListener('click', this.onLineClick.bind(this));
+
     this.line.setLinePosition(this.pinValues);
 
     this.values.forEach((it, idx) => {
@@ -81,7 +85,7 @@ class Presenter {
       });
 
       const pin: Pin = new Pin(
-        this.line.getDomElement(), pinStartPosition, this.pinUp, it, this.orientation
+        line, pinStartPosition, this.pinUp, it, this.orientation
       );
 
       pin
@@ -89,6 +93,40 @@ class Presenter {
         .addEventListener('mousedown', this.onPinMove(idx));
 
       this.pins[idx] = pin;
+    });
+  };
+
+  private onLineClick = (evt: MouseEvent) => {
+    let coordinate: number;
+    if (this.orientation === constant.HORIZONTAL) {
+      coordinate = evt.clientX - this.line
+        .getDomElement().getBoundingClientRect().x - constant.HALF_SIZE;
+    }
+    if (this.orientation === constant.VERTICAL) {
+      coordinate = evt.clientY - this.line
+        .getDomElement().getBoundingClientRect().y - constant.HALF_SIZE;
+    }
+    const nearIndex = util.getNearIndex(this.pinValues, coordinate);
+
+    // не работает шаг todo
+    this.pinValues[nearIndex] = coordinate;
+
+    const pinUpValue = this.model.calculateContent({
+      pinPosition: this.pinValues[nearIndex],
+      max: this.max,
+      min: this.min,
+      totalSize: this.totalSize
+    });
+    this.pins[nearIndex].setPinValue(this.pinValues[nearIndex], this.pinUp, pinUpValue);
+
+    this.line.setLinePosition(this.pinValues);
+
+    // не отображается заначения в панели todo
+    this.values[nearIndex] = this.model.calculateContent({
+      pinPosition: this.pinValues[nearIndex],
+      max: this.max,
+      min: this.min,
+      totalSize: this.totalSize
     });
   };
 
@@ -186,7 +224,6 @@ class Presenter {
     this.step = options.step;
     this.pinUp = options.pinUp;
     this.orientation = options.orientation;
-    // this.container.setMinMax(this.min, this.max);
     this.renderDomElements();
   };
 }
