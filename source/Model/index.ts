@@ -22,13 +22,25 @@ class Model {
 
   calculatePinPosition = (calcPinPosParameters: ICalcPinPosParameters): number => {
     const {
-      shift, pinPosition, totalSize, stepKo
+      shift, idx, values, totalSize, stepKo
     } = calcPinPosParameters;
-    let position: number = pinPosition - shift;
+    let position: number = values[idx] - shift;
     if (position < 0) position = 0;
-    if ((pinPosition + stepKo) > totalSize && shift < 0) position = pinPosition;
-    if ((pinPosition - stepKo) < 0 && shift > 0) position = pinPosition;
+    if ((values[idx] + stepKo) > totalSize && shift < 0) position = values[idx];
+    if ((values[idx] - stepKo) < 0 && shift > 0) position = values[idx];
     if (position > totalSize) position = totalSize;
+
+    if (idx === 0) {
+      if (values[idx] + stepKo > values[1] && shift < 0) {
+        position = values[idx];
+      }
+    }
+
+    if (idx === 1) {
+      if (values[idx] - stepKo < values[0] && shift > 0) {
+        position = values[idx];
+      }
+    }
 
     return position;
   };
@@ -94,9 +106,10 @@ interface ICalculateContentParameters {
 
 interface ICalcPinPosParameters {
   shift: number;
-  pinPosition: number;
+  idx: number;
   totalSize: number;
   stepKo: number;
+  values: Array<number>
 }
 
 interface ICalcStartPinPosParameters {

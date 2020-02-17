@@ -5,7 +5,10 @@ const makeMinLessMax = (min: number, max: number): number => {
   return minValue;
 };
 
-const makePinValueLimit = (values: Array<number>, value: number, idx: number): number => {
+const makePinValueLimit = (makePinValueLimitParameters: IMakePinValueLimit): number => {
+  const {
+    values, value, idx
+  } = makePinValueLimitParameters;
   if (idx === 0) {
     if (value >= values[1]) {
       return values[1];
@@ -56,6 +59,12 @@ const validateStep = (min: number, max: number, step: number): number => {
   if (stepValue >= maxSizeStep) stepValue = maxSizeStep;
   return stepValue;
 };
+
+interface IMakePinValueLimit {
+  values: Array<number>;
+  value: number;
+  idx: number;
+}
 
 const util = {
   makeMinLessMax,
