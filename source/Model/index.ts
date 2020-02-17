@@ -21,9 +21,11 @@ class Model {
   };
 
   calculatePinPosition = (calcPinPosParameters: ICalcPinPosParameters): number => {
-    const { shift, pinPosition, totalSize } = calcPinPosParameters;
+    const { shift, pinPosition, totalSize, stepKo } = calcPinPosParameters;
     let position: number = pinPosition - shift;
     if (position < 0) position = 0;
+    if ((pinPosition + stepKo) > totalSize && shift < 0) position = pinPosition;
+    if ((pinPosition - stepKo) < 0 && shift > 0) position = pinPosition;
     if (position > totalSize) position = totalSize;
 
     return position;
@@ -92,6 +94,7 @@ interface ICalcPinPosParameters {
   shift: number;
   pinPosition: number;
   totalSize: number;
+  stepKo: number;
 }
 
 interface ICalcStartPinPosParameters {

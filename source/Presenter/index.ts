@@ -116,7 +116,8 @@ class Presenter {
       const pinPosition = this.model.calculatePinPosition({
         shift,
         pinPosition: this.pinValues[idx],
-        totalSize: this.totalSize
+        totalSize: this.totalSize,
+        stepKo: this.step/this.rangeKo
       });
 
       this.pinValues[idx] = util.makePinValueLimit(this.pinValues, pinPosition, idx);
