@@ -78,6 +78,18 @@ const getNearIndex = (array: Array<number>, searchNumber: number) => {
   return index;
 };
 
+const validateLineStep = (pin: number, stepKo: number, clickPosition: number): number => {
+  const pinPosition: number = Math.round((clickPosition - pin) / stepKo) * stepKo;
+  return pin + pinPosition;
+};
+
+const validateLineCoordinate = (coordinate: number, totalSize: number): number => {
+  let coordinateValue: number = coordinate;
+  if (coordinate > totalSize) coordinateValue = totalSize;
+  if (coordinate < 0) coordinateValue = 0;
+  return coordinateValue;
+};
+
 interface IMakePinValueLimit {
   values: Array<number>;
   value: number;
@@ -90,6 +102,8 @@ const util = {
   validateOptionsPinValues,
   validateStep,
   getNearIndex,
+  validateLineStep,
+  validateLineCoordinate,
 };
 
 export default util;

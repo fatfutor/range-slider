@@ -101,15 +101,21 @@ class Presenter {
     if (this.orientation === constant.HORIZONTAL) {
       coordinate = evt.clientX - this.line
         .getDomElement().getBoundingClientRect().x - constant.HALF_SIZE;
+      coordinate = util.validateLineCoordinate(coordinate, constant.SLIDER_SIZE);
     }
     if (this.orientation === constant.VERTICAL) {
       coordinate = evt.clientY - this.line
         .getDomElement().getBoundingClientRect().y - constant.HALF_SIZE;
+      coordinate = util.validateLineCoordinate(coordinate, constant.SLIDER_SIZE);
     }
+
     const nearIndex = util.getNearIndex(this.pinValues, coordinate);
 
-    // не работает шаг todo
-    this.pinValues[nearIndex] = coordinate;
+    this.pinValues[nearIndex] = util.validateLineStep(
+      this.pinValues[nearIndex],
+      this.step / this.rangeKo,
+      coordinate
+    );
 
     const pinUpValue = this.model.calculateContent({
       pinPosition: this.pinValues[nearIndex],

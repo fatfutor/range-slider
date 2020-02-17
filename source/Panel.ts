@@ -24,6 +24,8 @@ class Panel {
 
   private pins: NodeListOf<HTMLElement>;
 
+  private line: HTMLElement;
+
   constructor(containerSelector: string, options: IOptions) {
     this.createPanel(containerSelector, options);
     this.addEventListeners();
@@ -71,6 +73,8 @@ class Panel {
     Array.from(this.pins).forEach((it: HTMLElement, idx: number) => {
       it.addEventListener('mousedown', this.onPinMove(idx).bind(this));
     });
+    this.line = this.container.querySelector('.slider__line');
+    this.line.addEventListener('click', this.onLineClick.bind(this));
   };
 
   private addEventListeners(): void {
@@ -84,6 +88,14 @@ class Panel {
       it.addEventListener('change', this.onValuesChange(idx).bind(this));
     });
   }
+
+  private onLineClick = () => {
+    Array.from(this.values).forEach((it: HTMLInputElement, idx: number) => {
+      this.values[idx].value = (this.slider.values[idx])
+        ? this.slider.values[idx].toString()
+        : '';
+    });
+  };
 
   private onPinMove = (idx: number) => (evt: MouseEvent) => {
     evt.preventDefault();
