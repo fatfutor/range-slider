@@ -8,12 +8,12 @@ mixin panel(parameters)
     label.panel__label интервал
       input.panel__input.js-panel__input(type="checkbox", name="interval" checked=parameters.interval)
     label.panel__label min
-      input.panel__input.js-panel__input(type="number", name="min" min="0" value=parameters.min)
+      input.panel__input.js-panel__input(type="number", name="min" value=parameters.min)
     label.panel__label max
       input.panel__input.js-panel__input(type="number", name="max" value=parameters.max)
     label.panel__label размер шага
       input.panel__input.js-panel__input(type="number", name="step" value=parameters.step)
     label.panel__label первое значение
-      input.panel__input.js-panel__input(type="number", name="value" value=parameters.start)
+      input.panel__input.js-panel__input(type="number", name="value" step=parameters.step)
     label.panel__label второе значение
-      input.panel__input.js-panel__input(type="number", name="value" value=parameters.end)
+      input.panel__input.js-panel__input(type="number", name="value" step=parameters.step)

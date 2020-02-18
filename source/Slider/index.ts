@@ -1,4 +1,5 @@
 // <reference path="./globals.d.ts" />
+/* eslint-disable */
 import '../main.scss';
 import Presenter from '../Presenter';
 

@@ -171,6 +171,9 @@ class Panel {
     this.slider.changeOptions(this.options);
     this.step.value = this.slider.step.toString();
     this.options.step = this.slider.step;
+    Array.from(this.values).forEach((it: HTMLInputElement, idx: number) => {
+      this.values[idx].step = this.options.step.toString();
+    });
     this.activateSliderPins();
   }
 
